@@ -21,15 +21,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.Writer;
 import java.nio.channels.FileLock;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -61,12 +55,13 @@ import net.sourceforge.docfetcher.util.concurrent.BlockingWrapper;
 import net.sourceforge.docfetcher.util.concurrent.DelayedExecutor;
 
 import org.ansj.lucene6.AnsjAnalyzer;
+import org.ansj.util.MyStaticValue;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Analyzer.TokenStreamComponents;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.search.BooleanQuery;
@@ -140,6 +135,13 @@ public final class IndexRegistry {
 	private final OutlookMailFactory outlookMailFactory;
 	private final BlockingWrapper<Searcher> searcher = new BlockingWrapper<Searcher>();
 
+	static {
+		MyStaticValue.ENV.put("dic","resources/ansj/default.dic");
+		MyStaticValue.ENV.put("ambiguity","resources/ansj/ambiguity.dic");
+		MyStaticValue.ENV.put("stop", "resources/ansj/stop.dic");
+		MyStaticValue.ENV.put("synonyms", "resources/ansj/synonyms.dic");
+	}
+
 	@NotNull
 	public static Analyzer getAnalyzer() {
 		/* The analyzer is created lazily to ensure that the program settings
@@ -148,7 +150,11 @@ public final class IndexRegistry {
 			if (ProgramConf.Int.Analyzer.get() == 1) {
 				analyzer = new SourceCodeAnalyzer(LUCENE_VERSION);
 			} else {
-				analyzer = new AnsjAnalyzer(AnsjAnalyzer.TYPE.index_ansj);
+				Map<String,String> config = new HashMap();
+				config.put("type", AnsjAnalyzer.TYPE.index_ansj.name());
+				config.put("stop", "stop");
+				config.put("synonyms", "synonyms");
+				analyzer = new AnsjAnalyzer(config);
 			}
 		}
 		return analyzer;
