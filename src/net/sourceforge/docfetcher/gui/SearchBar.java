@@ -31,8 +31,6 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Button;
@@ -50,7 +48,7 @@ public final class SearchBar {
 	private static final int SPACING = 1;
 
 	public final Event<String> evtSearch = new Event<String>();
-	public final Event<String> evtSearch_typeahead = new Event<String>();
+	public final Event<String> evtSearchTypeAhead = new Event<String>();
 	public final Event<Void> evtHideInSystemTray = new Event<Void>();
 	public final Event<Void> evtOpenManual = new Event<Void>();
 	public final Event<Void> evtOKClicked = new Event<Void> ();
@@ -80,7 +78,7 @@ public final class SearchBar {
 					else if(SettingsConf.Bool.UseTypeAheadSearch.get() &&
 							!Util.isSpecialStateMask(e.stateMask) &&
 							Util.isTypeAheadAccept(e.character))
-						evtSearch_typeahead.fire(query);
+						evtSearchTypeAhead.fire(query);
 				}
 			}
 		});

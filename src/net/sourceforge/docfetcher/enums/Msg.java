@@ -634,7 +634,7 @@ public enum Msg {
 	pref_use_type_ahead_search (
         "Use type-ahead search",
         Comments.prefOption + "Whether the program should carry out a search " +
-        "while user is typing in the search bar."),
+        "while the user is typing in the search bar."),
 	pref_highlight_color (
 		"Highlight color:",
 		Comments.prefOption + "The color to use for highlighting matches in " +

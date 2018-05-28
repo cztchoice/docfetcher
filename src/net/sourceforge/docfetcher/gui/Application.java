@@ -114,7 +114,7 @@ public final class Application {
 
 	private static FilesizePanel filesizePanel;
 	private static FileTypePanel fileTypePanel;
-	public static IndexPanel indexPanel;
+	public static IndexPanel indexPanel; // Set to public for Python interface
 
 	private static volatile Shell shell;
 	private static ThreePanelForm threePanelForm;

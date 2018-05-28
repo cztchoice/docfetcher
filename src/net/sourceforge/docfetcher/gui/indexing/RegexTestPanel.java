@@ -27,12 +27,10 @@ import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -77,10 +75,9 @@ final class RegexTestPanel extends Composite {
 				if (Util.isEnterKey(e.keyCode))
                     updateLabel();
 				else
-					clearLable();
+					clearLabel();
 			}
 		});
-
 
 		setLayout(Util.createGridLayout(2, false, 0, 0));
 		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false, 2, 1));
@@ -112,7 +109,7 @@ final class RegexTestPanel extends Composite {
 		fileBox.setSelection(fileBox.getText().length());
 
 		if(fileBox.getText().isEmpty()){
-			clearLable();
+			clearLabel();
 			return;
 		}
 
@@ -126,7 +123,8 @@ final class RegexTestPanel extends Composite {
 		}
 		layout();
 	}
-	private void clearLable() {
+	
+	private void clearLabel() {
 		label.setText("");
 	}
 

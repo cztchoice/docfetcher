@@ -45,7 +45,6 @@ import net.sourceforge.docfetcher.util.collect.ListMap;
 import net.sourceforge.docfetcher.util.collect.ListMap.Entry;
 
 import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.search.Query;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 
@@ -137,13 +136,13 @@ public final class SearchQueue {
 			}
 		});
 
-		searchBar.evtSearch_typeahead.add(new Event.Listener<String>() {
+		searchBar.evtSearchTypeAhead.add(new Event.Listener<String>() {
 			public void update(String eventData) {
 				String t_query = eventData+'*';
 				try {
 					PhraseDetectingQueryParser queryParser = new PhraseDetectingQueryParser(
-							Fields.CONTENT.key(), IndexRegistry.getAnalyzer());
-					Query temp_query = queryParser.parse(t_query);
+						Fields.CONTENT.key(), IndexRegistry.getAnalyzer());
+					queryParser.parse(t_query);
 				} catch (ParseException e) {
 					return;
 				}

@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.sun.org.apache.xerces.internal.impl.io.MalformedByteSequenceException;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -151,7 +150,10 @@ abstract class OpenOfficeParser extends FileParser {
 		 * - "Invalid byte 2 of 3-byte UTF-8 sequence."
 		 * - etc.
 		 */
-		return e != null && e instanceof MalformedByteSequenceException;
+		//return e != null && e instanceof MalformedByteSequenceException;
+		// MalformedByteSequenceException is internal API, so using
+		// CharConversionException instead:
+		return e != null && e instanceof CharConversionException;
 	}
 
 }
