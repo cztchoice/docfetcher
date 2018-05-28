@@ -1,7 +1,6 @@
 package net.sourceforge.docfetcher.python;
 
 import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.enums.SystemConf;
 import py4j.GatewayServer;
 
 /**

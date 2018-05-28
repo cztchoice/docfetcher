@@ -79,8 +79,8 @@ public final class PrefDialog {
 				SettingsConf.Bool.AutoScrollToFirstMatch),
 
             new CheckOption(
-                    Msg.pref_use_type_ahead_search.get(),
-                    SettingsConf.Bool.UseTypeAheadSearch)
+            	Msg.pref_use_type_ahead_search.get(),
+            	SettingsConf.Bool.UseTypeAheadSearch)
 		));
 
 		if (!Util.IS_UBUNTU_UNITY) {

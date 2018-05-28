@@ -21,8 +21,6 @@ import org.apache.lucene.document.LegacyLongField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 
-import java.awt.*;
-
 /**
  * @author Tran Nam Quang
  */
@@ -44,7 +42,7 @@ public enum Fields {
 	 */
 	
 	// Fields available for files and emails
-	UID (StringField.TYPE_STORED), // Index.NO will cause deletions to fail
+	UID (StringField.TYPE_STORED),
 	CONTENT (TextField.TYPE_NOT_STORED),
 	CONTENT_WITH_OFFSET (FieldTypes.TYPE_TEXT_WITH_POSITIONS_OFFSETS_STORED,Fields.CONTENT.name()),
 	TYPE (StringField.TYPE_STORED), // file extension or email type (outlook, imap, etc.)

@@ -176,7 +176,7 @@ abstract class SolidArchiveTree<E> implements Closeable {
 			FileFolder parent = archiveFolder;
 			final String innerPath = entryReader.getInnerPath(entry);
 			if (innerPath == null) {
-				continue; 
+				continue;
 			}
 			
 			Iterator<String> it = Util.splitPath(innerPath).iterator();

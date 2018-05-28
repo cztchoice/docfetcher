@@ -27,7 +27,6 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 
 import com.google.common.io.Closeables;
-import org.apache.lucene.util.Version;
 
 /**
  * Wrapper for Lucene's IndexWriter that adds some functionality.
