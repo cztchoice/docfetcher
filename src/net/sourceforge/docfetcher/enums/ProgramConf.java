@@ -57,7 +57,7 @@ public final class ProgramConf {
 		IgnoreJunctionsAndSymlinks (true),
 		SaveSettings (true),
 		TextPreviewEnabled (true),
-		OpenPy4jGatewayServer (false),
+		PythonApiEnabled (false),
 		;
 
 		private boolean value;
@@ -81,7 +81,7 @@ public final class ProgramConf {
 		UnpackCacheCapacity (20, 1),
 		Analyzer (0, 0),
 		InitialSorting (0),
-		Py4jPort (28834),
+		PythonApiPort (28834),
 		;
 
 		private int value;

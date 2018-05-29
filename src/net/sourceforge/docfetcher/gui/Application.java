@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.sourceforge.docfetcher.Main;
+import net.sourceforge.docfetcher.Py4jHandler;
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
@@ -56,7 +57,6 @@ import net.sourceforge.docfetcher.model.index.Task.IndexAction;
 import net.sourceforge.docfetcher.model.parse.ParseService;
 import net.sourceforge.docfetcher.model.parse.Parser;
 import net.sourceforge.docfetcher.model.search.ResultDocument;
-import net.sourceforge.docfetcher.python.Py4jHandler;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.CharsetDetectorHelper;
 import net.sourceforge.docfetcher.util.ConfLoader;
@@ -114,7 +114,7 @@ public final class Application {
 
 	private static FilesizePanel filesizePanel;
 	private static FileTypePanel fileTypePanel;
-	public static IndexPanel indexPanel; // Set to public for Python interface
+	private static IndexPanel indexPanel;
 
 	private static volatile Shell shell;
 	private static ThreePanelForm threePanelForm;
@@ -333,7 +333,7 @@ public final class Application {
 		}
 
 		// Open Py4j Gateway Server
-		if(ProgramConf.Bool.OpenPy4jGatewayServer.get())
+		if(ProgramConf.Bool.PythonApiEnabled.get())
             Py4jHandler.openGatewayServer();
 
 		shell.addShellListener(new ShellAdapter() {
@@ -354,7 +354,7 @@ public final class Application {
 		}
 
 		// Close Py4j Gateway Server
-		if(ProgramConf.Bool.OpenPy4jGatewayServer.get())
+		if(ProgramConf.Bool.PythonApiEnabled.get())
 			Py4jHandler.shutdownGatewayServer();
 
 		/*
@@ -1273,6 +1273,12 @@ public final class Application {
 			String msg = Msg.file_not_found.get() + "\n" + SystemConf.Str.ProgramName.get() + "_Manual.html";
 			AppUtil.showError(msg, true, true);
 		}
+	}
+	
+	// Public method for Python API
+	@NotNull
+	public static IndexRegistry getIndexRegistry() {
+		return indexRegistry;
 	}
 
 }

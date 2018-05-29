@@ -154,13 +154,15 @@ TextPreviewEnabled = true
 
 
 #===============================================================================
-#	Python Access -- Unsafe
+#	Python API - UNSAFE!
 #===============================================================================
 
-# Whether the program should start a py4j gateway server in docfetcher to enable
-# python3 access to the docfetcher.
-# This setting can be used for invoke docfetcher search procedure in other software.
-# Using py4j can be dangerous because py4j runs a TCP server, by default on localhost,
-# which is subject to both local and (potential) remote code execution exploits.
-OpenPy4jGatewayServer  = false
-Py4jPort=28834
+# Whether the DocFetcher instance allows scripting based on Py4J. For example
+# usage, see the file search.py. This setting is disabled by default for
+# security reasons: Enabling it will make DocFetcher run a TCP server on
+# localhost, which is subject to both local and (potential) remote code
+# execution exploits.
+PythonApiEnabled = false
+
+# The port on which the DocFetcher instance allows scripting.
+PythonApiPort = 28834

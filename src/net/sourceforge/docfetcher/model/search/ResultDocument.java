@@ -95,12 +95,12 @@ public final class ResultDocument {
 	
 	private void onlyFiles() {
 		if (isEmail)
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Method only supported for file documents.");
 	}
 	
 	private void onlyEmails() {
 		if (! isEmail)
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Method only supported for e-mail documents.");
 	}
 	
 	// returns filename title or email subject
@@ -143,13 +143,15 @@ public final class ResultDocument {
 	
 	@NotNull
 	public String getFilename() {
-		onlyFiles();
+		if (isEmail)
+			return "";
 		return luceneDoc.get(Fields.FILENAME.key());
 	}
 	
 	@NotNull
 	public String getSender() {
-		onlyEmails();
+		if (!isEmail)
+			return "";
 		return luceneDoc.get(Fields.SENDER.key());
 	}
 	
@@ -166,6 +168,12 @@ public final class ResultDocument {
 		if (path == null)
 			path =  DocumentType.extractPath(uid);
 		return path;
+	}
+	
+	// Convenience method for Python API
+	@NotNull
+	public String getPathStr() {
+		return getPath().getPath();
 	}
 	
 	@NotNull
@@ -192,11 +200,31 @@ public final class ResultDocument {
 		return new Date(Long.valueOf(lastModified));
 	}
 	
+	// Convenience method for Python API
+	@NotNull
+	public String getLastModifiedStr() {
+		if (isEmail)
+			return "";
+		Date date = getLastModified();
+		return new java.text.SimpleDateFormat("yyyyMMdd-HHmmss").format(date);
+	}
+	
 	@Nullable
 	public Date getDate() {
 		onlyEmails();
 		String sendDate = luceneDoc.get(Fields.DATE.key());
 		return sendDate == null ? null : new Date(Long.valueOf(sendDate));
+	}
+	
+	// Convenience method for Python API
+	@NotNull
+	public String getDateStr() {
+		if (!isEmail)
+			return "";
+		Date date = getDate();
+		if (date == null)
+			return "";
+		return new java.text.SimpleDateFormat("yyyyMMdd-HHmmss").format(date);
 	}
 	
 	public boolean isEmail() {

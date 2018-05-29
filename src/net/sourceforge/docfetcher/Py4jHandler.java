@@ -9,7 +9,7 @@
  *    Zhengmian Hu - initial API and implementation
  *******************************************************************************/
 
-package net.sourceforge.docfetcher.python;
+package net.sourceforge.docfetcher;
 
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import py4j.GatewayServer;
@@ -22,7 +22,7 @@ public class Py4jHandler {
     private static GatewayServer server;
     private static synchronized GatewayServer getServer(){
         if(server==null){
-            server = new GatewayServer(new Py4jHandler(), ProgramConf.Int.Py4jPort.get());
+            server = new GatewayServer(new Py4jHandler(), ProgramConf.Int.PythonApiPort.get());
         }
         return server;
     }
