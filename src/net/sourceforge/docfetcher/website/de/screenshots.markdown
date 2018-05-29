@@ -10,4 +10,4 @@ DocFetcher mit Filter-Bereich und Vorschau-Fenster:
 	<img style="width: 313px; height: 234px;" alt="" src="../all/xp_simple.png">
 </div>
 
-Mehr Screenshots finden sich [hier](http://sourceforge.net/project/screenshots.php?group_id=197779).
+Mehr Screenshots finden sich [hier](https://sourceforge.net/project/screenshots.php?group_id=197779).

@@ -1,6 +1,6 @@
 Beschreibung
 ============
-DocFetcher ist ein Open Source Desktop-Suchprogramm: Es ermöglicht die Volltext-Suche in Dateien auf dem Computer &mdash; eine Art Google für den Heimrechner. Das Programm läuft auf Windows, Linux und OS&nbsp;X, und ist verfügbar unter der [Eclipse Public License](http://en.wikipedia.org/wiki/Eclipse_Public_License).
+DocFetcher ist ein Open Source Desktop-Suchprogramm: Es ermöglicht die Volltext-Suche in Dateien auf dem Computer &mdash; eine Art Google für den Heimrechner. Das Programm läuft auf Windows, Linux und OS&nbsp;X, und ist verfügbar unter der [Eclipse Public License](https://en.wikipedia.org/wiki/Eclipse_Public_License).
 
 Grundlegende Benutzung
 ======================
@@ -56,7 +56,7 @@ Im Vergleich zu anderen Desktop-Suchprogrammen zeichnet sich DocFetcher auf folg
 
 **Frei von Müll**: Wir geben uns besondere Mühe, DocFetcher's Benutzeroberfläche frei von Müll zu halten. Es werden keine Werbung und keine Registrierungs-Fenster angezeigt. Es wird auch kein Müll in Ihrem Webbrowser oder sonstwo in Ihrem Betriebssystem installiert.
 
-**Privatsphäre**: DocFetcher sammelt definitiv keine persönlichen Benutzerdaten. Zweifler mögen sich DocFetcher's [Quell-Code](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) anschauen, um dies zu bestätigen.
+**Privatsphäre**: DocFetcher sammelt definitiv keine persönlichen Benutzerdaten. Zweifler mögen sich DocFetcher's [Quell-Code](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) anschauen, um dies zu bestätigen.
 
 **Frei für immer**: Da DocFetcher Open Source ist, brauchen Sie nicht zu befürchten, dass das Programm jemals obsolet werden sollte, da nämlich der Quell-Code stets verfügbar sein wird. Übrigens, haben Sie mitbekommen, dass die Entwicklung von Google Desktop, einer von DocFetcher's kommerziellen Haupt-Konkurrenten, im Jahr 2011 eingestellt wurde? Tja...
 
@@ -70,9 +70,9 @@ Portable Dokument-Repositories
 ==============================
 Eines von DocFetcher's herausragenden Features besteht darin, dass es als portable Version erhältlich ist, die es Ihnen erlaubt, *portable Dokument-Repositories* zu erstellen, d.&nbsp;h. vollständig indizierte und durchsuchbare Repositories all Ihrer wichtigen Dokumente, die Sie frei umherbewegen können.
 
-**Anwendungs-Beispiele**: Mit solchen Repositories lässt sich allerhand machen: Sie können sie auf einem USB-Stick mit sich führen, zwecks Archivierung auf eine CD-ROM brennen, in einen verschlüsselten Datei-Container stecken (empfohlen: [TrueCrypt](http://www.truecrypt.org/)), mittels eines sogenannten Cloud Storage Service wie bspw. [DropBox](http://www.dropbox.com/) über mehrere Computer hinweg synchronisieren, usw. usf. Besser noch: Da DocFetcher Open Source ist, können Sie Ihr Repository ins Internet hochladen und mit der übrigen Welt teilen.
+**Anwendungs-Beispiele**: Mit solchen Repositories lässt sich allerhand machen: Sie können sie auf einem USB-Stick mit sich führen, zwecks Archivierung auf eine CD-ROM brennen, in einen verschlüsselten Datei-Container stecken (empfohlen: [TrueCrypt](https://www.truecrypt.org/)), mittels eines sogenannten Cloud Storage Service wie bspw. [DropBox](https://www.dropbox.com/) über mehrere Computer hinweg synchronisieren, usw. usf. Besser noch: Da DocFetcher Open Source ist, können Sie Ihr Repository ins Internet hochladen und mit der übrigen Welt teilen.
 
-**Java: Performance und Portabilität**: Ein Aspekt an DocFetcher, der manchen Leuten mißfallen mag, ist der Umstand, dass das Programm in Java geschrieben wurde, welches den Ruf hat, "langsam" zu sein. Dies mag vor zehn Jahren der Wahrheit entsprochen haben, aber in der Zwischenzeit hat sich die Performance von Java drastisch verbessert &mdash; das behauptet jedenfalls [Wikipedia](http://en.wikipedia.org/wiki/Java_%28software_platform%29#Performance). Wie dem auch sei, das Tolle an Java ist, dass *dasselbe* DocFetcher-Paket auf Windows, Linux und OS&nbsp;X ausgeführt werden kann &mdash; viele andere Programme erfordern separate Pakete für die einzelnen Betriebssysteme. Infolgedessen können Sie bspw. Ihr portables Dokument-Repository auf einem USB-Stick ablegen und dann von *jedem* der oben genannten Betriebssysteme aus darauf zugreifen, sofern auf dem jeweiligen Betriebssystem Java installiert ist.
+**Java: Performance und Portabilität**: Ein Aspekt an DocFetcher, der manchen Leuten mißfallen mag, ist der Umstand, dass das Programm in Java geschrieben wurde, welches den Ruf hat, "langsam" zu sein. Dies mag vor zehn Jahren der Wahrheit entsprochen haben, aber in der Zwischenzeit hat sich die Performance von Java drastisch verbessert &mdash; das behauptet jedenfalls [Wikipedia](https://en.wikipedia.org/wiki/Java_%28software_platform%29#Performance). Wie dem auch sei, das Tolle an Java ist, dass *dasselbe* DocFetcher-Paket auf Windows, Linux und OS&nbsp;X ausgeführt werden kann &mdash; viele andere Programme erfordern separate Pakete für die einzelnen Betriebssysteme. Infolgedessen können Sie bspw. Ihr portables Dokument-Repository auf einem USB-Stick ablegen und dann von *jedem* der oben genannten Betriebssysteme aus darauf zugreifen, sofern auf dem jeweiligen Betriebssystem Java installiert ist.
 
 Wie Indizierung funktioniert
 ============================

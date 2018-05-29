@@ -10,4 +10,4 @@ DocFetcher con el panel de filtros y vista previa habilitatos:
 	<img style="width: 313px; height: 234px;" alt="" src="../all/xp_simple.png">
 </div>
 
-Puede encontrar más capturas de pantalla [aquí](http://sourceforge.net/project/screenshots.php?group_id=197779).
+Puede encontrar más capturas de pantalla [aquí](https://sourceforge.net/project/screenshots.php?group_id=197779).

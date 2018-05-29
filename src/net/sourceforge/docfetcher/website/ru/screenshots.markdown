@@ -10,4 +10,4 @@ DocFetcher с включенными панелью фильтров и пане
 	<img style="width: 313px; height: 234px;" alt="" src="../all/xp_simple.png">
 </div>
 
-Вы найдёте больше скриншотов [здесь](http://sourceforge.net/project/screenshots.php?group_id=197779).
+Вы найдёте больше скриншотов [здесь](https://sourceforge.net/project/screenshots.php?group_id=197779).

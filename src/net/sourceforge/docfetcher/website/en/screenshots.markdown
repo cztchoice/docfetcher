@@ -10,4 +10,4 @@ DocFetcher with filter panel and preview panel enabled:
 	<img style="width: 313px; height: 234px;" alt="" src="../all/xp_simple.png">
 </div>
 
-More screenshots can be found [here](http://sourceforge.net/project/screenshots.php?group_id=197779).
+More screenshots can be found [here](https://sourceforge.net/project/screenshots.php?group_id=197779).

@@ -1,6 +1,6 @@
 Description
 ===========
-DocFetcher est une application Open Source pour la recherche de contenu local sur ordinateur: elle vous permet de faire des recherches dans le contenu des fichiers sur votre ordinateur. &mdash; Vous pouvez le voir comme un Google pour vos fichiers locaux. L'application fonctionne sur Windows, Linux et Max OS&nbsp;X. Elle est disponible sous licence  [Eclipse Public License](http://en.wikipedia.org/wiki/Eclipse_Public_License).
+DocFetcher est une application Open Source pour la recherche de contenu local sur ordinateur: elle vous permet de faire des recherches dans le contenu des fichiers sur votre ordinateur. &mdash; Vous pouvez le voir comme un Google pour vos fichiers locaux. L'application fonctionne sur Windows, Linux et Max OS&nbsp;X. Elle est disponible sous licence  [Eclipse Public License](https://en.wikipedia.org/wiki/Eclipse_Public_License).
 
 Usage
 ===========
@@ -52,7 +52,7 @@ En comparaison avec d'autres programmes de recherche de fichiers locaux, voici o
 
 **Sans m...**: Nous travaillons dur pour conserver l'interface de DocFetcher simple et sans bazar. Pas de publicité ou de "Voudriez-vous vous enregistrer...?" qui s'ouvrent. Pas de choses inutiles installées dans votre navigateur, registre ou n'importe où dans votre système.
 
-**Vie privée**: DocFetcher ne collecte pas vos données privées. Jamais. Quiconque en douterait peut vérifier le [code source ](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) qui est public.
+**Vie privée**: DocFetcher ne collecte pas vos données privées. Jamais. Quiconque en douterait peut vérifier le [code source ](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) qui est public.
 
 **Gratuit/Libre pour toujours**: comme DocFetcher est Open Source, vous n'avez pas besoin de vous inquiéter sur le fait que le programme devienne obsolète ou sans support, parce que le code source sera toujours disponible pour être utilisé. En parlant de support, savez vous que Google Desktop, un des compétiteurs commerciaux majeurs de DocFetcher's a été arrêté en  2011? ...
 
@@ -66,9 +66,9 @@ Bases de documents portable
 ==============================
 Une des fonctions remarquables de DocFetcher est qu'il est disponible dans une version qui vous permet de créer une *base de documents portable*  &mdash; complètement indexée et cherchable de tous vos documents importants et que vous pouvez emporter avec vous.
 
-**Exemples d'utilisation**: il y a des tas de choses que vous pouvez faire avec une telle base: vous pouvez l'emporter avec vous sur une clé USB, la graver sur un CD à dessein d'archivage, la mettre sur un volume crypté (recommandé: [TrueCrypt](http://www.truecrypt.org/), la synchroniser entre plusieurs ordinateurs via un service de stockage en ligne comme [DropBox](http://www.dropbox.com/), etc. Mieux, comme DocFetcher est Open Source, vous pouvez même distribuer votre base: mettez en ligne et partagez là avec le monde entier si vous voulez.
+**Exemples d'utilisation**: il y a des tas de choses que vous pouvez faire avec une telle base: vous pouvez l'emporter avec vous sur une clé USB, la graver sur un CD à dessein d'archivage, la mettre sur un volume crypté (recommandé: [TrueCrypt](https://www.truecrypt.org/), la synchroniser entre plusieurs ordinateurs via un service de stockage en ligne comme [DropBox](https://www.dropbox.com/), etc. Mieux, comme DocFetcher est Open Source, vous pouvez même distribuer votre base: mettez en ligne et partagez là avec le monde entier si vous voulez.
 
-**Java: Performance et portabilité**: Un des aspects qui pourrait ennuyer certains est le fait que DocFetcher a été écrit en Java, qui a la réputation d'être "lent". Ceci était en fait vrai il y a dix ans, mais depuis les performances de Java se sont beaucoup améliorées, [selon Wikipedia](http://en.wikipedia.org/wiki/Java_%28software_platform%29#Performance). De toute façon, le point positif sur le fait d'être écrit en Java est que le même package portable DocFetcher peut être exécuté sur Windows, Linux *et* Mac OS&nbsp;X &mdash; beaucoup d'autres programmes demandent des paquets séparés pour chaque plateforme. Il en résulte que vous pouvez, par exemple, mettre votre base sur une clé USB et y accéder de *tous* ces systèmes d’exploitation du moment que Java runtime y est installé.
+**Java: Performance et portabilité**: Un des aspects qui pourrait ennuyer certains est le fait que DocFetcher a été écrit en Java, qui a la réputation d'être "lent". Ceci était en fait vrai il y a dix ans, mais depuis les performances de Java se sont beaucoup améliorées, [selon Wikipedia](https://en.wikipedia.org/wiki/Java_%28software_platform%29#Performance). De toute façon, le point positif sur le fait d'être écrit en Java est que le même package portable DocFetcher peut être exécuté sur Windows, Linux *et* Mac OS&nbsp;X &mdash; beaucoup d'autres programmes demandent des paquets séparés pour chaque plateforme. Il en résulte que vous pouvez, par exemple, mettre votre base sur une clé USB et y accéder de *tous* ces systèmes d’exploitation du moment que Java runtime y est installé.
 
 Comment fonctionne l'indexation
 ==================

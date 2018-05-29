@@ -284,7 +284,7 @@
 
 ==== 2011-11-11 - DocFetcher 1.1 beta 1 ====
 
-Program was rewritten from scratch. See the following page for an overview of the changes: http://docfetcher.sourceforge.net/wiki/doku.php?id=changes_in_v1.1
+Program was rewritten from scratch. See the following page for an overview of the changes: https://docfetcher.sourceforge.net/wiki/doku.php?id=changes_in_v1.1
 
 
 ==== 2010-04-30 - DocFetcher 1.0.3 ====
@@ -337,7 +337,7 @@ Program was rewritten from scratch. See the following page for an overview of th
   * French GUI translation.
   * German manual translation.
   * DocFetcher now runs on KDE.
-  * DocFetcher can be used as a command line text extraction tool (experimental feature). See project wiki for more info: http://sourceforge.net/apps/mediawiki/docfetcher/
+  * DocFetcher can be used as a command line text extraction tool (experimental feature). See project wiki for more info: https://sourceforge.net/apps/mediawiki/docfetcher/
 
 === Bugfixes ===
   * Bug #2811753: Backslashes in the custom exclusion patterns weren't correctly saved (only one backslash instead of two), thus after restart all backslashes were gone. Also, Unicode characters in the preferences weren't handled correctly.
@@ -361,7 +361,7 @@ Program was rewritten from scratch. See the following page for an overview of th
   * When DocFetcher crashes, a more informative stacktrace is shown.
   * Search scope panel displays paths of indexed folders in dark grey.
   * Default maximum heap size increased to 256 MB. This will make it less likely that DocFetcher runs out of memory during indexing.
-  * Manual updated. Parts of it were moved to the new project wiki: http://sourceforge.net/apps/mediawiki/docfetcher/
+  * Manual updated. Parts of it were moved to the new project wiki: https://sourceforge.net/apps/mediawiki/docfetcher/
   * All libraries updated (except Apache Lucene).
 
 
@@ -452,7 +452,7 @@ Program was rewritten from scratch. See the following page for an overview of th
 === Changes ===
   * Manual and Readme.txt updated.
   * All libraries updated.
-  * Website up and running: http://docfetcher.sourceforge.net
+  * Website up and running: https://docfetcher.sourceforge.net
   * On program start unused index folders will be deleted.
   * Added some key accelerators to the Search Scope panel (e.g. F5).
   * The items in the file type and search scope panel are deselected when these panels lose focus. 

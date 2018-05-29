@@ -2,8 +2,8 @@
 <XML_DIZ_INFO>
 	<MASTER_PAD_VERSION_INFO>
 		<MASTER_PAD_VERSION>3.10</MASTER_PAD_VERSION>
-		<MASTER_PAD_EDITOR>Online PAD Generator 1.33 - http://www.padbuilder.com</MASTER_PAD_EDITOR>
-		<MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to disseminate information to anyone interested in their software products. To find out more go to http://www.asp-shareware.org/pad</MASTER_PAD_INFO>
+		<MASTER_PAD_EDITOR>Online PAD Generator 1.33 - https://www.padbuilder.com</MASTER_PAD_EDITOR>
+		<MASTER_PAD_INFO>Portable Application Description, or PAD for short, is a data set that is used by shareware authors to disseminate information to anyone interested in their software products. To find out more go to https://www.asp-shareware.org/pad</MASTER_PAD_INFO>
 	</MASTER_PAD_VERSION_INFO>
 	<Company_Info>
 		<Company_Name>DocFetcher Development Team</Company_Name>
@@ -75,14 +75,14 @@
 	</Program_Descriptions>
 	<Web_Info>
 		<Application_URLs>
-			<Application_Info_URL>http://docfetcher.sourceforge.net/en/index.html</Application_Info_URL>
+			<Application_Info_URL>https://docfetcher.sourceforge.net/en/index.html</Application_Info_URL>
 			<Application_Order_URL />
-			<Application_Screenshot_URL>http://docfetcher.sourceforge.net/en/screenshots.html</Application_Screenshot_URL>
-			<Application_Icon_URL>http://docfetcher.sourceforge.net/all/docfetcher64.png</Application_Icon_URL>
-			<Application_XML_File_URL>http://docfetcher.sourceforge.net/docfetcher-pad.xml</Application_XML_File_URL>
+			<Application_Screenshot_URL>https://docfetcher.sourceforge.net/en/screenshots.html</Application_Screenshot_URL>
+			<Application_Icon_URL>https://docfetcher.sourceforge.net/all/docfetcher64.png</Application_Icon_URL>
+			<Application_XML_File_URL>https://docfetcher.sourceforge.net/docfetcher-pad.xml</Application_XML_File_URL>
 		</Application_URLs>
 		<Download_URLs>
-			<Primary_Download_URL>http://sourceforge.net/projects/docfetcher/files/docfetcher/${version}/docfetcher_${version}_win32_setup.exe/download</Primary_Download_URL>
+			<Primary_Download_URL>https://sourceforge.net/projects/docfetcher/files/docfetcher/${version}/docfetcher_${version}_win32_setup.exe/download</Primary_Download_URL>
 			<Secondary_Download_URL />
 			<Additional_Download_URL_1 />
 			<Additional_Download_URL_2 />
