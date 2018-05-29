@@ -32,6 +32,7 @@ import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.Immutable;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
+
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -40,7 +41,15 @@ import de.schlichtherle.truezip.file.TArchiveDetector;
 import de.schlichtherle.truezip.fs.FsDriver;
 import de.schlichtherle.truezip.fs.FsDriverProvider;
 import de.schlichtherle.truezip.fs.FsScheme;
+import de.schlichtherle.truezip.fs.archive.zip.JarDriver;
+import de.schlichtherle.truezip.fs.archive.zip.PromptingKeyManagerService;
 import de.schlichtherle.truezip.fs.sl.FsDriverLocator;
+import de.schlichtherle.truezip.key.KeyManagerProvider;
+import de.schlichtherle.truezip.key.PromptingKeyProvider;
+import de.schlichtherle.truezip.key.PromptingKeyProvider.Controller;
+import de.schlichtherle.truezip.key.UnknownKeyException;
+import de.schlichtherle.truezip.key.pbe.AesPbeParameters;
+import de.schlichtherle.truezip.socket.sl.IOPoolLocator;
 
 /**
  * Should not be subclassed outside the package group of this class.
@@ -247,9 +256,25 @@ public class IndexingConfig implements Serializable {
 		 * Create an extended copy of the default driver map where all
 		 * user-defined extensions not known to TrueZIP are associated with the
 		 * zip driver.
+		 * 
+		 * The existing zip driver is replaced by a custom zip driver which does
+		 * not show a Swing password prompt when an encrypted zip file is
+		 * encountered.
 		 */
-		final Map<FsScheme, FsDriver> driverMap = Maps.newHashMap(FsDriverLocator.SINGLETON.get());
-		FsDriver zipDriver = driverMap.get(FsScheme.create("zip"));
+		
+		Map<FsScheme, FsDriver> oldDriverMap = FsDriverLocator.SINGLETON.get();
+		FsDriver oldZipDriver = oldDriverMap.get(FsScheme.create("zip"));
+		final Map<FsScheme, FsDriver> driverMap = Maps.newHashMap();
+		FsDriver zipDriver = new CustomJarDriver();
+		
+		for (Map.Entry<FsScheme, FsDriver> entry : oldDriverMap.entrySet()) {
+			if (entry.getValue() == oldZipDriver) {
+				driverMap.put(entry.getKey(), zipDriver);
+			} else {
+				driverMap.put(entry.getKey(), entry.getValue());
+			}
+		}
+		
 		for (String ext : zipExtensions) {
 			FsScheme scheme = FsScheme.create(ext);
 			if (!driverMap.containsKey(scheme))
@@ -270,6 +295,38 @@ public class IndexingConfig implements Serializable {
 			extensions.add("exe");
 		return new TArchiveDetector(driverProvider, Util.join("|", extensions));
 	}
+	
+	private static final class CustomJarDriver extends JarDriver {
+        final KeyManagerProvider provider;
+        
+        public CustomJarDriver() {
+            super(IOPoolLocator.SINGLETON);
+            this.provider = new PromptingKeyManagerService(new CustomView());
+        }
+
+        @Override
+        protected KeyManagerProvider getKeyManagerProvider() {
+            return provider;
+        }
+    }
+    
+    private static final class CustomView
+    implements PromptingKeyProvider.View<AesPbeParameters> {
+        @Override
+        public void promptWriteKey(Controller<AesPbeParameters> controller)
+        throws UnknownKeyException {
+			throw new UnknownKeyException(new UnsupportedOperationException(
+				"Zip encryption is not supported."));
+        }
+        
+        @Override
+        public void promptReadKey(  Controller<AesPbeParameters> controller,
+                                    boolean invalid)
+        throws UnknownKeyException {
+			throw new UnknownKeyException(new UnsupportedOperationException(
+				"Zip archive is password protected."));
+        }
+    }
 
 	// Accepts filenames and filepaths
 	// Takes 'detect executable archives' setting into account
