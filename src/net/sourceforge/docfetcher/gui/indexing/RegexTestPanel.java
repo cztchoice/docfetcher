@@ -67,15 +67,23 @@ final class RegexTestPanel extends Composite {
 				File file = new File(filepath);
 				Path newPath = IndexingConfig.getStorablePath(file, storeRelativePaths);
 				fileBox.setText(newPath.getPath());
+				updateLabel();
 			}
 		});
 		
 		fileBox.addKeyListener(new KeyAdapter(){
 			public void keyReleased(KeyEvent e) {
-				if (Util.isEnterKey(e.keyCode))
-                    updateLabel();
-				else
+				if (Util.isEnterKey(e.keyCode)) {
+					fileBox.setText(new Path(fileBox.getText()).getPath());
+					fileBox.setSelection(fileBox.getText().length());
+					if(fileBox.getText().isEmpty()){
+						clearLabel();
+					} else {
+						updateLabel();
+					}
+				} else {
 					clearLabel();
+				}
 			}
 		});
 
@@ -105,14 +113,6 @@ final class RegexTestPanel extends Composite {
 	}
 	
 	private void updateLabel() {
-		fileBox.setText(new Path(fileBox.getText()).getPath());
-		fileBox.setSelection(fileBox.getText().length());
-
-		if(fileBox.getText().isEmpty()){
-			clearLabel();
-			return;
-		}
-
 		try {
 			label.setText(matches()
 				? Msg.sel_regex_matches_file_yes.get()
@@ -126,6 +126,7 @@ final class RegexTestPanel extends Composite {
 	
 	private void clearLabel() {
 		label.setText("");
+		layout();
 	}
 
 	private boolean matches() throws PatternSyntaxException {
