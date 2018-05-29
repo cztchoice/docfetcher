@@ -83,7 +83,6 @@ public final class SearchBar {
 			}
 		});
 
-
 		// Load search history
 		searchHistory = new MemoryList<String>(ProgramConf.Int.SearchHistorySize.get());
 		searchHistory.addAll(SettingsConf.StrList.SearchHistory.get()); // may discard items

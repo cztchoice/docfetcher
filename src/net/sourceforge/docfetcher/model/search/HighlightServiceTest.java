@@ -63,7 +63,6 @@ public final class HighlightServiceTest {
 		FieldQuery fieldQuery = highlighter.getFieldQuery(query);
 		IndexSearcher searcher = null;
 		try {
-
 			searcher = new IndexSearcher(DirectoryReader.open(directory));
 			TopDocs docs = searcher.search(query, 10);
 			assertEquals(1, docs.scoreDocs.length);
@@ -105,7 +104,6 @@ public final class HighlightServiceTest {
 		FieldQuery fieldQuery = highlighter.getFieldQuery(query);
 		IndexSearcher searcher = null;
 		try {
-
 			searcher = new IndexSearcher(DirectoryReader.open(directory));
 			TopDocs docs = searcher.search(query, 10);
 			assertEquals(1, docs.scoreDocs.length);
