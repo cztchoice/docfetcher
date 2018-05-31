@@ -41,8 +41,8 @@ import de.schlichtherle.truezip.file.TArchiveDetector;
 import de.schlichtherle.truezip.fs.FsDriver;
 import de.schlichtherle.truezip.fs.FsDriverProvider;
 import de.schlichtherle.truezip.fs.FsScheme;
-import de.schlichtherle.truezip.fs.archive.zip.JarDriver;
 import de.schlichtherle.truezip.fs.archive.zip.PromptingKeyManagerService;
+import de.schlichtherle.truezip.fs.archive.zip.ZipDriver;
 import de.schlichtherle.truezip.fs.sl.FsDriverLocator;
 import de.schlichtherle.truezip.key.KeyManagerProvider;
 import de.schlichtherle.truezip.key.PromptingKeyProvider;
@@ -265,7 +265,7 @@ public class IndexingConfig implements Serializable {
 		Map<FsScheme, FsDriver> oldDriverMap = FsDriverLocator.SINGLETON.get();
 		FsDriver oldZipDriver = oldDriverMap.get(FsScheme.create("zip"));
 		final Map<FsScheme, FsDriver> driverMap = Maps.newHashMap();
-		FsDriver zipDriver = new CustomJarDriver();
+		FsDriver zipDriver = new CustomZipDriver();
 		
 		for (Map.Entry<FsScheme, FsDriver> entry : oldDriverMap.entrySet()) {
 			if (entry.getValue() == oldZipDriver) {
@@ -296,10 +296,10 @@ public class IndexingConfig implements Serializable {
 		return new TArchiveDetector(driverProvider, Util.join("|", extensions));
 	}
 	
-	private static final class CustomJarDriver extends JarDriver {
+	private static final class CustomZipDriver extends ZipDriver {
         final KeyManagerProvider provider;
         
-        public CustomJarDriver() {
+        public CustomZipDriver() {
             super(IOPoolLocator.SINGLETON);
             this.provider = new PromptingKeyManagerService(new CustomView());
         }
