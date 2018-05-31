@@ -27,6 +27,7 @@ import net.sourceforge.docfetcher.util.Util;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.EmptyFileException;
 import org.apache.poi.extractor.ExtractorFactory;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -75,7 +76,7 @@ public final class TestParseFromZip {
 		};
 	}
 	
-	@Test(expected=IOException.class)
+	@Test(expected=EmptyFileException.class)
 	public void testZippedOfficeFail() throws Exception {
 		// This will fail because we're trying to read the same InputStream twice
 		new ZipAndRun(TestFiles.doc) {
@@ -173,15 +174,18 @@ public final class TestParseFromZip {
 			TFile dst = new TFile(archive, src.getName());
 			src.cp(dst);
 			InputStream in = new TFileInputStream(dst);
-			handleInputStream(in);
-			Closeables.closeQuietly(in);
-			
-			/*
-			 * On Windows 7, the archive must be unmounted before the directory
-			 * can be deleted.
-			 */
-			TVFS.umount(archive);
-			Util.deleteRecursively(dir);
+			try {
+				handleInputStream(in);
+			}
+			finally {
+				Closeables.closeQuietly(in);
+				/*
+				 * On Windows 7, the archive must be unmounted before the
+				 * directory can be deleted.
+				 */
+				TVFS.umount(archive);
+				Util.deleteRecursively(dir);
+			}
 		}
 		protected abstract void handleInputStream(InputStream in) throws Exception;
 	}
