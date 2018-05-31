@@ -33,6 +33,10 @@
 	<classpathentry kind="lib" path="lib/pdfbox/fontbox-2.0.9.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox/pdfbox-2.0.9.jar"/>
 	<classpathentry kind="lib" path="lib/pdfbox/xmpbox-2.0.9.jar"/>
+	<classpathentry kind="lib" path="lib/poi/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/poi/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/poi/poi-ooxml-schemas-3.17.jar"/>
+	<classpathentry kind="lib" path="lib/poi/poi-scratchpad-3.17.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SWT"/>
 	<classpathentry kind="lib" path="lib/jexcelapi/jexcelapi-2.6.12.jar" sourcepath="lib/jexcelapi/jexcelapi-2.6.12-src.zip"/>
 	<classpathentry kind="lib" path="lib/pegdown/asm-all-3.3.1.jar"/>
@@ -56,10 +60,6 @@
 	<classpathentry kind="lib" path="lib/jericho-html/jericho-html-3.4.jar" sourcepath="lib/jericho-html/jericho-html-3.4-src.zip"/>
 	<classpathentry kind="lib" path="lib/commons-codec/commons-codec-1.10.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="build/DocFetcher-1.1.19/lib/poi-3.13-20150929.jar"/>
-	<classpathentry kind="lib" path="build/DocFetcher-1.1.19/lib/poi-ooxml-3.13-20150929.jar"/>
-	<classpathentry kind="lib" path="build/DocFetcher-1.1.19/lib/poi-ooxml-schemas-3.13-20150929.jar"/>
-	<classpathentry kind="lib" path="build/DocFetcher-1.1.19/lib/poi-scratchpad-3.13-20150929.jar"/>
 	<classpathentry kind="lib" path="lib/poi/ooxml-lib/curvesapi-1.04.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j/log4j-1.2.17.jar"/>
