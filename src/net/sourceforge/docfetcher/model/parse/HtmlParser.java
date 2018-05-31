@@ -64,8 +64,19 @@ public final class HtmlParser extends StreamParser {
 		
 		// Get contents
 		Element bodyElement = source.getNextElement(0, HTMLElementName.BODY);
-		String contents = bodyElement == null ?
-				"" : bodyElement.getContent().getTextExtractor().toString(); //$NON-NLS-1$
+		String contents;
+		if (bodyElement != null) {
+			contents = bodyElement.getContent().getTextExtractor().toString();
+		}
+		else {
+			/*
+			 * Certain HTML-like files don't have a body, but contain
+			 * extractable text, e.g. Chrome bookmark files. Such files can
+			 * indexed by rendering them and processing the resulting text.
+			 */
+			contents = source.getRenderer().setIncludeHyperlinkURLs(false)
+					.toString();
+		}
 		
 		return new ParseResult(contents)
 			.setTitle(title)
