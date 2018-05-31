@@ -12,19 +12,19 @@
 package net.sourceforge.docfetcher.util;
 
 import java.io.File;
-import java.io.IOException;
 
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 /**
  * @author Tran Nam Quang
  */
-public final class SwtJarLoader {
+public final class SwtJarLocator {
 	
-	private SwtJarLoader() {
+	private SwtJarLocator() {
 	}
 	
-	public static void loadSwtJar() throws IOException {
+	@NotNull
+	public static File getFile() {
 		String osNamePart = getOsNamePart();
 		String osArchPart = getOsArchPart();
 		
@@ -43,8 +43,7 @@ public final class SwtJarLoader {
         	String filename = file.getName();
 			if (filename.contains(osNamePart)
 					&& filename.endsWith(osArchPart + ".jar")) {
-        		ClassPathHack.addFile(file);
-        		return;
+        		return file;
         	}
         }
         throw new IllegalStateException();
