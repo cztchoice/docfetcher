@@ -26,7 +26,7 @@ import net.sourceforge.docfetcher.util.Util;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
-import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.extractor.ExtractorFactory;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.openxml4j.opc.OPCPackage;
@@ -149,7 +149,6 @@ public final class TestParseFromZip {
 				PDDocument pdfDoc = PDDocument.load(in);
 				PDFTextStripper stripper = new PDFTextStripper();
 				StringWriter writer = new StringWriter();
-				stripper.setForceParsing(true);
 				stripper.setSortByPosition(true);
 				stripper.writeText(pdfDoc, writer); // Will handle encryption with empty password
 				PDDocumentInformation pdInfo = pdfDoc.getDocumentInformation();

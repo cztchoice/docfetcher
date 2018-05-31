@@ -20,8 +20,10 @@ import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial;
-import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
+import org.apache.pdfbox.text.PDFTextStripper;
+
+import com.google.common.io.Closeables;
 
 /**
  * @author Tran Nam Quang
@@ -40,19 +42,14 @@ public final class PagingPdfParser {
 	public void run() throws ParseException, CheckedOutOfMemoryError {
 		PDDocument doc = null;
 		try {
-			doc = PDDocument.load(file);
-			
-			if (doc.isEncrypted()) {
-				try {
-					// Try empty password
-					doc.openProtection(new StandardDecryptionMaterial(""));
-				} catch (Exception e) {
-					throw new ParseException(Msg.doc_pw_protected.get());
-				}
+			try {
+				doc = PDDocument.load(file);
+			}
+			catch (InvalidPasswordException e) {
+				throw new ParseException(Msg.doc_pw_protected.get());
 			}
 			
 			PagingStripper stripper = new PagingStripper();
-			stripper.setForceParsing(true);
 			stripper.setSortByPosition(true);
 			stripper.writeText(doc, writer);
 		}
@@ -67,7 +64,7 @@ public final class PagingPdfParser {
 			throw new CheckedOutOfMemoryError(e);
 		}
 		finally {
-			PdfParser.close(doc);
+			Closeables.closeQuietly(doc);
 		}
 	}
 

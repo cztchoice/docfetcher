@@ -16,18 +16,27 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.encryption.StandardDecryptionMaterial;
+import org.apache.pdfbox.pdmodel.common.PDMetadata;
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotation;
 import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationMarkup;
-import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.xmpbox.XMPMetadata;
+import org.apache.xmpbox.schema.AdobePDFSchema;
+import org.apache.xmpbox.schema.DublinCoreSchema;
+import org.apache.xmpbox.xml.DomXmpParser;
+import org.apache.xmpbox.xml.XmpParsingException;
+
+import com.google.common.io.Closeables;
 
 /**
  * @author Tran Nam Quang
@@ -46,41 +55,20 @@ public final class PdfParser extends StreamParser {
 			throws ParseException {
 		PDDocument pdfDoc = null;
 		try {
-			/*
-			 * TODO post-release-1.1: check if 'force' argument in PDDocument/Stripper increases
-			 * number of parsed PDF files
-			 */
-			pdfDoc = PDDocument.load(in, true);
-			
-			if (pdfDoc.isEncrypted()) {
-				try {
-					// Try empty password
-					pdfDoc.openProtection(new StandardDecryptionMaterial(""));
-				} catch (Exception e) {
-					throw new ParseException(Msg.doc_pw_protected.get());
-				}
-			}
-			
-			PDDocumentInformation pdInfo;
-			final int pageCount;
 			try {
-				pdInfo = pdfDoc.getDocumentInformation();
-				pageCount = pdfDoc.getNumberOfPages();
+				pdfDoc = PDDocument.load(in);
 			}
-			catch (ClassCastException e) {
-				// Bug #3529070 and #3528345
-				throw new ParseException(e);
+			catch (InvalidPasswordException e) {
+				throw new ParseException(Msg.doc_pw_protected.get());
 			}
+			
+			final int pageCount = pdfDoc.getNumberOfPages();
 			StringWriter writer = new StringWriter();
 			final StringBuilder annotations = new StringBuilder();
 			
 			/*
 			 * If the PDF file is encrypted, the PDF stripper will automatically
 			 * try an empty password.
-			 * 
-			 * In contrast to the paging PDF parser that is used for the
-			 * preview, we do not need to call setSortByPosition(true) here
-			 * because the extracted text will be digested by Lucene anyway.
 			 */
 			PDFTextStripper stripper = new PDFTextStripper() {
 				protected void startPage(PDPage page) throws IOException {
@@ -119,7 +107,6 @@ public final class PdfParser extends StreamParser {
 					}
 				}
 			};
-			stripper.setForceParsing(true);
 			
 			try {
 				stripper.writeText(pdfDoc, writer);
@@ -134,28 +121,16 @@ public final class PdfParser extends StreamParser {
 			
 			writer.write(" ");
 			writer.write(annotations.toString());
-
-			return new ParseResult(writer.getBuffer()).setTitle(
-				pdInfo.getTitle())
-					.addAuthor(pdInfo.getAuthor())
-					.addMiscMetadata(pdInfo.getSubject())
-					.addMiscMetadata(pdInfo.getKeywords());
+			
+			ParseResult result = new ParseResult(writer.getBuffer());
+			extractMetadata(pdfDoc, result);
+			return result;
 		}
 		catch (IOException e) {
 			throw new ParseException(e);
 		}
 		finally {
-			close(pdfDoc);
-		}
-	}
-	
-	static void close(@Nullable PDDocument doc) {
-		if (doc != null) {
-			try {
-				doc.close();
-			}
-			catch (IOException e) {
-			}
+			Closeables.closeQuietly(pdfDoc);
 		}
 	}
 	
@@ -169,6 +144,47 @@ public final class PdfParser extends StreamParser {
 	
 	public String getTypeLabel() {
 		return Msg.filetype_pdf.get();
+	}
+	
+	private static void extractMetadata(PDDocument pdfDoc, ParseResult result) {
+		PDDocumentInformation information = pdfDoc.getDocumentInformation();
+		if (information != null) {
+			result.setTitle(information.getTitle());
+			result.addAuthor(information.getAuthor());
+			result.addMiscMetadata(information.getSubject());
+			result.addMiscMetadata(information.getKeywords());
+		}
+		
+		PDDocumentCatalog catalog = pdfDoc.getDocumentCatalog();
+		PDMetadata meta = catalog.getMetadata();
+		if (meta != null) {
+			final DomXmpParser xmpParser;
+			try {
+				xmpParser = new DomXmpParser();
+				XMPMetadata metadata = xmpParser.parse(meta.createInputStream());
+				
+				DublinCoreSchema dc = metadata.getDublinCoreSchema();
+				if (dc != null) {
+					result.addMiscMetadata(dc.getDescription());
+					List<String> subjects = dc.getSubjects();
+					if (subjects != null) {
+						for (String subject : dc.getSubjects())
+							result.addMiscMetadata(subject);
+					}
+				}
+				
+				AdobePDFSchema pdf = metadata.getAdobePDFSchema();
+				if (pdf != null) {
+					result.addMiscMetadata(pdf.getKeywords());
+				}
+			}
+			catch (XmpParsingException e) {
+				// Ignore
+			}
+			catch (IOException e) {
+				// Ignore
+			}
+		}
 	}
 
 }
