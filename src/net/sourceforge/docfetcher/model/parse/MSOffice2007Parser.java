@@ -25,6 +25,7 @@ import org.apache.poi.openxml4j.exceptions.OpenXML4JRuntimeException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.apache.poi.openxml4j.opc.PackageProperties;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.xssf.extractor.XSSFExcelExtractor;
 
 import com.google.common.io.Closeables;
@@ -33,6 +34,15 @@ import com.google.common.io.Closeables;
  * @author Tran Nam Quang
  */
 abstract class MSOffice2007Parser extends FileParser {
+	
+	static {
+		/*
+		 * Disable zipbomb detection. With zipbomb detection on, POI will throw
+		 * an IOException if it encounters a zip file with unusually high
+		 * compression ratio.
+		 */
+		ZipSecureFile.setMinInflateRatio(0);
+	}
 	
 	public static final class MSWord2007Parser extends MSOffice2007Parser {
 		public MSWord2007Parser() {
