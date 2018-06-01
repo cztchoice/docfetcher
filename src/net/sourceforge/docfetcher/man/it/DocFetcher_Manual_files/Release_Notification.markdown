@@ -1,0 +1,8 @@
+Notifica del rilascio di nuove versioni del programma
+====================
+Ci sono svariate modalità per ricevere la notifica del rilascio di una nuova versione di DocFetcher:
+
+* ***Messaggio di posta elettronica da sourceforge.net***: su <http://sourceforge.net/projects/docfetcher>, c'è un'area denominata `Update Notification` in cui si può inserire il proprio indirizzo di email per ricevere una notifica quando vengono rilasciate nuove versioni.
+* ***Messaggio di posta elettronica da freecode.com***: l'annuncio del rilascio di nuove versioni di DocFetcher avviene abitualmente su <http://freecode.com>. Per ricevere un messaggio di posta elettronica al riguardo, ci si può creare un account su tale sito e andare nella sezione riguardante il progetto DocFetcher all'URL: <http://freecode.com/projects/docfetcher>. Qui ci si può iscrivere facendo clic sul pulsante "Follow" (Segui) posto a destra.
+* ***RSS***: se si preferiscono gli RSS, è possibile iscriversi al nostro ["feed" di informazioni](http://sourceforge.net/api/file/index/project-id/197779/mtime/desc/limit/20/rss) relativo al rilascio di nuove versioni.
+* ***Update Scanner***: se si usa Mozilla Firefox, si può fare affidamento su questa sua estensione scaricabile [qui](https://addons.mozilla.org/en-US/firefox/addon/update-scanner/). Essa consente di monitorare arbitrariamente dei siti web fra i quali anche la nostra [pagina di download](http://docfetcher.sourceforge.net/download.html).
