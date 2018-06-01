@@ -492,7 +492,12 @@ public final class SettingsConf {
 
 	@Description("# Font entries, consisting of font name, height and style.")
 	public static enum FontDescription implements Storable {
-		PreviewWindows ("Verdana", 10, SWT.NORMAL),
+		/*
+		 * Note: Lucida Sans Unicode seems to be the only Unicode font available
+		 * by default on all Windows versions. See:
+		 * https://stackoverflow.com/questions/9360394/what-are-standard-unicode-fonts
+		 */
+		PreviewWindows ("Lucida Sans Unicode", 11, SWT.NORMAL),
 		PreviewLinux ("Sans", 10, SWT.NORMAL),
 		PreviewMacOsX ("Helvetica", 12, SWT.NORMAL),
 		PreviewMonoWindows ("Courier New", 10, SWT.NORMAL),
