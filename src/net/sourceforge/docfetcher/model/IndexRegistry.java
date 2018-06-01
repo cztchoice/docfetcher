@@ -23,15 +23,40 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.channels.FileLock;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import org.ansj.lucene6.AnsjAnalyzer;
+import org.ansj.util.MyStaticValue;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
+import org.apache.lucene.analysis.core.LowerCaseFilter;
+import org.apache.lucene.analysis.core.StopFilter;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.standard.StandardFilter;
+import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.util.Version;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+import com.google.common.io.Closeables;
+import com.google.common.primitives.Longs;
 
 import net.contentobjects.jnotify.JNotify;
 import net.contentobjects.jnotify.JNotifyException;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
+import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.model.IndexLoadingProblems.CorruptedIndex;
 import net.sourceforge.docfetcher.model.IndexLoadingProblems.OverflowIndex;
 import net.sourceforge.docfetcher.model.index.IndexingQueue;
@@ -53,24 +78,6 @@ import net.sourceforge.docfetcher.util.collect.AlphanumComparator;
 import net.sourceforge.docfetcher.util.collect.LazyList;
 import net.sourceforge.docfetcher.util.concurrent.BlockingWrapper;
 import net.sourceforge.docfetcher.util.concurrent.DelayedExecutor;
-
-import org.ansj.lucene6.AnsjAnalyzer;
-import org.ansj.util.MyStaticValue;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.LowerCaseFilter;
-import org.apache.lucene.analysis.core.StopFilter;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.standard.StandardFilter;
-import org.apache.lucene.analysis.util.CharArraySet;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.util.Version;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.google.common.io.Closeables;
-import com.google.common.primitives.Longs;
 
 /**
  * @author Tran Nam Quang
@@ -136,10 +143,10 @@ public final class IndexRegistry {
 	private final BlockingWrapper<Searcher> searcher = new BlockingWrapper<Searcher>();
 
 	static {
-		MyStaticValue.ENV.put("dic","resources/ansj/default.dic");
-		MyStaticValue.ENV.put("ambiguity","resources/ansj/ambiguity.dic");
-		MyStaticValue.ENV.put("stop", "resources/ansj/stop.dic");
-		MyStaticValue.ENV.put("synonyms", "resources/ansj/synonyms.dic");
+		MyStaticValue.ENV.put("dic","lang/ansj/default.dic");
+		MyStaticValue.ENV.put("ambiguity","lang/ansj/ambiguity.dic");
+		MyStaticValue.ENV.put("stop", "lang/ansj/stop.dic");
+		MyStaticValue.ENV.put("synonyms", "lang/ansj/synonyms.dic");
 	}
 
 	@NotNull
@@ -147,17 +154,25 @@ public final class IndexRegistry {
 		/* The analyzer is created lazily to ensure that the program settings
 		 * have already been loaded. */
 		if (analyzer == null) {
-			if (ProgramConf.Int.Analyzer.get() == 1) {
-				analyzer = new SourceCodeAnalyzer(LUCENE_VERSION);
-			} else {
-				Map<String,String> config = new HashMap();
-				config.put("type", AnsjAnalyzer.TYPE.index_ansj.name());
-				config.put("stop", "stop");
-				config.put("synonyms", "synonyms");
-				analyzer = new AnsjAnalyzer(config);
-			}
+			resetAnalyzer();
 		}
 		return analyzer;
+	}
+	
+	public static void resetAnalyzer() {
+		switch (SettingsConf.Int.LuceneAnalyzer.get()) {
+		case 1:
+			analyzer = new SourceCodeAnalyzer(LUCENE_VERSION); break;
+		case 2:
+			Map<String,String> config = new HashMap<>();
+			config.put("type", AnsjAnalyzer.TYPE.index_ansj.name());
+			config.put("stop", "stop");
+			config.put("synonyms", "synonyms");
+			analyzer = new AnsjAnalyzer(config);
+			break;
+		default:
+			analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
+		}
 	}
 
 	public IndexRegistry(	@NotNull File indexParentDir,

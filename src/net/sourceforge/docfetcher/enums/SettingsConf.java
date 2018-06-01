@@ -129,6 +129,7 @@ public final class SettingsConf {
 	@Description("# Integer entries.")
 	public static enum Int implements Storable {
 		FilterPanelWidth (250),
+		LuceneAnalyzer (0),
 		;
 
 		public final Event<Integer> evtChanged = new Event<Integer> ();

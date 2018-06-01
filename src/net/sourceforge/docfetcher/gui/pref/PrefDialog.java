@@ -16,20 +16,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.enums.Img;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.ManualLocator;
-import net.sourceforge.docfetcher.gui.UtilGui;
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
-import net.sourceforge.docfetcher.util.gui.ConfigComposite;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,6 +27,21 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
+
+import net.sourceforge.docfetcher.enums.Img;
+import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.ProgramConf;
+import net.sourceforge.docfetcher.enums.SettingsConf;
+import net.sourceforge.docfetcher.gui.ManualLocator;
+import net.sourceforge.docfetcher.gui.UtilGui;
+import net.sourceforge.docfetcher.model.IndexRegistry;
+import net.sourceforge.docfetcher.util.AppUtil;
+import net.sourceforge.docfetcher.util.Event;
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
+import net.sourceforge.docfetcher.util.gui.ConfigComposite;
+import net.sourceforge.docfetcher.util.gui.FormDataFactory;
 
 /**
  * @author Tran Nam Quang
@@ -55,10 +56,14 @@ public final class PrefDialog {
 	private final List<PrefOption> checkOptions = new LinkedList<PrefOption>();
 	private final List<PrefOption> fieldOptions = new LinkedList<PrefOption>();
 	private final File programConfFile;
+	private final DropdownOption analyzerOption;
+	private final int oldAnalyzer;
 
-	public PrefDialog(@NotNull Shell parent, @NotNull File programConfFile) {
+	public PrefDialog(	@NotNull Shell parent,
+						@NotNull File programConfFile) {
 		Util.checkNotNull(parent);
 		this.programConfFile = programConfFile;
+		
 		shell = new Shell(parent, SWT.PRIMARY_MODAL | SWT.SHELL_TRIM);
 		shell.setLayout(Util.createFillLayout(10));
 		shell.setText(Msg.preferences.get());
@@ -105,8 +110,23 @@ public final class PrefDialog {
 			//		"Reset location filter on exit",
 			//		SettingsConf.Bool.ResetLocationFilterOnExit),
 		));
-
+		
+		oldAnalyzer = SettingsConf.Int.LuceneAnalyzer.get();
+		
+		String[] choices = new String[] {
+			Msg.pref_word_seg_standard.get(),
+			Msg.pref_word_seg_source_code.get(),
+			Msg.pref_word_seg_chinese.get() 
+		};
+		
+		analyzerOption = new DropdownOption(
+			Msg.pref_word_segmentation.get(),
+			SettingsConf.Int.LuceneAnalyzer,
+			choices);
+		
 		fieldOptions.addAll(Arrays.asList(
+			analyzerOption,
+
 			new ColorOption(
 				Msg.pref_highlight_color.get(),
 				SettingsConf.IntArray.PreviewHighlighting),
@@ -199,8 +219,17 @@ public final class PrefDialog {
 			public void widgetSelected(SelectionEvent e) {
 				for (PrefOption checkOption : checkOptions)
 					checkOption.save();
-				for (PrefOption fieldOption : fieldOptions)
+				for (PrefOption fieldOption : fieldOptions) {
 					fieldOption.save();
+					
+					if (fieldOption == analyzerOption) {
+						int newAnalyzer = SettingsConf.Int.LuceneAnalyzer.get();
+						if (oldAnalyzer != newAnalyzer) {
+							AppUtil.showInfo(Msg.rebuild_indexes.get());
+							IndexRegistry.resetAnalyzer();
+						}
+					}
+				}
 				evtOKClicked.fire(null);
 				shell.close();
 			}

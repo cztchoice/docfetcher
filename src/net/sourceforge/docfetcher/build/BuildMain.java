@@ -154,7 +154,10 @@ public final class BuildMain {
 
 	// Must be run before updating the version numbers in the manual pages
 	private static void rebuildManuals() throws Exception {
-		Util.deleteContents(new File("dist/help/"));
+		File helpDir = new File("dist/help/");
+		if (helpDir.isDirectory())
+			Util.deleteContents(helpDir);
+		
 		for (File dir : Util.listFiles(new File(Manual.manDir))) {
 			if (!dir.isDirectory() || dir.getName().equals("all"))
 				continue;
@@ -169,7 +172,6 @@ public final class BuildMain {
 		U.copyDir("dist/help", releaseDir + "/help");
 //		U.copyDir("dist/templates", releaseDir + "/templates");
 		U.copyDir("dist/lang", releaseDir + "/lang");
-		U.copyDir("resources", releaseDir + "/resources");
 		updateManualVersionNumber(new File(releaseDir, "help"));
 
 		String excludedLibs = U.readPatterns("lib/excluded_jar_patterns.txt");

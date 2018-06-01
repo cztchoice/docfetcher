@@ -635,6 +635,19 @@ public enum Msg {
         "Use type-ahead search",
         Comments.prefOption + "Whether the program should carry out a search " +
         "while the user is typing in the search bar."),
+	pref_word_segmentation (
+		"Word segmentation:",
+		Comments.prefOption + "The word segmentation algorithm to use during " +
+		"indexing."),
+	pref_word_seg_standard (
+		"Standard",
+		Comments.prefOption + "Word segmentation option."),
+	pref_word_seg_source_code (
+		"Source Code",
+		Comments.prefOption + "Word segmentation option."),
+	pref_word_seg_chinese (
+		"Chinese",
+		Comments.prefOption + "Word segmentation option."),
 	pref_highlight_color (
 		"Highlight color:",
 		Comments.prefOption + "The color to use for highlighting matches in " +
@@ -660,6 +673,11 @@ public enum Msg {
 	advanced_settings_link (
 		"Advanced Settings",
 		"Hyperlink on preferences dialog to configuration file containing advanced settings."),
+	rebuild_indexes(
+		"Changing the word segmentation algorithm won't take effect until all "
+		+ "existing indexes are rebuilt.",
+		"A message that will displayed after changing the word segmentation "
+		+ "algorithm on the preferences dialog."),
 	
 	// Hotkeys
 	f1 ("F1"),

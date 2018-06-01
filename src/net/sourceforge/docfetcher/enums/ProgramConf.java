@@ -79,7 +79,6 @@ public final class ProgramConf {
 		MaxResultsTotal (10000, 1),
 		PatternTableHeight (4, 1),
 		UnpackCacheCapacity (20, 1),
-		Analyzer (0, 0),
 		InitialSorting (0),
 		PythonApiPort (28834),
 		;
