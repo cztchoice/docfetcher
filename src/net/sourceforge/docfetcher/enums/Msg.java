@@ -15,6 +15,7 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import net.sourceforge.docfetcher.Main;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.ClassPathHack;
 import net.sourceforge.docfetcher.util.Util;
@@ -748,15 +749,23 @@ public enum Msg {
 	
 	public static void loadFromDisk() {
 		try {
-			final File langDir;
-			if (SystemConf.Bool.IsDevelopmentVersion.get()) {
-				langDir = new File("dist/lang");
-			} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
-				langDir = new File("../Resources/lang");
-			} else {
-				langDir = new File("lang");
+			/*
+			 * In Java 8 and earlier, we can use the classpath hack to add the
+			 * language files to the classpath. In Java 9 and later, the
+			 * language files are added to the classpath at the beginning of the
+			 * main method.
+			 */
+			if (!Main.isJava9OrLater()) {
+				final File langDir;
+				if (SystemConf.Bool.IsDevelopmentVersion.get()) {
+					langDir = new File("dist/lang");
+				} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
+					langDir = new File("../Resources/lang");
+				} else {
+					langDir = new File("lang");
+				}
+				ClassPathHack.addFile(langDir);
 			}
-			ClassPathHack.addFile(langDir);
 			
 			/*
 			 * Notes: (1) The translated strings must be trimmed, because

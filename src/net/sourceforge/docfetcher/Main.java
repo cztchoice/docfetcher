@@ -54,6 +54,24 @@ public final class Main {
 			}
 			jarPaths.add(SwtJarLocator.getFile().getPath());
 			
+			// Add language files to the classpath
+			File langDir = new File("dist/lang"); // running inside the IDE
+			if (langDir.isDirectory()) {
+				jarPaths.add(langDir.getPath());
+			}
+			else {
+				langDir = new File("../Resources/lang"); // non-portable OS X version
+				if (langDir.isDirectory()) {
+					jarPaths.add(langDir.getPath());
+				}
+				else {
+					langDir = new File("lang"); // all other versions
+					if (langDir.isDirectory()) {
+						jarPaths.add(langDir.getPath());
+					}
+				}
+			}
+			
 			// Building classpath
 			String osName = System.getProperty("os.name").toLowerCase();
 			boolean isWindows = osName.contains("windows");
@@ -80,6 +98,7 @@ public final class Main {
 			cmdList.add("-cp");
 			cmdList.add(classPath);
 			cmdList.add("-Djava.library.path=lib");
+			cmdList.add("-Duser.language=" + System.getProperty("user.language"));
 			cmdList.add("net.sourceforge.docfetcher.gui.Application");
 			for (String arg : args) {
 				cmdList.add(arg);
@@ -99,7 +118,7 @@ public final class Main {
 		}
 	}
 	
-	private static boolean isJava9OrLater() {
+	public static boolean isJava9OrLater() {
 		/*
 		 * Java 9 and later are numbered 9, 10, etc., whereas earlier versions
 		 * started with "1.", e.g. 1.5, 1.6, 1.7, etc.
