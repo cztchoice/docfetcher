@@ -4,13 +4,13 @@ import os, shutil, platform, sys
 from os.path import exists, join, isfile, isdir
 
 if len(sys.argv) <= 1:
-	print 'Must specify a language ID, for example: en, de, fr, ...'
+	print('Must specify a language ID, for example: en, de, fr, ...')
 	exit(0)
 
 is_windows = 'windows' in platform.system().lower()
 classpath_sep = ';' if is_windows else ':'
 
-print 'Cleaning build directory...'
+print('Cleaning build directory...')
 class_dir = 'build/man/classes'
 if not exists(class_dir):
 	os.makedirs(class_dir)
@@ -31,7 +31,7 @@ for root, dirs, files in os.walk('lib'):
 		if not filename.endswith('.jar'): continue
 		jars.append(join(root, filename))
 
-print 'Compiling sources...'
+print('Compiling sources...')
 execute([
 	'javac',
 	'-sourcepath src',
@@ -44,7 +44,7 @@ execute([
 jar_path = 'build/man/docfetcher-man-builder.jar'
 main_class = 'net.sourceforge.docfetcher.man.Manual'
 
-print 'Creating builder jar...'
+print('Creating builder jar...')
 execute([
 	'jar cfe',
 	jar_path,
@@ -52,8 +52,8 @@ execute([
 	'-C %s net' % class_dir
 ])
 
-print 'Launching builder...'
-print '-' * 40
+print('Launching builder...')
+print('-' * 40)
 jars.append(jar_path)
 execute([
 	'java',
