@@ -129,7 +129,7 @@ public final class SettingsConf {
 	@Description("# Integer entries.")
 	public static enum Int implements Storable {
 		FilterPanelWidth (250),
-		LuceneAnalyzer (0),
+		LuceneAnalyzer (getDefaultAnalyzer()),
 		;
 
 		public final Event<Integer> evtChanged = new Event<Integer> ();
@@ -152,6 +152,14 @@ public final class SettingsConf {
 		}
 		public String valueToString() {
 			return Integer.toString(value);
+		}
+		private static int getDefaultAnalyzer() {
+			/* Use Chinese analyzer if the language is set to Chinese. */
+			String lang = System.getProperty("user.language");
+			if (lang.startsWith("zh")) {
+				return 2;
+			}
+			return 0;
 		}
 	}
 
