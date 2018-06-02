@@ -44,7 +44,7 @@ import org.eclipse.swt.widgets.ToolItem;
 /**
  * @author Tran Nam Quang
  */
-final class HtmlPreview extends ToolBarForm {
+abstract class HtmlPreview extends ToolBarForm {
 	
 	public final Event<Void> evtHtmlToTextBt = new Event<Void>();
 	public final Event<Void> evtHideInSystemTray = new Event<Void>();
@@ -59,6 +59,8 @@ final class HtmlPreview extends ToolBarForm {
 	public HtmlPreview(@NotNull Composite parent) {
 		super(parent);
 	}
+	
+	protected abstract void saveSettings();
 	
 	@NotNull
 	protected Control createToolBar(@NotNull Composite parent) {
@@ -146,9 +148,21 @@ final class HtmlPreview extends ToolBarForm {
 	
 	@NotNull
 	protected Control createContents(@NotNull Composite parent) {
-		// TODO post-release-1.1: Add program.conf entry to allow using Mozilla (SWT.MOZILLA) or WebKit browser
-		// This will throw an SWTError if no embedded browser is available
-		browser = new Browser(parent, SWT.BORDER);
+		boolean wasShowManual = SettingsConf.Bool.ShowManualOnStartup.get();
+		SettingsConf.Bool.ShowManualOnStartup.set(false);
+		saveSettings();
+		
+		try {
+			browser = new Browser(parent, SWT.BORDER);
+		}
+		finally {
+			/*
+			 * Next time, only show the manual in the browser if the VM didn't
+			 * crash while trying to initialize the browser.
+			 */
+			SettingsConf.Bool.ShowManualOnStartup.set(wasShowManual);
+			saveSettings();
+		}
 		
 		browser.addLocationListener(new LocationAdapter() {
 			public void changing(LocationEvent event) {

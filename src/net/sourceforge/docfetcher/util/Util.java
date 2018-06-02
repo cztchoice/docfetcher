@@ -30,6 +30,7 @@ import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
 import net.sourceforge.docfetcher.util.gui.Col;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.Clipboard;
@@ -299,6 +300,12 @@ public final class Util {
 		}
 		parts.add(sb.toString());
 		return parts;
+	}
+	
+	@NotNull
+	public static String encodeBase64(@NotNull String input) {
+		String encodedBytes = Base64.encodeBase64URLSafeString(input.getBytes());
+		return new String(encodedBytes);
 	}
 
 	/**

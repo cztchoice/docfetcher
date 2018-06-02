@@ -1030,6 +1030,12 @@ public final class Application {
 						systemTrayHider.hide();
 					}
 				});
+				previewPanel.evtSaveSettings.add(new Event.Listener<Void>() {
+					@Override
+					public void update(Void eventData) {
+						saveSettingsConfFile();
+					}
+				});
 				return previewPanel;
 			}
 		};
@@ -1190,55 +1196,73 @@ public final class Application {
 	}
 
 	private static void initHotkey() {
+		/*
+		 * As registering the hotkey is prone to crashing the VM, we'll
+		 * temporarily disable the hotkey before attempting to register it, so
+		 * that if the VM does crash, the hotkey will be disabled the next time.
+		 */
+		
+		boolean wasHotkeyEnabled = SettingsConf.Bool.HotkeyEnabled.get();
+		SettingsConf.Bool.HotkeyEnabled.set(false);
+		saveSettingsConfFile();
+		
 		try {
-			hotkeyHandler = new HotkeyHandler();
-		}
-		catch (UnsupportedOperationException e) {
-			return;
-		}
-		catch (Throwable e) {
-			Util.printErr(e);
-			return;
-		}
-
-		hotkeyHandler.evtHotkeyPressed.add(new Event.Listener<Void> () {
-			public void update(Void eventData) {
-				Util.runSyncExec(shell, new Runnable() {
-					public void run() {
-						if (systemTrayHider.isHidden()) {
-							systemTrayHider.restore();
-						}
-						else {
-							shell.setMinimized(false);
-							shell.setVisible(true);
-							shell.forceActive();
-							searchBar.setFocus();
-						}
-					}
-				});
+		
+			try {
+				hotkeyHandler = new HotkeyHandler();
 			}
-		});
-		hotkeyHandler.evtHotkeyConflict.add(new Event.Listener<int[]> () {
-			public void update(int[] eventData) {
-				String key = UtilGui.toString(eventData);
-				AppUtil.showError(Msg.hotkey_in_use.format(key), false, true);
-
-				/*
-				 * Don't open preferences dialog when the hotkey conflict occurs
-				 * at startup.
-				 */
-				if (shell.isVisible()) {
-					PrefDialog prefDialog = new PrefDialog(shell, programConfFile);
-					prefDialog.evtOKClicked.add(new Event.Listener<Void> () {
-					    public void update(Void eventData) {
-					    	saveSettingsConfFile();
-					    }
+			catch (UnsupportedOperationException e) {
+				return;
+			}
+			catch (Throwable e) {
+				Util.printErr(e);
+				return;
+			}
+	
+			hotkeyHandler.evtHotkeyPressed.add(new Event.Listener<Void> () {
+				public void update(Void eventData) {
+					Util.runSyncExec(shell, new Runnable() {
+						public void run() {
+							if (systemTrayHider.isHidden()) {
+								systemTrayHider.restore();
+							}
+							else {
+								shell.setMinimized(false);
+								shell.setVisible(true);
+								shell.forceActive();
+								searchBar.setFocus();
+							}
+						}
 					});
-					prefDialog.open();
 				}
-			}
-		});
-		hotkeyHandler.registerHotkey();
+			});
+			hotkeyHandler.evtHotkeyConflict.add(new Event.Listener<int[]> () {
+				public void update(int[] eventData) {
+					String key = UtilGui.toString(eventData);
+					AppUtil.showError(Msg.hotkey_in_use.format(key), false, true);
+	
+					/*
+					 * Don't open preferences dialog when the hotkey conflict occurs
+					 * at startup.
+					 */
+					if (shell.isVisible()) {
+						PrefDialog prefDialog = new PrefDialog(shell, programConfFile);
+						prefDialog.evtOKClicked.add(new Event.Listener<Void> () {
+						    public void update(Void eventData) {
+						    	saveSettingsConfFile();
+						    }
+						});
+						prefDialog.open();
+					}
+				}
+			});
+			hotkeyHandler.registerHotkey();
+		
+		}
+		finally {
+			SettingsConf.Bool.HotkeyEnabled.set(wasHotkeyEnabled);
+			saveSettingsConfFile();
+		}
 	}
 
 	@Nullable

@@ -58,6 +58,7 @@ import org.eclipse.swt.widgets.Widget;
 public final class PreviewPanel extends Composite {
 	
 	public final Event<Void> evtHideInSystemTray = new Event<Void>();
+	public final Event<Void> evtSaveSettings = new Event<Void>(); 
 	
 	/*
 	 * Mixing custom locking with SWT code has been found to be very dead-lock
@@ -190,7 +191,12 @@ public final class PreviewPanel extends Composite {
 			return false;
 		if (htmlPreview == null) {
 			try {
-				htmlPreview = new HtmlPreview(stackComp);
+				htmlPreview = new HtmlPreview(stackComp) {
+					@Override
+					protected void saveSettings() {
+						evtSaveSettings.fire(null);
+					}
+				};
 				Event.redirect(
 					htmlPreview.evtHideInSystemTray,
 					evtHideInSystemTray);

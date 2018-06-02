@@ -245,9 +245,9 @@ public final class AppUtil {
 		
 		String dirPath = Const.USER_DIR_PATH.value;
 		String shaDirPath = DigestUtils.shaHex(dirPath);
-		String programName64 = encodeBase64(Const.PROGRAM_NAME.value);
-		String username64 = encodeBase64(System.getProperty("user.name"));
-		String dirPath64 = encodeBase64(dirPath);
+		String programName64 = Util.encodeBase64(Const.PROGRAM_NAME.value);
+		String username64 = Util.encodeBase64(System.getProperty("user.name"));
+		String dirPath64 = Util.encodeBase64(dirPath);
 		
 		String lockname = String.format(
 				".lock-%s-%s-%s-%s.", // dot at the end is intentional
@@ -309,11 +309,6 @@ public final class AppUtil {
 		} catch (AWTException e) {
 			AppUtil.showStackTrace(e);
 		}
-	}
-	
-	private static String encodeBase64(String input) {
-		String encodedBytes = Base64.encodeBase64URLSafeString(input.getBytes());
-		return new String(encodedBytes);
 	}
 	
 	/**

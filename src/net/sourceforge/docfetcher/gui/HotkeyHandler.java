@@ -53,6 +53,8 @@ public final class HotkeyHandler {
 	private static final int HOTKEY_ID = 1;
 
 	private final HotkeyListenerImpl implementation;
+	
+	private volatile boolean wasRegistered = false;
 
 	/**
 	 * Installs a listener on a global hotkey. The hotkey is registred in
@@ -68,9 +70,7 @@ public final class HotkeyHandler {
 			implementation = new HotkeyListenerLinuxImpl();
 		else
 			throw new UnsupportedOperationException();
-
-		implementation.initialize(this);
-
+		
 		SettingsConf.IntArray.HotkeyToFront.evtChanged.add(new Listener<int[]>() {
 			public void update(int[] eventData) {
 				implementation.unregisterHotkey(HOTKEY_ID);
@@ -104,18 +104,23 @@ public final class HotkeyHandler {
 	 * Registers the hotkey.
 	 */
 	public void registerHotkey() {
-		if (SettingsConf.Bool.HotkeyEnabled.get())
+		if (SettingsConf.Bool.HotkeyEnabled.get()) {
+			implementation.initialize(this);
 			implementation.registerHotkey(HOTKEY_ID,
 				SettingsConf.IntArray.HotkeyToFront.get()[0],
 				SettingsConf.IntArray.HotkeyToFront.get()[1]);
+			wasRegistered = true;
+		}
 	}
 	
 	/**
 	 * Unregisters the hotkey.
 	 */
 	public void shutdown() {
-		implementation.unregisterHotkey(HOTKEY_ID);
-		implementation.shutdown();
+		if (wasRegistered) {
+			implementation.unregisterHotkey(HOTKEY_ID);
+			implementation.shutdown();
+		}
 	}
 
 	private void onHotKey(int hotkey_id) {
