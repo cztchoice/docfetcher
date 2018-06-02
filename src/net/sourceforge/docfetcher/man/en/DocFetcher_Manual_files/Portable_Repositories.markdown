@@ -3,7 +3,7 @@ Portable Document Repositories
 
 Basic usage
 -----------
-The portable version of DocFetcher essentially allows you to carry around (and even redistribute) a fully indexed and fully searchable document repository. If you don't have the portable version yet, you can download it from the [project website](http://docfetcher.sourceforge.net/download.html).
+The portable version of DocFetcher essentially allows you to carry around (and even redistribute) a fully indexed and fully searchable document repository. If you don't have the portable version yet, you can download it from the [project website](http://docfetcher.sourceforge.net).
 
 The portable version does not require any installation; just extract the contents of the archive into a folder of your choice. You can then start DocFetcher via the appropriate launcher for your operating system: `DocFetcher.exe` on Windows, `DocFetcher.sh` on Linux and the `DocFetcher` application bundle on Mac OS&nbsp;X. The only requirement is that a Java runtime, version 1.6 or newer, must be installed on the machine.
 

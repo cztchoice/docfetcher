@@ -3,7 +3,7 @@ Portable Dokument-Repositories
 
 Grundlegende Benutzung
 ----------------------
-Die portable Version von DocFetcher ermöglicht es, ein voll indiziertes und durchsuchbares Dokument-Repository zu erstellen, welches Sie dann mit sich herumtragen oder an andere Menschen weitergeben können. Falls Sie die portable Version noch nicht haben, können Sie sie von der [Projekt-Website](http://docfetcher.sourceforge.net/download.html) beziehen.
+Die portable Version von DocFetcher ermöglicht es, ein voll indiziertes und durchsuchbares Dokument-Repository zu erstellen, welches Sie dann mit sich herumtragen oder an andere Menschen weitergeben können. Falls Sie die portable Version noch nicht haben, können Sie sie von der [Projekt-Website](http://docfetcher.sourceforge.net) beziehen.
 
 Die portable Version erfordert keine Installation; stattdessen müssen Sie einfach nur den Inhalt des heruntergeladenen Archivs in einen Ordner Ihrer Wahl entpacken. Sie können dann DocFetcher mit dem passenden Startprogramm für Ihr Betriebssystem starten: `DocFetcher.exe` auf Windows, `DocFetcher.sh` auf Linux und das `DocFetcher` Application Bundle auf Mac OS&nbsp;X. Es muss aber in jedem Fall eine Java-Laufzeit-Umgebung, Version 1.6 oder neuer, installiert sein.
 
