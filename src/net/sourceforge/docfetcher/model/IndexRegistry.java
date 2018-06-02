@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
@@ -35,7 +34,6 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.ansj.lucene6.AnsjAnalyzer;
-import org.ansj.util.MyStaticValue;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
@@ -142,14 +140,6 @@ public final class IndexRegistry {
 	private final OutlookMailFactory outlookMailFactory;
 	private final BlockingWrapper<Searcher> searcher = new BlockingWrapper<Searcher>();
 
-	static {
-		File ansjDir = new File(AppUtil.getLangDir(), "ansj");
-		MyStaticValue.ENV.put("dic", new File(ansjDir, "default.dic").getPath());
-		MyStaticValue.ENV.put("ambiguity", new File(ansjDir, "ambiguity.dic").getPath());
-		MyStaticValue.ENV.put("stop", new File(ansjDir, "stop.dic").getPath());
-		MyStaticValue.ENV.put("synonyms", new File(ansjDir, "synonyms.dic").getPath());
-	}
-
 	@NotNull
 	public static Analyzer getAnalyzer() {
 		/* The analyzer is created lazily to ensure that the program settings
@@ -165,12 +155,7 @@ public final class IndexRegistry {
 		case 1:
 			analyzer = new SourceCodeAnalyzer(LUCENE_VERSION); break;
 		case 2:
-			Map<String,String> config = new HashMap<>();
-			config.put("type", AnsjAnalyzer.TYPE.index_ansj.name());
-			config.put("stop", "stop");
-			config.put("synonyms", "synonyms");
-			analyzer = new AnsjAnalyzer(config);
-			break;
+			analyzer = new AnsjAnalyzer(AnsjAnalyzer.TYPE.index_ansj); break;
 		default:
 			analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
 		}

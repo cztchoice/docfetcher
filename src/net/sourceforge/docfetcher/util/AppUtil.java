@@ -649,16 +649,6 @@ public final class AppUtil {
 	}
 	
 	@NotNull
-	public static File getLangDir() {
-		if (SystemConf.Bool.IsDevelopmentVersion.get()) {
-			return new File("dist/lang");
-		} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
-			return new File("../Resources/lang");
-		}
-		return new File("lang");
-	}
-	
-	@NotNull
 	public static String getImageDir() {
 		checkConstInitialized();
 		if (Const.IS_DEVELOPMENT_VERSION.asBoolean())
@@ -666,6 +656,16 @@ public final class AppUtil {
 		if (Util.IS_MAC_OS_X && !Const.IS_PORTABLE.asBoolean())
 			return "../Resources/img";
 		return "img";
+	}
+	
+	@NotNull
+	public static File getLangDir() {
+		if (SystemConf.Bool.IsDevelopmentVersion.get()) {
+			return new File("dist/lang");
+		} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
+			return new File("../Resources/lang");
+		}
+		return new File("lang");
 	}
 
 }
