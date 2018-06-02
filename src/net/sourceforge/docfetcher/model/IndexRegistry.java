@@ -143,10 +143,11 @@ public final class IndexRegistry {
 	private final BlockingWrapper<Searcher> searcher = new BlockingWrapper<Searcher>();
 
 	static {
-		MyStaticValue.ENV.put("dic","lang/ansj/default.dic");
-		MyStaticValue.ENV.put("ambiguity","lang/ansj/ambiguity.dic");
-		MyStaticValue.ENV.put("stop", "lang/ansj/stop.dic");
-		MyStaticValue.ENV.put("synonyms", "lang/ansj/synonyms.dic");
+		File ansjDir = new File(AppUtil.getLangDir(), "ansj");
+		MyStaticValue.ENV.put("dic", new File(ansjDir, "default.dic").getPath());
+		MyStaticValue.ENV.put("ambiguity", new File(ansjDir, "ambiguity.dic").getPath());
+		MyStaticValue.ENV.put("stop", new File(ansjDir, "stop.dic").getPath());
+		MyStaticValue.ENV.put("synonyms", new File(ansjDir, "synonyms.dic").getPath());
 	}
 
 	@NotNull

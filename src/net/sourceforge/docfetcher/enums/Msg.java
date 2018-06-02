@@ -770,15 +770,7 @@ public enum Msg {
 	
 	public static void loadFromDisk() {
 		try {
-			final File langDir;
-			if (SystemConf.Bool.IsDevelopmentVersion.get()) {
-				langDir = new File("dist/lang");
-			} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
-				langDir = new File("../Resources/lang");
-			} else {
-				langDir = new File("lang");
-			}
-			ClassPathHack.addFile(langDir);
+			ClassPathHack.addFile(AppUtil.getLangDir());
 			
 			/*
 			 * Notes: (1) The translated strings must be trimmed, because
