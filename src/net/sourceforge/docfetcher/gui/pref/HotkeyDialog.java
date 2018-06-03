@@ -43,7 +43,7 @@ final class HotkeyDialog {
 	
 	private final Shell shell;
 	private final Text hotkeyBox;
-	private final int[] initialHotkey = SettingsConf.IntArray.HotkeyToFront.get();
+	private final int[] initialHotkey = SettingsConf.IntArray.Hotkey.get();
 	@NotNull private int[] hotkey = initialHotkey;
 	
 	public HotkeyDialog(@NotNull Shell parentShell) {
@@ -101,7 +101,7 @@ final class HotkeyDialog {
 		
 		restoreBt.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				hotkey = SettingsConf.IntArray.HotkeyToFront.defaultValue;
+				hotkey = SettingsConf.IntArray.Hotkey.defaultValue;
 				hotkeyBox.setText(UtilGui.toString(hotkey));
 			}
 		});
@@ -112,7 +112,7 @@ final class HotkeyDialog {
 				 * Don't call shell.close() here, we don't want to reset the
 				 * hotkey.
 				 */
-				SettingsConf.IntArray.HotkeyToFront.set(hotkey);
+				SettingsConf.IntArray.Hotkey.set(hotkey);
 				shell.dispose();
 			}
 		});

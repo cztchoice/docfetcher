@@ -197,7 +197,7 @@ public final class SettingsConf {
 	@Description("# Comma-separated lists of integers.")
 	public static enum IntArray implements Storable {
 		PreviewHighlighting (255, 255, 0),
-		HotkeyToFront (SWT.CTRL, SWT.F8),
+		Hotkey (SWT.CTRL, SWT.F8),
 
 		FilterSash (1, 1),
 		RightSashHorizontal (1, 1),

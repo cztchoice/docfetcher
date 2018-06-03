@@ -37,7 +37,7 @@ final class HotkeyOption extends PrefOption {
 		st = PrefDialog.createLabeledStyledLabel(parent, labelText);
 		st.setCursor(st.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 
-		hotkey = SettingsConf.IntArray.HotkeyToFront.get();
+		hotkey = SettingsConf.IntArray.Hotkey.get();
 		st.setText(UtilGui.toString(hotkey));
 
 		st.addMouseListener(new MouseAdapter() {
@@ -50,12 +50,12 @@ final class HotkeyOption extends PrefOption {
 	}
 
 	protected void restoreDefault() {
-		hotkey = SettingsConf.IntArray.HotkeyToFront.defaultValue;
+		hotkey = SettingsConf.IntArray.Hotkey.defaultValue;
 		st.setText(UtilGui.toString(hotkey));
 	}
 
 	protected void save() {
-		SettingsConf.IntArray.HotkeyToFront.set(hotkey);
+		SettingsConf.IntArray.Hotkey.set(hotkey);
 	}
 	
 }

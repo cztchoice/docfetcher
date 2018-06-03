@@ -26,6 +26,32 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.lucene.index.MergePolicy;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
+import com.google.common.collect.Iterables;
+import com.google.common.io.Closeables;
+import com.google.common.io.Files;
+import com.google.common.io.Resources;
+
 import net.sourceforge.docfetcher.Main;
 import net.sourceforge.docfetcher.Py4jHandler;
 import net.sourceforge.docfetcher.enums.Img;
@@ -73,32 +99,6 @@ import net.sourceforge.docfetcher.util.gui.LazyImageCache;
 import net.sourceforge.docfetcher.util.gui.dialog.InfoDialog;
 import net.sourceforge.docfetcher.util.gui.dialog.ListConfirmDialog;
 import net.sourceforge.docfetcher.util.gui.dialog.MultipleChoiceDialog;
-
-import org.apache.lucene.index.MergePolicy;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Throwables;
-import com.google.common.collect.Iterables;
-import com.google.common.io.Closeables;
-import com.google.common.io.Files;
-import com.google.common.io.Resources;
 
 public final class Application {
 
@@ -1181,16 +1181,16 @@ public final class Application {
 				SettingsConf.StrList.SearchHistory.set();
 
 			/*
-			 * Note: The getSearcher() call below will block until the searcher is
-			 * available. If we run this inside the GUI thread, we won't let go of
-			 * the GUI lock, causing the program to deadlock when the user tries to
-			 * close the program before all indexes have been loaded.
+			 * Note: The getSearcher() call below will block until the searcher
+			 * is available. If we run this inside the GUI thread, we won't let
+			 * go of the GUI lock, causing the program to deadlock when the user
+			 * tries to close the program before all indexes have been loaded.
 			 */
 			new Thread() {
 				public void run() {
 					/*
-					 * The folder watcher will be null if the program is shut down
-					 * while loading the indexes
+					 * The folder watcher will be null if the program is shut
+					 * down while loading the indexes
 					 */
 					if (folderWatcher != null)
 						folderWatcher.shutdown();
@@ -1216,61 +1216,91 @@ public final class Application {
 		saveSettingsConfFile();
 		
 		try {
-		
 			try {
 				hotkeyHandler = new HotkeyHandler();
 			}
 			catch (UnsupportedOperationException e) {
-				return;
+				return; // Hotkey not supported on OS X
 			}
 			catch (Throwable e) {
 				Util.printErr(e);
 				return;
 			}
-	
-			hotkeyHandler.evtHotkeyPressed.add(new Event.Listener<Void> () {
-				public void update(Void eventData) {
-					Util.runSyncExec(shell, new Runnable() {
-						public void run() {
-							if (systemTrayHider.isHidden()) {
-								systemTrayHider.restore();
-							}
-							else {
-								shell.setMinimized(false);
-								shell.setVisible(true);
-								shell.forceActive();
-								searchBar.setFocus();
-							}
-						}
-					});
+			
+			if (wasHotkeyEnabled) {
+				int[] hotkey = SettingsConf.IntArray.Hotkey.get();
+				boolean success = hotkeyHandler.registerHotkey(hotkey[0], hotkey[1]);
+				if (!success) {
+					handleHotkeyConflict(hotkey);
 				}
-			});
-			hotkeyHandler.evtHotkeyConflict.add(new Event.Listener<int[]> () {
-				public void update(int[] eventData) {
-					String key = UtilGui.toString(eventData);
-					AppUtil.showError(Msg.hotkey_in_use.format(key), false, true);
-	
-					/*
-					 * Don't open preferences dialog when the hotkey conflict occurs
-					 * at startup.
-					 */
-					if (shell.isVisible()) {
-						PrefDialog prefDialog = new PrefDialog(shell, programConfFile);
-						prefDialog.evtOKClicked.add(new Event.Listener<Void> () {
-						    public void update(Void eventData) {
-						    	saveSettingsConfFile();
-						    }
-						});
-						prefDialog.open();
-					}
-				}
-			});
-			hotkeyHandler.registerHotkey();
-		
+			}
 		}
 		finally {
 			SettingsConf.Bool.HotkeyEnabled.set(wasHotkeyEnabled);
 			saveSettingsConfFile();
+		}
+		
+		SettingsConf.IntArray.Hotkey.evtChanged.add(new Event.Listener<int[]>() {
+			public void update(int[] eventData) {
+				hotkeyHandler.unregisterHotkey();
+				
+				if (SettingsConf.Bool.HotkeyEnabled.get()) {
+					boolean success = hotkeyHandler.registerHotkey(eventData[0], eventData[1]);
+					if (!success) {
+						handleHotkeyConflict(eventData);
+					}
+				}
+			}
+		});
+		
+		SettingsConf.Bool.HotkeyEnabled.evtChanged.add(new Event.Listener<Boolean> () {
+			public void update(Boolean eventData) {
+				if (eventData) {
+					// Ignore hotkey conflict
+					int[] hotkey = SettingsConf.IntArray.Hotkey.get();
+					hotkeyHandler.registerHotkey(hotkey[0], hotkey[1]);
+				}
+				else {
+					hotkeyHandler.unregisterHotkey();
+				}
+			}
+		});
+
+		hotkeyHandler.evtHotkeyPressed.add(new Event.Listener<Void> () {
+			public void update(Void eventData) {
+				Util.runSyncExec(shell, new Runnable() {
+					public void run() {
+						if (systemTrayHider.isHidden()) {
+							systemTrayHider.restore();
+						}
+						else {
+							shell.setMinimized(false);
+							shell.setVisible(true);
+							shell.forceActive();
+							searchBar.setFocus();
+						}
+					}
+				});
+			}
+		});
+	}
+	
+	private static void handleHotkeyConflict(int[] hotkey) {
+		String key = UtilGui.toString(hotkey);
+		AppUtil.showError(Msg.hotkey_in_use.format(key), false, true);
+
+		/*
+		 * Don't open preferences dialog when the hotkey conflict occurs
+		 * at startup.
+		 */
+		if (shell.isVisible()) {
+			PrefDialog prefDialog = new PrefDialog(shell, programConfFile);
+			prefDialog.evtOKClicked.add(new Event.Listener<Void> () {
+			    public void update(Void eventData) {
+			    	saveSettingsConfFile();
+			    }
+			});
+			prefDialog.open();
 		}
 	}
 

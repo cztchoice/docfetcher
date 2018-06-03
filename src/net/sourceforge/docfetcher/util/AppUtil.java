@@ -297,9 +297,9 @@ public final class AppUtil {
 	
 	public static void sendHotkeyToFront() {
 		try {
-			int one = SettingsConf.IntArray.HotkeyToFront.get()[0];
+			int one = SettingsConf.IntArray.Hotkey.get()[0];
 			one = KeyCodeTranslator.translateSWTKey(one);
-			int two = SettingsConf.IntArray.HotkeyToFront.get()[1];
+			int two = SettingsConf.IntArray.Hotkey.get()[1];
 			two = KeyCodeTranslator.translateSWTKey(two);
 			Robot robot = new Robot();
 			robot.keyPress(one);
