@@ -73,6 +73,7 @@ public final class SettingsConf {
 		UseOrOperator (true),
 		HideOnOpen (false), // Default must be 'false' since system tray not supported on Ubuntu Unity
 		ClearSearchHistoryOnExit (false),
+		UseTypeAheadSearch (true),
 		ResetLocationFilterOnExit (true),
 		HotkeyEnabled (true),
 
@@ -128,6 +129,7 @@ public final class SettingsConf {
 	@Description("# Integer entries.")
 	public static enum Int implements Storable {
 		FilterPanelWidth (250),
+		LuceneAnalyzer (getDefaultAnalyzer()),
 		;
 
 		public final Event<Integer> evtChanged = new Event<Integer> ();
@@ -150,6 +152,14 @@ public final class SettingsConf {
 		}
 		public String valueToString() {
 			return Integer.toString(value);
+		}
+		private static int getDefaultAnalyzer() {
+			/* Use Chinese analyzer if the language is set to Chinese. */
+			String lang = System.getProperty("user.language");
+			if (lang.startsWith("zh")) {
+				return 2;
+			}
+			return 0;
 		}
 	}
 

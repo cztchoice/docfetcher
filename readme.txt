@@ -18,6 +18,7 @@
 		-Djava.library.path="lib/jnotify"
 		-XstartOnFirstThread
 - Optional VM argument: -enableassertions
+- In the Run configuration, add the folder "dist/lang" to the classpath.
 
 
 #===========================================================

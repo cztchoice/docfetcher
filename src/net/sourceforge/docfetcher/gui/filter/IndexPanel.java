@@ -321,11 +321,11 @@ public final class IndexPanel {
 				return viewer.getSelection().size() == 1 && isOnlyIndexesSelected();
 			}
 			
-			public void run() { 
+			public void run() {
 				List<LuceneIndex> sel = getSelectedIndexes();
 				LuceneIndex index = sel.get(0);
-				TextInputDialog dlg = new TextInputDialog(tree.getShell(), 
-												  Msg.rename_index_title.get(), 
+				TextInputDialog dlg = new TextInputDialog(tree.getShell(),
+												  Msg.rename_index_title.get(),
 												  Msg.rename_index_msg.get(),
 												  index.getRootFolder().getDisplayName());
 				

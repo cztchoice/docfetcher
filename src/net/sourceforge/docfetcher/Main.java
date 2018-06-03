@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.ClassPathHack;
 import net.sourceforge.docfetcher.util.SwtJarLocator;
 
@@ -29,7 +30,7 @@ import com.google.common.base.Joiner;
  * @author Tran Nam Quang
  */
 public final class Main {
-	
+
 	private Main() {
 	}
 
@@ -55,7 +56,7 @@ public final class Main {
 			jarPaths.add(SwtJarLocator.getFile().getPath());
 			
 			// Add language files to the classpath
-			File langDir = new File("dist/lang"); // running inside the IDE
+			File langDir = new File("dist/lang"); // running inside the IDE?
 			if (langDir.isDirectory()) {
 				jarPaths.add(langDir.getPath());
 			}
@@ -110,6 +111,8 @@ public final class Main {
 		}
 		else {
 			ClassPathHack.addFile(SwtJarLocator.getFile());
+			ClassPathHack.addFile(AppUtil.getLangDir());
+			
 			String appClassName = "net.sourceforge.docfetcher.gui.Application";
 			Class<?> appClass = Class.forName(appClassName);
 			Class<?>[] paramTypes = new Class<?>[] {String[].class};
@@ -118,7 +121,7 @@ public final class Main {
 		}
 	}
 	
-	public static boolean isJava9OrLater() {
+	private static boolean isJava9OrLater() {
 		/*
 		 * Java 9 and later are numbered 9, 10, etc., whereas earlier versions
 		 * started with "1.", e.g. 1.5, 1.6, 1.7, etc.

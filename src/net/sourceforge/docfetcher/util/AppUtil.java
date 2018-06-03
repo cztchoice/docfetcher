@@ -23,6 +23,7 @@ import java.util.Date;
 
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
+import net.sourceforge.docfetcher.enums.SystemConf;
 import net.sourceforge.docfetcher.gui.KeyCodeTranslator;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -650,6 +651,16 @@ public final class AppUtil {
 		if (Util.IS_MAC_OS_X && !Const.IS_PORTABLE.asBoolean())
 			return "../Resources/img";
 		return "img";
+	}
+	
+	@NotNull
+	public static File getLangDir() {
+		if (SystemConf.Bool.IsDevelopmentVersion.get()) {
+			return new File("dist/lang");
+		} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
+			return new File("../Resources/lang");
+		}
+		return new File("lang");
 	}
 
 }

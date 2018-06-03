@@ -48,6 +48,7 @@ public final class SearchBar {
 	private static final int SPACING = 1;
 
 	public final Event<String> evtSearch = new Event<String>();
+	public final Event<String> evtSearchTypeAhead = new Event<String>();
 	public final Event<Void> evtHideInSystemTray = new Event<Void>();
 	public final Event<Void> evtOpenManual = new Event<Void>();
 	public final Event<Void> evtOKClicked = new Event<Void> ();
@@ -71,8 +72,14 @@ public final class SearchBar {
 		searchBox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				String query = searchBox.getText().trim();
-				if (!query.isEmpty() && Util.isEnterKey(e.keyCode))
-					evtSearch.fire(query);
+				if(!query.isEmpty()){
+					if (Util.isEnterKey(e.keyCode))
+						evtSearch.fire(query);
+					else if(SettingsConf.Bool.UseTypeAheadSearch.get() &&
+							!Util.isSpecialStateMask(e.stateMask) &&
+							Util.isTypeAheadAccept(e.character))
+						evtSearchTypeAhead.fire(query);
+				}
 			}
 		});
 

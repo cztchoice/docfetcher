@@ -11,13 +11,9 @@
 
 package net.sourceforge.docfetcher.enums;
 
-import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
-import net.sourceforge.docfetcher.Main;
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.ClassPathHack;
 import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
@@ -632,6 +628,23 @@ public enum Msg {
 		"Clear search history on exit",
 		Comments.prefOption + "Whether the search history (i.e. the list of " +
 		"recently entered queries) should be cleared when the program exits."),
+	pref_use_type_ahead_search (
+        "Use type-ahead search",
+        Comments.prefOption + "Whether the program should carry out a search " +
+        "while the user is typing in the search bar."),
+	pref_word_segmentation (
+		"Word segmentation:",
+		Comments.prefOption + "The word segmentation algorithm to use during " +
+		"indexing."),
+	pref_word_seg_standard (
+		"Standard",
+		Comments.prefOption + "Word segmentation option."),
+	pref_word_seg_source_code (
+		"Source Code",
+		Comments.prefOption + "Word segmentation option."),
+	pref_word_seg_chinese (
+		"Chinese",
+		Comments.prefOption + "Word segmentation option."),
 	pref_highlight_color (
 		"Highlight color:",
 		Comments.prefOption + "The color to use for highlighting matches in " +
@@ -657,6 +670,11 @@ public enum Msg {
 	advanced_settings_link (
 		"Advanced Settings",
 		"Hyperlink on preferences dialog to configuration file containing advanced settings."),
+	rebuild_indexes(
+		"Changing the word segmentation algorithm won't take effect until all "
+		+ "existing indexes are rebuilt.",
+		"A message that will displayed after changing the word segmentation "
+		+ "algorithm on the preferences dialog."),
 	
 	// Hotkeys
 	f1 ("F1"),
@@ -749,24 +767,6 @@ public enum Msg {
 	
 	public static void loadFromDisk() {
 		try {
-			/*
-			 * In Java 8 and earlier, we can use the classpath hack to add the
-			 * language files to the classpath. In Java 9 and later, the
-			 * language files are added to the classpath at the beginning of the
-			 * main method.
-			 */
-			if (!Main.isJava9OrLater()) {
-				final File langDir;
-				if (SystemConf.Bool.IsDevelopmentVersion.get()) {
-					langDir = new File("dist/lang");
-				} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
-					langDir = new File("../Resources/lang");
-				} else {
-					langDir = new File("lang");
-				}
-				ClassPathHack.addFile(langDir);
-			}
-			
 			/*
 			 * Notes: (1) The translated strings must be trimmed, because
 			 * translators sometimes accidentally add newlines. (2) Replacing

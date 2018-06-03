@@ -154,6 +154,10 @@ public final class BuildMain {
 
 	// Must be run before updating the version numbers in the manual pages
 	private static void rebuildManuals() throws Exception {
+		File helpDir = new File("dist/help/");
+		if (helpDir.isDirectory())
+			Util.deleteContents(helpDir);
+		
 		for (File dir : Util.listFiles(new File(Manual.manDir))) {
 			if (!dir.isDirectory() || dir.getName().equals("all"))
 				continue;
@@ -253,7 +257,13 @@ public final class BuildMain {
 
 		U.copyTextFile(
 			"dist/Readme.txt", releaseDir + "/Readme.txt", LineSep.WINDOWS);
-
+		
+		// Scripting support
+		U.copyDir("dist/py4j", releaseDir + "/py4j");
+		U.copyTextFile(
+			"dist/search.py", releaseDir + "/search.py", LineSep.WINDOWS);
+		makeExecutable("Cannot make search.py executable.", releaseDir + "/search.py");
+		
 		// Wrap the portable build in a zip archive for deployment
 		if (Util.IS_LINUX || Util.IS_MAC_OS_X) {
 			String cmd = "zip -r -q %s-%s-portable.zip %s-%s";
@@ -328,7 +338,13 @@ public final class BuildMain {
 		
 		U.copyBinaryFile("build/tmp/licenses.zip", resourcesDir
 				+ "/misc/licenses.zip");
-
+		
+		// Scripting support
+		U.copyDir("dist/py4j", resourcesDir + "/py4j");
+		U.copyTextFile(
+			"dist/search.py", resourcesDir + "/search.py", LineSep.WINDOWS);
+		makeExecutable("Cannot make search.py executable.", resourcesDir + "/search.py");
+		
 		if (Util.IS_MAC_OS_X) {
 			String dmgPath = U.format("build/%s-%s.dmg", appName, version);
 			U.exec("hdiutil create -srcfolder %s %s", appDir, dmgPath);
