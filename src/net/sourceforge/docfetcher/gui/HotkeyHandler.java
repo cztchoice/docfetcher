@@ -32,28 +32,44 @@ public final class HotkeyHandler {
 	
 	public final Event<Void> evtHotkeyPressed = new Event<Void> ();
 	
-	private final HotkeyListenerImpl implementation;
+	private final HotkeyListenerImpl impl;
+	
+	/*
+	 * On Windows with Java 9 and later, registering the hotkey, unregistering
+	 * the hotkey and shutting down the hotkey implementation crash the VM.
+	 * We'll use this flag to avoid crashing when the unregister and shutdown
+	 * methods are called.
+	 */
+	private volatile boolean wasRegistered = false;
 	
 	public HotkeyHandler() {
 		if (Util.IS_WINDOWS)
-			implementation = new HotkeyListenerWindowsImpl(this);
+			impl = new HotkeyListenerWindowsImpl();
 		else if (Util.IS_LINUX)
-			implementation = new HotkeyListenerLinuxImpl(this);
+			impl = new HotkeyListenerLinuxImpl();
 		else
 			throw new UnsupportedOperationException();
 	}
 	
 	public boolean registerHotkey(int mask, int key) {
-		return implementation.registerHotkey(HOTKEY_ID, mask, key);
+		if (!wasRegistered) {
+			impl.init(this);
+			wasRegistered = true;
+		}
+		return impl.registerHotkey(HOTKEY_ID, mask, key);
 	}
 	
 	public void unregisterHotkey() {
-		implementation.unregisterHotkey(HOTKEY_ID);
+		if (wasRegistered) {
+			impl.unregisterHotkey(HOTKEY_ID);
+		}
 	}
 	
 	public void shutdown() {
-		implementation.unregisterHotkey(HOTKEY_ID);
-		implementation.shutdown();
+		if (wasRegistered) {
+			impl.unregisterHotkey(HOTKEY_ID);
+			impl.shutdown();
+		}
 	}
 
 	void onHotKey(int hotkey_id) {
@@ -65,13 +81,14 @@ public final class HotkeyHandler {
 }
 
 interface HotkeyListenerImpl {
+	public void init(HotkeyHandler handler);
 	public boolean registerHotkey(int id, int mask, int key);
 	public void unregisterHotkey(int id);
 	public void shutdown();
 }
 
 final class HotkeyListenerWindowsImpl implements HotkeyListenerImpl {
-	public HotkeyListenerWindowsImpl(final HotkeyHandler listener) {
+	public void init(final HotkeyHandler listener) {
 		boolean isDev = SystemConf.Bool.IsDevelopmentVersion.get();
 		int arch = Util.IS_64_BIT_JVM ? 64 : 32;
 		
@@ -123,7 +140,7 @@ final class HotkeyListenerWindowsImpl implements HotkeyListenerImpl {
 }
 
 final class HotkeyListenerLinuxImpl implements HotkeyListenerImpl {
-	public HotkeyListenerLinuxImpl(final HotkeyHandler listener) {
+	public void init(final HotkeyHandler listener) {
 		boolean isDev = SystemConf.Bool.IsDevelopmentVersion.get();
 		int arch = Util.IS_64_BIT_JVM ? 64 : 32;
 		
