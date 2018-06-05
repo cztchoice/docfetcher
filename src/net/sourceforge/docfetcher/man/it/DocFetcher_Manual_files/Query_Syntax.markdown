@@ -20,7 +20,7 @@ Interrogazione | I documenti risultanti contengono…
 
 Ricerca indipendente dall'uso delle maiuscole o delle minuscole
 -----------------------------
-DocFetcher non distingue fra caratteri maiuscoli e minuscoli, pertanto non ha importanza se le parole da ricercare sono scritte tutte in minuscolo o tutte in maiuscolo o se sono una mescolanza. Le sole eccezioni sono le parole-chiave `OR`, `AND`, `NOT` e `TO` che debbono essere sempre inserite in MAIUSCOLO. Nota: per quanto riguarda la parola-chiave `TO` si veda la sezione sottostante "Ambito di ricerca".`
+DocFetcher non distingue fra caratteri maiuscoli e minuscoli, pertanto non ha importanza se le parole da ricercare sono scritte tutte in minuscolo o tutte in maiuscolo o se ne sono una mescolanza. Le sole eccezioni sono le parole-chiave `OR`, `AND`, `NOT` e `TO` che debbono essere sempre inserite in MAIUSCOLO. Nota: per quanto riguarda la parola-chiave `TO` si veda la sottostante sezione "Ambito di ricerca".`
 
 
 Ricerca di frasi e di termini specifici
@@ -71,7 +71,7 @@ Ricerca in campi specifici
 --------------
 DocFetcher, in modalità predefinita, ricerca tutti i dati testuali che è in grado di estrarre, cioè il contenuto, il nome del file e i metadati di ciascun documento. È anche possibile restringere le ricerche al solo nome del file e/o a certi campi di metadati. Per esempio, per cercare i documenti i cui titoli contengono il termine `wikipedia`, bisogna scrivere: `title:wikipedia`. La ricerca in campi specifici può essere combinata con la ricerca di frasi, per esempio: `title:"cane gatto"` o con l'uso di parentesi, per esempio: `title:(cane gatto)`. Se infatti si omettono le doppie virgolette e le parentesi solo il termine `cane` verrà confrontato con il contenuto del titolo e non il termine `gatto`.
 
-Quali siano i campi disponibili dipende generalmente dal formato del documento. In ogni caso si possono seguire queste linee-guida:
+Quali siano i campi specifici disponibili dipende generalmente dal formato del documento. In ogni caso si possono seguire queste linee-guida:
 
 <!-- Do not translate the following field names (filename, title, etc.) -->
 * *File*: filename, title, author
