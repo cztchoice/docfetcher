@@ -1,4 +1,4 @@
-L'idea di base: una coda di attività di indicizzazione
+L'idea di fondo: una coda di attività di indicizzazione
 =====================================
 La finestra di configurazione dell'indicizzazione è costituita di una o più schede, ciascuna delle quali rappresenta un indice da creare o da aggiornare. Tutte le schede assieme costituiscono la *coda di attività* che deve essere eseguita, le cui voci vengono processate una ad una. A questa coda è possibile aggiungere ulteriori attività utilizzando il pulsante `'+'` posto in alto a destra.
 
