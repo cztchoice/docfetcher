@@ -3,7 +3,7 @@ Beschreibung
 DocFetcher ist ein Open Source Desktop-Suchprogramm: Es ermöglicht die Volltext-Suche in Dateien auf dem Computer &mdash; eine Art Google für den Heimrechner. Das Programm läuft auf Windows, Linux und OS&nbsp;X, und ist verfügbar unter der [Eclipse Public License](https://en.wikipedia.org/wiki/Eclipse_Public_License).
 
 Grundlegende Benutzung
-======================
+============
 Der folgende Screenshot zeigt das Programm-Hauptfenster. Suchanfragen werden in das Textfeld bei (1) eingegeben. Die Suchergebnisse werden dann in der Ergebnis-Tabelle bei (2) angezeigt. Das Vorschau-Fenster bei (3) zeigt eine Text-Vorschau derjenigen Datei, die gegenwärtig in der Ergebnis-Tabelle selektiert ist. Alle Fundstellen in der Datei sind gelb hervorgehoben.
 
 Sie können die Ergebnisse filtern nach Mindest- und/oder Maximal-Dateigröße (4), nach Datei-Typ (5) und nach Ort (6). Mit den Buttons bei (7) werden das Benutzer-Handbuch geöffnet, das Einstellungs-Fenster geöffnet, sowie das Programm in den System Tray minimiert.
@@ -40,13 +40,13 @@ Unterstützte Datei-Formate
 * Portable Document Format (pdf)
 * EPUB (epub)
 * HTML (html, xhtml, ...)
-* Textdateien (anpassbar)
+* TXT und andere Textdatei-Formate (anpassbar)
 * Rich Text Format (rtf)
 * AbiWord (abw, abw.gz, zabw)
 * Microsoft Compiled HTML Help (chm)
-* MP3 Metadaten (mp3)
-* FLAC Metadaten (flac)
-* JPEG Exif Metadaten (jpg, jpeg)
+* MP3-Metadaten (mp3)
+* FLAC-Metadaten (flac)
+* JPEG-Exif-Metadaten (jpg, jpeg)
 * Microsoft Visio (vsd)
 * Scalable Vector Graphics (svg)
 
@@ -84,4 +84,4 @@ Dieser Abschnitt gibt eine kleine Einführung darüber, was Indizierung ist und 
 
 **Telefonbuch-Analogie**: Als anschauliche Analogie möge man sich vergegenwärtigen, dass es wesentlich effizienter ist, die Telefonnummer einer bestimmten Person in einem Telefonbuch (dem "Index") nachzuschlagen, anstatt *jede* mögliche Telefonnummer auszuprobieren, nur um jeweils herauszufinden, ob die Person am anderen Ende der Leitung diejenige ist, nach der man sucht. &mdash; Jemanden über das Telefon anzurufen und die Text-Extraktion aus einer Datei sind beide "teure" Operationen. Außerdem ist der Fakt, dass Leute ihre Telefonnummern selten ändern, analog zu dem Fakt, dass die meisten Dateien auf einem Computer sehr selten, wenn überhaupt, modifiziert werden.
 
-**Index-Aktualisierung**: Offenbar reflektiert ein Index nur den Zustand der indizierten Dateien zu dem Zeitpunkt, zu dem der Index erstellt wurde, und nicht zwangsläufig den aktuellen Zustand der Dateien. Das bedeutet, dass wenn der Index nicht auf dem neuesten Stand ist, die Suchergebnisse veraltet sein könnten, in derselben Weise wie auch Einträge in einem Telefonbuch veraltet sein könnten. Jedoch sollte dies kein großes Problem darstellen, wenn sich die Dateien selten ändern. Außerdem ist DocFetcher in der Lage, *automatisch* seine Indizes zu aktualisieren: (1) Während das Programm läuft, kann es Datei-Modifikationen detektieren und die Indizes entsprechend aktualisieren. (2) Wenn das Programm nicht läuft, detektiert ein kleines Daemon-Programm im Hintergrund Datei-Modifikationen und führt eine Liste von Indizes, die beim nächsten Ausführen von DocFetcher aktualisiert werden müssen. Übrigens gibt es keinen guten Grund, sich über den Daemon zu sorgen: Er beansprucht kaum Rechenzeit und Arbeitsspeicher, da er nichts anderes tut, als eine Liste von zu aktualisierenden Indizes zu verwalten, und die teureren Index-Aktualisierungen DocFetcher überlässt.
+**Index-Aktualisierung**: Offenbar reflektiert ein Index nur den Zustand der indizierten Dateien zu dem Zeitpunkt, zu dem der Index erstellt wurde, und nicht zwangsläufig den aktuellen Zustand der Dateien. Das bedeutet, dass wenn der Index nicht auf dem neuesten Stand ist, die Suchergebnisse veraltet sein könnten, in derselben Weise wie auch Einträge in einem Telefonbuch veraltet sein könnten. Jedoch sollte dies kein großes Problem darstellen, wenn sich die Dateien selten ändern. Außerdem ist DocFetcher in der Lage, *automatisch* seine Indizes zu aktualisieren: (1) Während das Programm läuft, kann es Datei-Modifikationen detektieren und die Indizes entsprechend aktualisieren. (2) Wenn das Programm nicht läuft, detektiert ein kleines Daemon-Programm im Hintergrund Datei-Modifikationen und hält eine Liste von Indizes, die beim nächsten Ausführen von DocFetcher aktualisiert werden müssen. Übrigens gibt es keinen guten Grund, sich über den Daemon zu sorgen: Es beansprucht kaum Rechenzeit und Arbeitsspeicher, da es nichts anderes tut, als eine Liste von zu aktualisierenden Indizes zu verwalten, und die teureren Index-Aktualisierungen DocFetcher überlässt.

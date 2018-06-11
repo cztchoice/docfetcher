@@ -671,7 +671,7 @@ public enum Msg {
 		"Advanced Settings",
 		"Hyperlink on preferences dialog to configuration file containing advanced settings."),
 	rebuild_indexes(
-		"Changing the word segmentation algorithm won't take effect until all "
+		"Changing the word segmentation algorithm won't take full effect until all "
 		+ "existing indexes are rebuilt.",
 		"A message that will displayed after changing the word segmentation "
 		+ "algorithm on the preferences dialog."),
