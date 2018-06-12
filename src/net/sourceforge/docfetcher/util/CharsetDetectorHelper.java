@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.Properties;
 
@@ -92,9 +93,18 @@ public final class CharsetDetectorHelper {
 		String charsetName = charsetDetector.getDetectedCharset();
 		charsetDetector.reset();
 		
-		String contents = charsetName == null ? new String(
-			bytes, Charsets.ISO_8859_1) : new String(bytes, charsetName);
-		return contents;
+		try {
+			return charsetName == null
+				? new String(bytes, Charsets.ISO_8859_1)
+				: new String(bytes, charsetName);
+		}
+		catch (UnsupportedEncodingException e) {
+			/*
+			 * Bug #1410: DocFetcher fails to parse text files with HZ-GB-2312
+			 * encoding, since the latter is not supported by the JRE.
+			 */
+			return new String(bytes, Charsets.ISO_8859_1);
+		}
 	}
 
 }
