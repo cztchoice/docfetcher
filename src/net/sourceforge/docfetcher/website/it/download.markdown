@@ -1,6 +1,6 @@
 Java Runtime Environment
 ==================================
-È necessaria la presenza di Java Runtime Environment (JRE), versione 1.6.0 o superiori. Per sapere
+DocFetcher richiede Java Runtime Environment (JRE) in versione 1.6.0 o superiori. Per sapere
 di quale versione di JRE si dispone, aprire una finestra di comandi e digitare
 "java -version".
 
@@ -8,7 +8,7 @@ Se sul proprio sistema non si ha a disposizione Java 1.6.0 o superiori, lo si pu
 questi siti:
 
 * Windows: <http://java.com>
-* Linux: dal sito ufficiale che ospita il software della vostra distribuzione.
+* Linux: sito ufficiale che ospita il software della distribuzione utilizzata.
 * Mac OS&nbsp;X: <http://www.apple.com/support/>
 
 Ultima versione: DocFetcher ${version}
@@ -30,12 +30,12 @@ Tutti i download sottostanti girano su sistemi operativi sia a 32-bit, sia a 64-
 <td>Windows&nbsp;XP/Vista/7</td>
 </tr>
 <tr>
-<td align="left"><a href="http://sourceforge.net/projects/docfetcher/files/docfetcher/${version}/docfetcher-${version}-portable.zip/download">docfetcher-${version}-portable.zip</a> <br/> Questa è la versione portatile di DocFetcher che gira su tutti i sistemi operativi supportati. Per Installazione: scompattare l'archivio in una cartella a piacere, quindi eseguire DocFetcher utilizzando il rispettivo programma di avvio specifico per la propria piattaforma. Assicurarsi di avere i permessi di scrittura nella cartella di destinazione (per cui non conviene scompattare DocFetcher in una cartella quale "C:\Program&nbsp;Files").
+<td align="left"><a href="http://sourceforge.net/projects/docfetcher/files/docfetcher/${version}/docfetcher-${version}-portable.zip/download">docfetcher-${version}-portable.zip</a> <br/> Questa è la versione portatile di DocFetcher che gira su tutti i sistemi operativi supportati. Per l'installazione scompattare l'archivio in una cartella a piacere, quindi eseguire DocFetcher utilizzando il rispettivo programma di avvio specifico per la propria piattaforma. Assicurarsi di avere i permessi di scrittura nella cartella di destinazione (per cui non conviene scompattare DocFetcher in una cartella quale "C:\Program&nbsp;Files").
 </td>
 <td>Windows&nbsp;XP/Vista/7; Linux; Mac OS&nbsp;X 10.5 e superiori</td>
 </tr>
 <tr>
-<td align="left"><a href="http://sourceforge.net/projects/docfetcher/files/docfetcher/${version}/DocFetcher-${version}.dmg/download">DocFetcher-${version}.dmg</a> <br/> Avviare DocFetcher facendo doppio clic sulla *app* a corredo.</td>
+<td align="left"><a href="http://sourceforge.net/projects/docfetcher/files/docfetcher/${version}/DocFetcher-${version}.dmg/download">DocFetcher-${version}.dmg</a> <br/> Avviare DocFetcher facendo doppio clic sulla "app" a corredo.</td>
 <td>Mac OS&nbsp;X 10.5 e superiori</td>
 </tr>
 </table>

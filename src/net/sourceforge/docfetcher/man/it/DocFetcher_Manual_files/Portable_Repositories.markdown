@@ -7,7 +7,7 @@ Modalità d'uso semplice
 
 La versione portatile non richiede alcuna procedura di installazione; è sufficiente estrarre il contenuto dell'archivio zip in una cartella a scelta. Successivamente si può eseguire DocFetcher attraverso il programma eseguibile specifico per il proprio sistema operativo: `DocFetcher.exe` (Windows), `DocFetcher.sh` (Linux) o l'app `DocFetcher` (Mac OS&nbsp;X). Il solo requisito è che sul computer sul quale si esegue DocFetcher sia contestualmente installata la versione *runtime* di Java 1.6 (o superiori).
 
-<u>Percorsi (path) relativi</u>: un elemento importante cui prestare attenzione per creare una raccolta di documenti portatili è che gli indici debbono essere creati con l'opzione *Memorizzazione di percorsi relativi se possibile (favorisce la portatilità)* attivata. Senza di ciò, DocFetcher registrerà dei riferimenti *assoluti* ai file, per cui sarà sì possibile spostare in giro DocFetcher e i suoi indici, ma non i file &mdash; senza perderne, quanto meno, il riferimento. Ecco un esempio che illustra la differenza fra percorso relativo e assoluto:
+<u>Percorsi (path) relativi</u>: un elemento importante cui prestare attenzione per creare una raccolta di documenti portatili è che gli indici siano creati con l'opzione *Memorizzazione di percorsi relativi se possibile (favorisce la portatilità)* attivata. Senza di ciò, DocFetcher registrerà dei riferimenti *assoluti* ai file, per cui sarà sì possibile spostare in giro DocFetcher e i suoi indici, ma non i file &mdash; senza perderne, quanto meno, il riferimento. Ecco un esempio che illustra la differenza fra percorso relativo e assoluto:
 
 * Percorso relativo: `..\..\i-miei-file\qualche-documento.txt`
 * Percorso assoluto: `C:\i-miei-file\qualche-documento.txt`

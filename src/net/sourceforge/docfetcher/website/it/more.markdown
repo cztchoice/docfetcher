@@ -1,4 +1,4 @@
-Per ulteriori informazioni su DocFetcher, si consiglia di controllare il nostro [wiki](http://docfetcher.sourceforge.net/wiki/doku.php)
+Per ulteriori informazioni su DocFetcher, si consiglia di vedere il nostro [wiki](http://docfetcher.sourceforge.net/wiki/doku.php)
 
 Per qualsiasi richiesta si può inviare un messaggio al nostro [forum](http://sourceforge.net/projects/docfetcher/forums/forum/702424).
 
