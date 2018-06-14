@@ -73,7 +73,7 @@ public final class SettingsConf {
 		UseOrOperator (true),
 		HideOnOpen (false), // Default must be 'false' since system tray not supported on Ubuntu Unity
 		ClearSearchHistoryOnExit (false),
-		UseTypeAheadSearch (true),
+		UseTypeAheadSearch (false),
 		ResetLocationFilterOnExit (true),
 		HotkeyEnabled (true),
 
