@@ -1,22 +1,18 @@
 ; NSIS script for building the Windows installer
 ;
-; This must be run after running build.py, because it expects to find the
+; This script must be run after running build.py, because it expects to find the
 ; DocFetcher jar in the build folder.
 ;
 ; DEPENDENCIES
-; All dependencies of this script can be found in dev/nsis-dependencies. They
-; should be installed into the following locations (adjust paths as needed):
-; - Processes.dll -> C:\Program Files\NSIS\Plugins
-; - JREDyna_Inetc.nsh -> C:\Program Files\NSIS\Include
-; - Inetc.zip -> Extract contents into C:\Program Files\NSIS
-;
-; Where the above dependencies came from:
-; http://nsis.sourceforge.net/Processes_plug-in
-; http://nsis.sourceforge.net/Inetc_plug-in
-; http://nsis.sourceforge.net/Java_Runtime_Environment_Dynamic_Installer
-; In the JREDyna_Inetc.nsh file everything related to CUSTOM_PAGE_JREINFO was
-; deleted in order to work around compilation errors.
-
+; All dependencies of this script can be found in dev/nsis-dependencies, BUT
+; those files might be out of date, so try the latest versions of the
+; dependencies first. They can be found here:
+; - http://nsis.sourceforge.net/Inetc_plug-in
+; - http://nsis.sourceforge.net/Java_Runtime_Environment_Dynamic_Installer
+; - http://nsis.sourceforge.net/Processes_plug-in
+; In case of errors, try updating NSIS. Also, in the local JREDyna_Inetc.nsh
+; file everything related to CUSTOM_PAGE_JREINFO was deleted in order to work
+; around compilation errors which may or may not show up in your case.
 
 RequestExecutionLevel admin ; without this, the startmenu links won't be removed on Windows Vista/7
 SetCompress force
@@ -146,6 +142,7 @@ Section "DocFetcher"
 	SetOutPath $INSTDIR
 	File ${PORTABLE_PATH}\*.exe
 	File ${PORTABLE_PATH}\*.txt
+	File ${PORTABLE_PATH}\*.py
 
 	SetOutPath $INSTDIR\misc
 	File ${PORTABLE_PATH}\misc\*.bat
