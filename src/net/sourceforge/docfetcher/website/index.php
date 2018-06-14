@@ -1,9 +1,7 @@
 #!/usr/bin/php
 <?
 $sites = array(
-	"en" => "en/index.html",
-	"de" => "de/index.html",
-	"ru" => "ru/index.html"
+	${languages}
 );
 
 $langs = explode(",", $_SERVER['HTTP_ACCEPT_LANGUAGE']);

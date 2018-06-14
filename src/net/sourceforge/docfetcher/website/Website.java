@@ -14,7 +14,10 @@ package net.sourceforge.docfetcher.website;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 
 import net.sourceforge.docfetcher.UtilGlobal;
@@ -28,6 +31,7 @@ import org.pegdown.Extensions;
 import org.pegdown.PegDownProcessor;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
 import com.google.common.io.Closeables;
 import com.google.common.io.Files;
 
@@ -93,6 +97,24 @@ public final class Website {
 		File indexPhpFile = new File("dist/website/index.php");
 		Files.copy(new File(websiteDir, "index.php"), indexPhpFile);
 		Util.println("File written: " + indexPhpFile.getPath());
+		
+		// Add language-specific redirects to index.php file
+		String langTempl = "\"%s\" => \"%s/index.html\"";
+		List<String> langLines = new ArrayList<String> ();
+		File[] langDirs = Util.listFiles(websiteDir);
+		Arrays.sort(langDirs);
+		for (File langDir : langDirs) {
+			if (langDir.isDirectory()) {
+				if (new File(langDir, "index.markdown").isFile()) {
+					String key = langDir.getName();
+					langLines.add(String.format(langTempl, key, key));
+				}
+			}
+		}
+		String langStr = Joiner.on(",\n\t").join(langLines);
+		String contents = CharsetDetectorHelper.toString(indexPhpFile);
+		contents = contents.replace("${languages}", langStr);
+		Files.write(contents, indexPhpFile, Charsets.UTF_8);
 		
 		// Deploy help file for GUI translators
 		File propHelpSrc = new File(websiteDir, "prop-help-template.html");
