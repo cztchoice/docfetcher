@@ -21,7 +21,7 @@ version=`cat current-version.txt`
 
 du_output=`du -sk build/DocFetcher.app 2>&1`
 dir_size=`echo $du_output | cut -f1 -d" "`
-dir_size=`expr $dir_size + 1000`
+dir_size=`expr $dir_size + 2048`
 dmg_path=build/DocFetcher-$version.dmg
 
 rm -f $dmg_path
