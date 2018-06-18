@@ -1,5 +1,9 @@
 #!/usr/bin/php
 <?
+# Expected variable substitution:
+# "de" => "de/index.html",
+# "en" => "en/index.html",
+# ...
 $sites = array(
 	${languages}
 );
