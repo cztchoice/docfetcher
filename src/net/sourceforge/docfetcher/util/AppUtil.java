@@ -657,7 +657,11 @@ public final class AppUtil {
 	public static File getLangDir() {
 		if (SystemConf.Bool.IsDevelopmentVersion.get()) {
 			return new File("dist/lang");
-		} else if (Util.IS_MAC_OS_X && !AppUtil.isPortable()) {
+		} else if (Util.IS_MAC_OS_X && !SystemConf.Bool.IsPortable.get()) {
+			/*
+			 * Note: Can't use AppUtil.isPortable here because this method might
+			 * be called at a point where AppUtil hasn't been initialized yet.
+			 */
 			return new File("../Resources/lang");
 		}
 		return new File("lang");
