@@ -156,12 +156,12 @@ final class FileExtensionGroupWrapper {
 		
 		/*
 		 * Without this, a list containing an empty string would be returned,
-		 * which will crash TrueZIP.
+		 * which would crash TrueZIP.
 		 */
 		if (string.isEmpty())
 			return Collections.emptyList();
 		
-		return Arrays.asList(string.split("[^\\p{Alnum}]+"));
+		return Arrays.asList(string.split("\\s+"));
 	}
 
 }
