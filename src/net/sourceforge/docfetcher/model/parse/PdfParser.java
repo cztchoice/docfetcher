@@ -61,16 +61,23 @@ public final class PdfParser extends StreamParser {
 			catch (InvalidPasswordException e) {
 				throw new ParseException(Msg.doc_pw_protected.get());
 			}
+			catch (RuntimeException e) {
+				/*
+				 * Bug #1459 with PDFBox 2.0.9: PDFBox throws a
+				 * ClassCastException on some files.
+				 */
+				throw new ParseException(e);
+			}
 			
 			final int pageCount;
 			try {
 				pageCount = pdfDoc.getNumberOfPages();
 			}
-			catch (IllegalArgumentException e) {
+			catch (RuntimeException e) {
 				/*
-				 * Bug #1443 with PDFBox 2.0.9: PDFBox throws this exception
-				 * with a "root cannot be null" error message on malformed PDF
-				 * files.
+				 * Bug #1443 with PDFBox 2.0.9: PDFBox throws an
+				 * IllegalArgumentException with a "root cannot be null" error
+				 * message on malformed PDF files.
 				 */
 				throw new ParseException(e);
 			}
