@@ -55,7 +55,17 @@ public final class EpubParser extends FileParser {
 		ZipFile zipFile = null;
 		try {
 			// Get zip entries
-			zipFile = new ZipFile(file);
+			try {
+				zipFile = new ZipFile(file);
+			}
+			catch (RuntimeException e) {
+				/*
+				 * Bug #1463: Apparently, on Java 10, feeding a TFile into the
+				 * ZipFile constructor can cause an
+				 * UnsupportedOperationException.
+				 */
+				throw new ParseException(e);
+			}
 			Source containerSource = UtilParser.getSource(zipFile, "META-INF/container.xml"); //$NON-NLS-1$
 			Element rootfileEl = containerSource.getNextElement(0, "rootfile"); //$NON-NLS-1$
 			maybeThrow(rootfileEl, "No rootfile element in META-INF/container.xml");
