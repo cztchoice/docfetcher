@@ -1,3 +1,111 @@
+==== 2016-07-25 - DocFetcher 1.1.18 ====
+
+=== Features ===
+  * Indexes can now be named.
+  * Improved OpenOffice/LibreOffice indexing and text preview.
+  * Partial French translation of website.
+  * Partial Japanese translation of GUI and manual.
+
+=== Bugfixes ===
+  * IndexOutOfBoundsException crash on some MS Office files (bug #1200 and others).
+  * Fixed an indexing crash on Linux with GNOME 3 desktop.
+  * If an index was added while all existing indexes were unchecked, results from the new index weren't shown until the unchecked indexes were reselected or the program was restarted.
+  * The previous Linux launcher didn't work on some Linux distributions. Because of that, the Linux launcher was split into DocFetcher-GTK2.sh and DocFetcher-GTK3.sh. On some Linux distributions only the first one works, on some others only the second one works, so you may have to try both.
+  * Customizing the indexes path in the misc/paths.txt file didn't work in the non-portable version of DocFetcher.
+  * In the previous version, DocFetcher could fill the desktop with hundreds of crash windows. Now the number of simultaneously shown crash windows is limited to 5.
+
+=== Changes ===
+  * Increased the default width of the search field from 200 to 500 pixels. To set a different width, edit the Advanced Settings file.
+  * The tabs on the indexing dialog now have a different look.
+  * Reorganized the contents of the Advanced Settings file. (The change won't be visible if you install a new non-portable version over an existing non-portable version.)
+
+
+==== 2016-02-12 - DocFetcher 1.1.17 ====
+
+=== Features ===
+  * DocFetcher is now available as a PortableApps application (still in beta): http://portableapps.com/node/53747
+  * Improved CHM support: Better text extraction, pagination during indexing and in the preview pane, and it now also works on 64-bit Java and OS X.
+  * Improved MP3 support.
+
+=== Bugfixes ===
+  * Crash related to using relative paths in combination with network paths.
+  * Crash on certain MS Office files when using a Java runtime older than 1.6.0 Update 18.
+  * Crash during an index update caused by external changes to the index files.
+  * Indexing crash "Warning: Usage of a local non-builtin name" on older Excel files.
+  * Crash during indexing when trying to open files in the "Errors" table that were already deleted.
+  * Newly created folders sometimes did not show up in the Search Scope pane until the next program launch.
+  * When pressing Ctrl+A and Ctrl+C on the result pane, not all entries were copied.
+  * On some OS X machines, the DocFetcher process did not terminate after trying to close the program.
+
+=== Changes ===
+  * Raised the required minimum version for the Java runtime from 1.6 to 1.7 (necessary for the improved CHM and MP3 support).
+  * On OS X, DocFetcher can no longer be run with the Java runtime 1.6 provided by Apple. Use the latest Java runtime from Oracle instead: http://java.com
+  * Upgraded the parser libraries used for MS Office, RTF and HTML text extraction.
+
+
+==== 2015-09-06 - DocFetcher 1.1.16 ====
+
+=== Bugfixes ===
+  * AssertionError crash when trying to rebuild an index.
+  * AssertionError crash when text is being loaded in the preview pane.
+  * AssertionError crash during indexing when the user deletes a folder that is about to be indexed.
+  * NoSuchMethodError crash on MS Office files with Java versions older than 1.6.0 Update 18.
+  * AssertionError crash when deleting an index that is about to be automatically updated.
+
+
+==== 2015-08-27 - DocFetcher 1.1.15 ====
+
+=== Bugfixes ===
+  * Tentative bugfix for long-standing AssertionError crash during indexing.
+  * Fixed HTML encoding issues.
+  * Fixed EPUB encoding issues.
+  * Outlook PST file was not properly closed after indexing.
+  * Crash while indexing certain MS Office files.
+  * Reenabled GTK 2 fallback for all Linux distributions.
+
+=== Changes ===
+  * If a crash occurs during indexing, DocFetcher will now keep indexing and also tell which file caused the crash.
+
+
+==== 2015-02-17 - DocFetcher 1.1.14 ====
+
+=== Features ===
+  * Added GUI translations for Greek, Spanish, Hungarian and Dutch. Updated French GUI translation.
+
+=== Bugfixes ===
+  * Fixed EPUB issues.
+  * Bug #737: DocFetcher got stuck during indexing when trying to index a zip file containing entries with absolute paths. (TrueZIP 7.7.5 -> 7.7.7)
+  * Crash while indexing PDF files containing unsupported annotations.
+  * Installation of the Java runtime through DocFetcher's Windows installer was broken due to recent changes in the Java runtime installer.
+  * On Linux, the GTK 2 fallback is now only used on Ubuntu with Unity desktop due to problems on other distributions.
+
+
+==== 2015-01-15 - DocFetcher 1.1.13 ====
+
+=== Features ===
+  * Added extraction of PDF annotations.
+  * Selecting all results by pressing Ctrl+A.
+  * Advanced setting: Text encoding override.
+
+=== Bugfixes ===
+  * Workaround for bug #899 and numerous similar reports: MergePoliy.MergeException crash during indexing.
+  * Workaround for bug #874 and numerous similar reports: OutOfMemoryError crash during indexing.
+  * Workaround for bug #880 and numerous similar reports: NullPointerException crash during indexing.
+  * DocFetcher won't crash anymore when trying to load or save a folder tree that is too deep. Instead, only an error message will be shown.
+  * Fixed some JPEG-related crashes (metadata-extractor 2.6.4 -> 2.7.0).
+  * Fixed some MS-Office-related crashes (POI 3.10-FINAL -> 3.11).
+  * Bug #832: If index updates and deletions have been disabled in the advanced settings, pressing the F5 and Delete keys crashed the program.
+  * The DocFetcher.bat file can now be launched from a directory outside the program folder.
+  * Fixed slow loading and writing of indexes on network drives.
+  * Fixed certain crashes on encrypted PDF files (Bouncy Castle 1.47 -> 1.46).
+  * Fixed some PDF-related crashes (PDFBox 1.7.0 -> 1.8.7).
+
+=== Changes ===
+  * On Linux, DocFetcher now uses the more stable GTK 2 instead of GTK 3.
+  * Removed the unused 'WebInterfacePageSize' setting from the advanced settings file.
+  * Advanced settings: Improved source code mode (Analyzer=1). See: http://sourceforge.net/p/docfetcher/discussion/702424/thread/1e1c39e8/?limit
+
+
 ==== 2014-09-25 - DocFetcher 1.1.12 ====
 
 === Features ===
