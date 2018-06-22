@@ -23,6 +23,7 @@ import java.util.Properties;
 import net.sourceforge.docfetcher.UtilGlobal;
 import net.sourceforge.docfetcher.build.BuildMain;
 import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.MsgWriter;
 import net.sourceforge.docfetcher.util.CharsetDetectorHelper;
 import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
@@ -84,13 +85,8 @@ public final class Website {
 		
 		// Deploy English Resource.properties; this is currently used for
 		// GUI translation via transifex.com
-		Properties prop = new Properties();
-		for (Msg msg : Msg.values())
-			prop.put(msg.name(), msg.get());
 		File propFile = new File("dist/website", "Resource.properties");
-		FileWriter w = new FileWriter(propFile);
-		prop.store(w, "");
-		Closeables.closeQuietly(w);
+		MsgWriter.writeTo(propFile);
 		Util.println("File written: " + propFile.getPath());
 		
 		// Deploy index.php file

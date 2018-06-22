@@ -28,6 +28,11 @@ public class MsgWriter {
 
 	public static void main(String[] args) throws IOException {
 		File outFile = new File("build/Resource.properties");
+		writeTo(outFile);
+		Util.println("File written: " + outFile.getAbsolutePath());
+	}
+	
+	public static void writeTo(File outFile) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		for (Msg msg : Msg.values()) {
 			String key = ConfLoader.convert(msg.name(), true);
@@ -40,7 +45,6 @@ public class MsgWriter {
 			sb.append(Util.LS);
 		}
 		Files.write(sb.toString(), outFile, Charsets.UTF_8);
-		Util.println("File written: " + outFile.getAbsolutePath());
 	}
 	
 	/**
