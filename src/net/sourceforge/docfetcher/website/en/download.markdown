@@ -15,7 +15,7 @@ the following places:
 Step 2: Install DocFetcher ${version}
 =====================================
 
-For a list of changes from previous releases, see the [changelog](https://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
+For a list of changes from previous releases, see the [changelog](http://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
 
 All downloads below support both 32-bit and 64-bit operating systems.
 
@@ -43,4 +43,4 @@ Other Downloads
 ===============
 Older releases can be obtained from the [SourceForge.net download page](https://sourceforge.net/projects/docfetcher/files/docfetcher/).
 
-How the source code can be obtained is explained on [this wiki page](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code).
+How the source code can be obtained is explained on [this wiki page](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code).

@@ -52,7 +52,7 @@ En comparaison avec d'autres programmes de recherche de fichiers locaux, voici o
 
 **Sans m...**: Nous travaillons dur pour conserver l'interface de DocFetcher simple et sans bazar. Pas de publicité ou de "Voudriez-vous vous enregistrer...?" qui s'ouvrent. Pas de choses inutiles installées dans votre navigateur, registre ou n'importe où dans votre système.
 
-**Vie privée**: DocFetcher ne collecte pas vos données privées. Jamais. Quiconque en douterait peut vérifier le [code source ](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) qui est public.
+**Vie privée**: DocFetcher ne collecte pas vos données privées. Jamais. Quiconque en douterait peut vérifier le [code source ](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) qui est public.
 
 **Gratuit/Libre pour toujours**: comme DocFetcher est Open Source, vous n'avez pas besoin de vous inquiéter sur le fait que le programme devienne obsolète ou sans support, parce que le code source sera toujours disponible pour être utilisé. En parlant de support, savez vous que Google Desktop, un des compétiteurs commerciaux majeurs de DocFetcher's a été arrêté en  2011? ...
 

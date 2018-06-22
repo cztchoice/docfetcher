@@ -52,7 +52,7 @@ En comparación con otras aplicaciones de búsqueda de escritorio, estas son las
 
 **Libre de estupideces**: Nos esforzamos en mantenet el interfaz de usuario de DocFetcher libre de líos y estupideces. Sin anuncios ni ventanas emergentes de "¿le gustaría registrarse....?". Sin cosas inútiles instaladas en su navegador, registro ni en ninguna otra parte de su sistema.
 
-**Privacidad**: DocFetcher no recopila tu información privada. Nunca. Cualquiera que tenga dudas puede consultar el [código fuente](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) disponible públicamente.
+**Privacidad**: DocFetcher no recopila tu información privada. Nunca. Cualquiera que tenga dudas puede consultar el [código fuente](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) disponible públicamente.
 
 **Gratis para siempre**: Como DocFetcher es Open Source, no tienes que preocuparte porque el programa se quede obsoleto y sin soporte, ya que el código fuente estará siempre disponible. Hablando de soporte, ¿se ha enterado por las noticias de que Google Desktop, uno de los principales competidores comerciales de DocFetcher, fue discontinuado en 2011? Bien...
 

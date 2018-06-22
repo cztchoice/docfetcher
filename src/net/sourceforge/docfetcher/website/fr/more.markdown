@@ -1,4 +1,4 @@
-See our [wiki](https://docfetcher.sourceforge.net/wiki/doku.php) for more information about DocFetcher.
+See our [wiki](http://docfetcher.sourceforge.net/wiki/doku.php) for more information about DocFetcher.
 
 If you have any questions, feel free to post them on our [forum](https://sourceforge.net/projects/docfetcher/forums/forum/702424).
 

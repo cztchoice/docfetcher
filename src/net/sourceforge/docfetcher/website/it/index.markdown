@@ -56,7 +56,7 @@ Paragonando DocFetcher con altre applicazioni  per la ricerca di file sul propri
 
 **È privo di schifezze**: ci siamo sforzati di mantenere l'interfaccia-utente di DocFetcher pulita e priva di schifezze. Nessuna pubblicità o finestre a comparsa con scritte quali: "Volete registrarvi…?". Niente aggiunte inutili al vostro web browser, o al file di registro o in qualunque altro posto del vostro sistema.
 
-**Privacy**: DocFetcher non raccoglie i vostri dati privati. Mai! Chiunque abbia dubbi a questo riguardo può controllare il [codice sorgente](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code), accessibile pubblicamente.
+**Privacy**: DocFetcher non raccoglie i vostri dati privati. Mai! Chiunque abbia dubbi a questo riguardo può controllare il [codice sorgente](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code), accessibile pubblicamente.
 
 **Gratuito per sempre**: poiché DocFetcher è Open Source, non c'è da preoccuparsi per una sua obsolescenza o temere che non venga più supportato, in quanto il codice sorgente rimarrà sempre a disposizione per essere riutilizzato. Per quanto riguarda il supporto: si paragoni DoCFetcher con uno dei suoi principali competitori a livello commerciale, cioè **Google Desktop Search**: sapete che è stato discontinuato già nel 2011?
 

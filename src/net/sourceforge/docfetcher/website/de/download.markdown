@@ -11,7 +11,7 @@ Falls Java 1.7 oder neuer nicht auf Ihrem System verfügbar ist, können Sie es 
 Schritt 2: DocFetcher ${version} installieren
 ======================================
 
-Für eine Liste von Änderungen im Vergleich zu vorherigen Versionen, siehe den [ChangeLog](https://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
+Für eine Liste von Änderungen im Vergleich zu vorherigen Versionen, siehe den [ChangeLog](http://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
 
 Alle unten aufgeführten Downloads unterstützen sowohl 32-Bit- als auch 64-Bit-Betriebssysteme.
 
@@ -40,4 +40,4 @@ Andere Downloads
 ================
 Ältere Versionen sind auf der [SourceForge.net Download-Seite](https://sourceforge.net/projects/docfetcher/files/docfetcher/) erhältlich.
 
-Wie man an Quell-Code gelangt, ist auf [dieser Wiki Seite](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) erklärt.
+Wie man an Quell-Code gelangt, ist auf [dieser Wiki Seite](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) erklärt.

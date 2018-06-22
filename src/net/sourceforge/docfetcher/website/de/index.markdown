@@ -56,7 +56,7 @@ Im Vergleich zu anderen Desktop-Suchprogrammen zeichnet sich DocFetcher auf folg
 
 **Frei von Müll**: Wir geben uns besondere Mühe, DocFetcher's Benutzeroberfläche frei von Müll zu halten. Es werden keine Werbung und keine Registrierungs-Fenster angezeigt. Es wird auch kein Müll in Ihrem Webbrowser oder sonstwo in Ihrem Betriebssystem installiert.
 
-**Privatsphäre**: DocFetcher sammelt definitiv keine persönlichen Benutzerdaten. Zweifler mögen sich DocFetcher's [Quell-Code](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) anschauen, um dies zu bestätigen.
+**Privatsphäre**: DocFetcher sammelt definitiv keine persönlichen Benutzerdaten. Zweifler mögen sich DocFetcher's [Quell-Code](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) anschauen, um dies zu bestätigen.
 
 **Frei für immer**: Da DocFetcher Open Source ist, brauchen Sie nicht zu befürchten, dass das Programm jemals obsolet werden sollte, da nämlich der Quell-Code stets verfügbar sein wird. Übrigens, haben Sie mitbekommen, dass die Entwicklung von Google Desktop, einer von DocFetcher's kommerziellen Haupt-Konkurrenten, im Jahr 2011 eingestellt wurde? Tja...
 

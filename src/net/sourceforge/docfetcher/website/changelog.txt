@@ -392,7 +392,7 @@
 
 ==== 2011-11-11 - DocFetcher 1.1 beta 1 ====
 
-Program was rewritten from scratch. See the following page for an overview of the changes: https://docfetcher.sourceforge.net/wiki/doku.php?id=changes_in_v1.1
+Program was rewritten from scratch. See the following page for an overview of the changes: http://docfetcher.sourceforge.net/wiki/doku.php?id=changes_in_v1.1
 
 
 ==== 2010-04-30 - DocFetcher 1.0.3 ====

@@ -14,7 +14,7 @@ los siguientes lugares:
 Ultima Versión: DocFetcher ${version}
 =====================================
 
-Para ver la lista de cambios de las nuevas versiones, visite el [changelog](https://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
+Para ver la lista de cambios de las nuevas versiones, visite el [changelog](http://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
 
 Todas las descargas soportan sistemas operativos de 32-bit y 64-bit
 
@@ -42,4 +42,4 @@ Otras Descargas
 ===============
 Puede obtener versiones anteriores en la [página de descarga de SourceForge.net](https://sourceforge.net/projects/docfetcher/files/docfetcher/).
 
-En [ésta página wiki](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) se explica cómo conseguir el código fuente.
+En [ésta página wiki](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) se explica cómo conseguir el código fuente.

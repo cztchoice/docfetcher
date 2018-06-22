@@ -56,7 +56,7 @@ In comparison to other desktop search applications, here's where DocFetcher stan
 
 **Crap-free**: We strive to keep DocFetcher's user interface clutter- and crap-free. No advertisement or "would you like to register...?" popups. No useless stuff is installed in your web browser, registry or anywhere else in your system.
 
-**Privacy**: DocFetcher does not collect your private data. Ever. Anyone in doubt about this can check the publicly accessible [source code](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code).
+**Privacy**: DocFetcher does not collect your private data. Ever. Anyone in doubt about this can check the publicly accessible [source code](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code).
 
 **Free forever**: Since DocFetcher is Open Source, you don't have to worry about the program ever becoming obsolete and unsupported, because the source code will always be there for the taking. Speaking of support, have you gotten the news that Google Desktop, one of DocFetcher's major commercial competitors, was discontinued in 2011? Well...
 

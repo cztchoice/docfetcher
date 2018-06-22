@@ -13,7 +13,7 @@
 Новейшая версия: DocFetcher ${version}
 =====================================
 
-Вы также можете открыть [журнал изменений](https://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
+Вы также можете открыть [журнал изменений](http://docfetcher.sourceforge.net/wiki/doku.php?id=changelog).
 
 Все представленные ниже варианты загрузки поддерживают как 32, так 64-битные операционные системы.
 
@@ -41,4 +41,4 @@
 ===============
 Ранние версии программы могут быть загружены со [страницы загрузки SourceForge.net](https://sourceforge.net/projects/docfetcher/files/docfetcher/).
 
-Информация о том, как получить исходный код, находится на [этой вики-странице](https://docfetcher.sourceforge.net/wiki/doku.php?id=source_code).
+Информация о том, как получить исходный код, находится на [этой вики-странице](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code).
