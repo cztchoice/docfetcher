@@ -202,6 +202,9 @@ public final class PdfParser extends StreamParser {
 			catch (IOException e) {
 				// Ignore
 			}
+			catch (RuntimeException e) {
+				// ClassCastException, see bug #1465 and #1469
+			}
 		}
 	}
 
