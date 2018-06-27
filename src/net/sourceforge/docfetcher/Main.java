@@ -48,7 +48,11 @@ public final class Main {
 		if (isJava9OrLater()) {
 			// Collect jar paths
 			List<String> jarPaths = new ArrayList<String>();
-			for (File file : new File("lib").listFiles()) {
+			File libDir = new File("../Resources/lib"); // non-portable OS X version?
+			if (!libDir.isDirectory()) {
+				libDir = new File("lib");
+			}
+			for (File file : libDir.listFiles()) {
 				if (file.getName().toLowerCase().endsWith(".jar")) {
 					jarPaths.add(file.getPath());
 				}
@@ -98,7 +102,7 @@ public final class Main {
 			cmdList.add(getStackSizeStr());
 			cmdList.add("-cp");
 			cmdList.add(classPath);
-			cmdList.add("-Djava.library.path=lib");
+			cmdList.add(String.format("-Djava.library.path=%s", libDir.getPath()));
 			cmdList.add("-Duser.language=" + System.getProperty("user.language"));
 			cmdList.add("net.sourceforge.docfetcher.gui.Application");
 			for (String arg : args) {
