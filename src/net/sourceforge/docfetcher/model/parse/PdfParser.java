@@ -136,6 +136,12 @@ public final class PdfParser extends StreamParser {
 				 */
 				throw new ParseException(e);
 			}
+			catch (ExceptionInInitializerError e) {
+				/*
+				 * Thrown since PDFBox 2.0.9, see bug #1477.
+				 */
+				throw new ParseException(e);
+			}
 			
 			writer.write(" ");
 			writer.write(annotations.toString());
