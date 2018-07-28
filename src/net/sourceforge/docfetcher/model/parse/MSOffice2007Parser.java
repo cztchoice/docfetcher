@@ -42,6 +42,9 @@ abstract class MSOffice2007Parser extends FileParser {
 		 * compression ratio.
 		 */
 		ZipSecureFile.setMinInflateRatio(0);
+		
+		ZipSecureFile.setMaxEntrySize(0xFFFFFFFFL);
+		ZipSecureFile.setMaxTextSize(0xFFFFFFFFL);
 	}
 	
 	public static final class MSWord2007Parser extends MSOffice2007Parser {
