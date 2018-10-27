@@ -171,46 +171,48 @@ public final class PdfParser extends StreamParser {
 	}
 	
 	private static void extractMetadata(PDDocument pdfDoc, ParseResult result) {
-		PDDocumentInformation information = pdfDoc.getDocumentInformation();
-		if (information != null) {
-			result.setTitle(information.getTitle());
-			result.addAuthor(information.getAuthor());
-			result.addMiscMetadata(information.getSubject());
-			result.addMiscMetadata(information.getKeywords());
-		}
-		
-		PDDocumentCatalog catalog = pdfDoc.getDocumentCatalog();
-		PDMetadata meta = catalog.getMetadata();
-		if (meta != null) {
-			final DomXmpParser xmpParser;
-			try {
-				xmpParser = new DomXmpParser();
-				XMPMetadata metadata = xmpParser.parse(meta.createInputStream());
-				
-				DublinCoreSchema dc = metadata.getDublinCoreSchema();
-				if (dc != null) {
-					result.addMiscMetadata(dc.getDescription());
-					List<String> subjects = dc.getSubjects();
-					if (subjects != null) {
-						for (String subject : dc.getSubjects())
-							result.addMiscMetadata(subject);
+		try {
+			PDDocumentInformation information = pdfDoc.getDocumentInformation();
+			if (information != null) {
+				result.setTitle(information.getTitle());
+				result.addAuthor(information.getAuthor());
+				result.addMiscMetadata(information.getSubject());
+				result.addMiscMetadata(information.getKeywords());
+			}
+			
+			PDDocumentCatalog catalog = pdfDoc.getDocumentCatalog();
+			PDMetadata meta = catalog.getMetadata();
+			if (meta != null) {
+				final DomXmpParser xmpParser;
+				try {
+					xmpParser = new DomXmpParser();
+					XMPMetadata metadata = xmpParser.parse(meta.createInputStream());
+					
+					DublinCoreSchema dc = metadata.getDublinCoreSchema();
+					if (dc != null) {
+						result.addMiscMetadata(dc.getDescription());
+						List<String> subjects = dc.getSubjects();
+						if (subjects != null) {
+							for (String subject : dc.getSubjects())
+								result.addMiscMetadata(subject);
+						}
+					}
+					
+					AdobePDFSchema pdf = metadata.getAdobePDFSchema();
+					if (pdf != null) {
+						result.addMiscMetadata(pdf.getKeywords());
 					}
 				}
-				
-				AdobePDFSchema pdf = metadata.getAdobePDFSchema();
-				if (pdf != null) {
-					result.addMiscMetadata(pdf.getKeywords());
+				catch (XmpParsingException e) {
+					// Ignore
+				}
+				catch (IOException e) {
+					// Ignore
 				}
 			}
-			catch (XmpParsingException e) {
-				// Ignore
-			}
-			catch (IOException e) {
-				// Ignore
-			}
-			catch (RuntimeException e) {
-				// ClassCastException, see bug #1465 and #1469
-			}
+		}
+		catch (RuntimeException e) {
+			// ClassCastException, see bug #1465 and #1469
 		}
 	}
 
