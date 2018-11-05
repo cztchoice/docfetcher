@@ -58,6 +58,7 @@ public final class ProgramConf {
 		SaveSettings (true),
 		TextPreviewEnabled (true),
 		PythonApiEnabled (false),
+		ShowPathsDuringIndexing (false),
 		;
 
 		private boolean value;

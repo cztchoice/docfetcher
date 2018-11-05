@@ -52,6 +52,12 @@ SaveSettings = true
 #	Indexing
 #===============================================================================
 
+# During indexing, DocFetcher will normally only display the names of the files
+# being indexed. With this setting set to true, DocFetcher will display the full
+# file path. This is useful for locating files that cause DocFetcher to hang so
+# that it doesn't show the file path in the error table.
+ShowPathsDuringIndexing = false
+
 # HTML file extensions. This setting will affect detection of HTML files and
 # DocFetcher's HTML pairing mechanism.
 HtmlExtensions = html;htm;xhtml;shtml;shtm;php;asp;jsp

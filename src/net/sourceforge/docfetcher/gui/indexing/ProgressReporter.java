@@ -12,6 +12,8 @@
 package net.sourceforge.docfetcher.gui.indexing;
 
 import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.ProgramConf;
+import net.sourceforge.docfetcher.model.TreeNode;
 import net.sourceforge.docfetcher.model.index.IndexingError;
 import net.sourceforge.docfetcher.model.index.IndexingInfo;
 import net.sourceforge.docfetcher.model.index.IndexingReporter;
@@ -94,7 +96,13 @@ final class ProgressReporter extends IndexingReporter {
 	
 	@NotNull
 	private String getMessage(@NotNull IndexingInfo info) {
-		String displayName = info.getTreeNode().getDisplayName();
+		TreeNode node = info.getTreeNode();
+		final String displayName;
+		if (ProgramConf.Bool.ShowPathsDuringIndexing.get()) {
+			displayName = node.getPath().getPath();
+		} else {
+			displayName = node.getDisplayName();
+		}
 		return String.format("%,d\t %s", info.getNumber(), displayName);
 	}
 	

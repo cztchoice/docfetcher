@@ -88,6 +88,9 @@ abstract class ConfigPanel {
 				return ConfigPanel.this.createButtonArea(parent);
 			}
 			public final boolean setFocus() {
+				if (runBt.isDisposed()) { // Not sure why this is happening...
+					return false;
+				}
 				return runBt.setFocus();
 			}
 		};
