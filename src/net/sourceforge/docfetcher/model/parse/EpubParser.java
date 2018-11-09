@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipFile;
 
+import de.schlichtherle.truezip.file.TFile;
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
 import net.htmlparser.jericho.Segment;
@@ -55,17 +56,17 @@ public final class EpubParser extends FileParser {
 		ZipFile zipFile = null;
 		try {
 			// Get zip entries
-			try {
-				zipFile = new ZipFile(file);
-			}
-			catch (RuntimeException e) {
+			if (file instanceof TFile) {
 				/*
-				 * Bug #1463: Apparently, on Java 10, feeding a TFile into the
-				 * ZipFile constructor can cause an
-				 * UnsupportedOperationException.
+				 * Bug #1463, #1559: Apparently, on Java 10, feeding a TFile
+				 * into the ZipFile constructor can cause an
+				 * UnsupportedOperationException. The first workaround consisted
+				 * of simply swallowing the exception. The new workaround here
+				 * is to replace the TFile with a regular File.
 				 */
-				throw new ParseException(e);
+				file = new File(file.getPath());
 			}
+			zipFile = new ZipFile(file);
 			Source containerSource = UtilParser.getSource(zipFile, "META-INF/container.xml"); //$NON-NLS-1$
 			Element rootfileEl = containerSource.getNextElement(0, "rootfile"); //$NON-NLS-1$
 			maybeThrow(rootfileEl, "No rootfile element in META-INF/container.xml");
