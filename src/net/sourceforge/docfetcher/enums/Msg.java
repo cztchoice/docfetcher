@@ -642,6 +642,9 @@ public enum Msg {
 	pref_word_seg_source_code (
 		"Source Code",
 		Comments.prefOption + "Word segmentation option."),
+	pref_word_seg_whitespace (
+		"Whitespace",
+		Comments.prefOption + "Word segmentation option."),
 	pref_word_seg_chinese (
 		"Chinese",
 		Comments.prefOption + "Word segmentation option."),

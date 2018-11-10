@@ -11,8 +11,6 @@
 
 package net.sourceforge.docfetcher.gui.pref;
 
-import java.util.Arrays;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.layout.GridData;
@@ -22,6 +20,7 @@ import org.eclipse.swt.widgets.Label;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.pref.PrefDialog.PrefOption;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.Nullable;
 
 /**
  * @author Tran Nam Quang
@@ -31,13 +30,22 @@ final class DropdownOption extends PrefOption {
 	@NotNull private SettingsConf.Int enumOption;
 	@NotNull private CCombo dropdown;
 	@NotNull private String[] choices;
+	@NotNull private int[] choiceIndices;
 	
 	public DropdownOption(	@NotNull String labelText,
 							@NotNull SettingsConf.Int enumOption,
-							@NotNull String[] choices) {
+							@NotNull String[] choices,
+							@Nullable int[] choiceIndices) { // internal mapping from choice strings to numbers
 		super(labelText);
 		this.enumOption = enumOption;
 		this.choices = choices;
+		if (choiceIndices == null) {
+			choiceIndices = new int[choices.length];
+			for (int i = 0; i < choices.length; i++) {
+				choiceIndices[i] = i;
+			}
+		}
+		this.choiceIndices = choiceIndices;
 	}
 
 	@Override
@@ -51,24 +59,32 @@ final class DropdownOption extends PrefOption {
 		dropdown.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		dropdown.setCursor(dropdown.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 		dropdown.setItems(choices);
-		dropdown.setText(choices[enumOption.get()]);
+		dropdown.setText(getChoice(enumOption.get()));
 	}
 
 	@Override
 	protected void restoreDefault() {
-		dropdown.setText(choices[enumOption.get()]);
+		dropdown.setText(getChoice(enumOption.get()));
 	}
 
 	@Override
 	protected void save() {
-		int index = 0;
 		for (int i = 0; i < choices.length; i++) {
 			if (choices[i].equals(dropdown.getText())) {
-				index = i;
-				break;
+				enumOption.set(choiceIndices[i]);
+				return;
 			}
 		}
-		enumOption.set(index);
+	}
+	
+	@NotNull
+	private String getChoice(int index) {
+		for (int i = 0; i < choiceIndices.length; i++) {
+			if (choiceIndices[i] == index) {
+				return choices[i];
+			}
+		}
+		throw new IllegalArgumentException();
 	}
 
 }

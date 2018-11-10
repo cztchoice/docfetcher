@@ -116,13 +116,17 @@ public final class PrefDialog {
 		String[] choices = new String[] {
 			Msg.pref_word_seg_standard.get(),
 			Msg.pref_word_seg_source_code.get(),
-			Msg.pref_word_seg_chinese.get() 
+			Msg.pref_word_seg_whitespace.get(),
+			Msg.pref_word_seg_chinese.get()
+		};
+		int[] choiceIndices = new int[] {
+			0, 1, 3, 2 // for backward compatibility with versions <= 1.1.22
 		};
 		
 		analyzerOption = new DropdownOption(
 			Msg.pref_word_segmentation.get(),
 			SettingsConf.Int.LuceneAnalyzer,
-			choices);
+			choices, choiceIndices);
 		
 		fieldOptions.addAll(Arrays.asList(
 			analyzerOption,

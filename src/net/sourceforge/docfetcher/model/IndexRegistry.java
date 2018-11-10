@@ -39,6 +39,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.LowerCaseFilter;
 import org.apache.lucene.analysis.core.StopFilter;
+import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
@@ -156,6 +157,8 @@ public final class IndexRegistry {
 			analyzer = new SourceCodeAnalyzer(LUCENE_VERSION); break;
 		case 2:
 			analyzer = new AnsjAnalyzer(AnsjAnalyzer.TYPE.index_ansj); break;
+		case 3:
+			analyzer = new WhitespaceAnalyzer(); break;
 		default:
 			analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
 		}
@@ -627,8 +630,24 @@ public final class IndexRegistry {
 			final Tokenizer source = new SourceCodeTokenizer();
 			TokenStream sink = new StandardFilter(source);
 			sink = new LowerCaseFilter(sink);
-		    sink = new StopFilter(sink, CharArraySet.EMPTY_SET );
+		    sink = new StopFilter(sink, CharArraySet.EMPTY_SET);
 		    //sink = new SourceCodeTokenFilter(matchVersion, sink);
+			return new TokenStreamComponents(source, sink);
+		}
+	}
+	
+	/*
+	 * Lucene already has a WhitespaceAnalyzer, but it's a little different from
+	 * this one. Specifically, we want strings like "E.34.5555.S" to be matched
+	 * by queries like "E\.??\.????\.S". See bug #1558.
+	 */
+	private static class WhitespaceAnalyzer extends Analyzer {
+		@Override
+		protected TokenStreamComponents createComponents(String fieldName) {
+			final Tokenizer source = new WhitespaceTokenizer();
+			TokenStream sink = new StandardFilter(source);
+			sink = new LowerCaseFilter(sink);
+		    sink = new StopFilter(sink, CharArraySet.EMPTY_SET);
 			return new TokenStreamComponents(source, sink);
 		}
 	}
