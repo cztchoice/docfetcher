@@ -1485,12 +1485,32 @@ public final class Util {
 	public static boolean launch(@NotNull String filename) {
 		Util.checkNotNull(filename);
 		
+		/*
+		 * Program.launch fails on Kubuntu 16.04 but still returns true, so we
+		 * will have to bypass it altogether. See:
+		 * https://sourceforge.net/p/docfetcher/discussion/702424/thread/37481456e9/
+		 */
+		if (IS_LINUX_KDE)
+			return launchXdgOpen(filename);
+		
 		if (Program.launch(filename))
 			return true;
-
+		
 		if (!IS_LINUX)
 			return false;
+		
+		return launchXdgOpen(filename);
+	}
 
+	/**
+	 * @see #launch(String)
+	 */
+	public static boolean launch(@NotNull File fileOrDir) {
+		Util.checkNotNull(fileOrDir);
+		return launch(getSystemAbsPath(fileOrDir));
+	}
+	
+	private static boolean launchXdgOpen(@NotNull String filename) {
 		try {
 			String[] cmd = {"xdg-open", filename};
 			Process process = Runtime.getRuntime().exec(cmd);
@@ -1500,14 +1520,6 @@ public final class Util {
 		catch (Exception e) {
 			return false;
 		}
-	}
-
-	/**
-	 * @see #launch(String)
-	 */
-	public static boolean launch(@NotNull File fileOrDir) {
-		Util.checkNotNull(fileOrDir);
-		return launch(getSystemAbsPath(fileOrDir));
 	}
 
 	@NotNull
