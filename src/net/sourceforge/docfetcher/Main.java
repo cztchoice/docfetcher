@@ -90,7 +90,13 @@ public final class Main {
 			// Collecting command-line arguments
 			List<String> cmdList = new ArrayList<String>();
 			if (isOSX) {
-				cmdList.add("/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java");
+				// Prefer legacy Java 6 runtime from Apple if present
+				String javaLegacyExec = "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java";
+				if (new File(javaLegacyExec).isFile()) {
+					cmdList.add(javaLegacyExec);
+				} else {
+					cmdList.add("java");
+				}
 				cmdList.add("-XstartOnFirstThread");
 				cmdList.add("-Xdock:name=\"DocFetcher\"");
 			}
