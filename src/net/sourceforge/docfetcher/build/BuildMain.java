@@ -219,12 +219,15 @@ public final class BuildMain {
 
 		String exeLauncher = U.format("%s/%s.exe", releaseDir, appName);
 		U.copyBinaryFile("dist/launchers/DocFetcher-512.exe", exeLauncher);
-
-		for (int heapSize : new int[] {256, 512, 768, 1024, 2048, 4096, 8192}) {
-			String suffix64 = heapSize > 1024 ? "_64-bit-Java" : "";
-			String exeName = U.format("%s-%d%s.exe", appName, heapSize, suffix64);
-			exeLauncher = U.format("%s/misc/%s", releaseDir, exeName);
-			U.copyBinaryFile("dist/launchers/" + exeName, exeLauncher);
+		
+		// Copy alternative Windows exe launchers
+		for (File file : new File("dist/launchers").listFiles()) {
+			String name = file.getName();
+			if (!file.isFile() || !name.matches("DocFetcher-\\d+.*?\\.exe")) {
+				continue;
+			}
+			exeLauncher = U.format("%s/misc/%s", releaseDir, name);
+			U.copyBinaryFile("dist/launchers/" + name, exeLauncher);
 		}
 
 		String batLauncher = U.format("%s/misc/%s.bat", releaseDir, appName);
