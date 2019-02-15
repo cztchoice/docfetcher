@@ -11,6 +11,13 @@
 
 package net.sourceforge.docfetcher.gui.indexing;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.model.TreeNode;
@@ -39,14 +46,29 @@ final class ProgressReporter extends IndexingReporter {
 	private final ErrorTable errorTable;
 	private long start = 0;
 	@Nullable private IndexingInfo lastInfo;
+	@Nullable private final File indexDir;
+	@Nullable private File logFile;
 
-	public ProgressReporter(@NotNull ProgressPanel progressPanel) {
+	public ProgressReporter(@NotNull ProgressPanel progressPanel, @Nullable File indexDir) {
 		progressTable = progressPanel.getProgressTable();
 		errorTable = progressPanel.getErrorTable();
+		this.indexDir = indexDir;
 	}
 	
 	public void setStartTime(long time) {
 		start = time;
+		
+		// This logging code doesn't really belong here, but the program is a huge mess anyway :-|
+		if (ProgramConf.Bool.WriteIndexingLog.get() && indexDir != null) {
+			logFile = new File(indexDir, "indexing-log.txt");
+			logFile.delete();
+			try {
+				logFile.createNewFile();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void setEndTime(long time) {
@@ -85,6 +107,18 @@ final class ProgressReporter extends IndexingReporter {
 			message = String.format("%s [%d/%d]", message, percentage[0], percentage[1]);
 		progressTable.append(message);
 		lastInfo = info;
+		
+		if (ProgramConf.Bool.WriteIndexingLog.get() && indexDir != null) {
+			try {
+				Writer writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(logFile, true), "UTF-8"));
+				writer.append(info.getTreeNode().getPath().getPath() + "\r\n");
+				writer.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	public void subInfo(int current, int total) {
@@ -110,6 +144,20 @@ final class ProgressReporter extends IndexingReporter {
 		String displayName = error.getTreeNode().getDisplayName();
 		progressTable.append("### " + Msg.error.format(displayName));
 		errorTable.addError(error);
+		
+		if (ProgramConf.Bool.WriteIndexingLog.get() && indexDir != null) {
+			try {
+				Writer writer = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(logFile, true), "UTF-8"));
+				String line = "FAIL: " + error.getTreeNode().getPath().getPath() + "\r\n";
+				line += "  " + error.getLocalizedMessage() + "\r\n";
+				writer.append(line);
+				writer.close();
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

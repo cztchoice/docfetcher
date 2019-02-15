@@ -14,6 +14,26 @@ package net.sourceforge.docfetcher.gui.indexing;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabFolder2Adapter;
+import org.eclipse.swt.custom.CTabFolderEvent;
+import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
+
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.SettingsConf;
@@ -21,6 +41,7 @@ import net.sourceforge.docfetcher.gui.filter.IndexPanel;
 import net.sourceforge.docfetcher.gui.indexing.SingletonDialogFactory.Dialog;
 import net.sourceforge.docfetcher.model.IndexRegistry;
 import net.sourceforge.docfetcher.model.LuceneIndex;
+import net.sourceforge.docfetcher.model.Path;
 import net.sourceforge.docfetcher.model.index.DelegatingReporter.ExistingMessagesHandler;
 import net.sourceforge.docfetcher.model.index.IndexingConfig;
 import net.sourceforge.docfetcher.model.index.IndexingError;
@@ -43,26 +64,6 @@ import net.sourceforge.docfetcher.util.gui.MenuAction;
 import net.sourceforge.docfetcher.util.gui.TabFolderFactory;
 import net.sourceforge.docfetcher.util.gui.ToolItemFactory;
 import net.sourceforge.docfetcher.util.gui.dialog.MultipleChoiceDialog;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CTabFolder;
-import org.eclipse.swt.custom.CTabFolder2Adapter;
-import org.eclipse.swt.custom.CTabFolderEvent;
-import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.ToolBar;
-import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * @author Tran Nam Quang
@@ -429,7 +430,13 @@ public final class IndexingDialog implements Dialog {
 										@NotNull final IndexingConfig config) {
 		ProgressPanel progressPanel = new ProgressPanel(tabFolder);
 		tabItem.setControl(progressPanel.getControl());
-		final ProgressReporter reporter = new ProgressReporter(progressPanel);
+		Path indexDirPath = task.getLuceneIndex().getIndexDirPath();
+		File indexDir = null;
+		if (indexDirPath != null) {
+			indexDir = indexDirPath.getCanonicalFile();
+		}
+		final ProgressReporter reporter = new ProgressReporter(
+			progressPanel, indexDir);
 		
 		task.attachReporter(reporter, new ExistingMessagesHandler() {
 			public void handleMessages(	List<IndexingInfo> infos,

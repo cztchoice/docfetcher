@@ -58,6 +58,16 @@ SaveSettings = true
 # that it doesn't show the file path in the error table.
 ShowPathsDuringIndexing = false
 
+# With this setting set to true, DocFetcher will continuously write the path of
+# each file currently being indexed to a log file. There is one log file per
+# index, and the log files are recreated every time its index is rebuilt. The
+# log files can be found in the respective index folders. For the location of
+# the latter, see the DocFetcher FAQ:
+# http://docfetcher.sourceforge.net/wiki/doku.php?id=faq#where_does_docfetcher_put_its_index_files_how_can_i_change_the_location_of_the_index_files
+# The log files are intended for identifying problematic files DocFetcher chokes
+# and crashes on during indexing.
+WriteIndexingLog = false
+
 # HTML file extensions. This setting will affect detection of HTML files and
 # DocFetcher's HTML pairing mechanism.
 HtmlExtensions = html;htm;xhtml;shtml;shtm;php;asp;jsp

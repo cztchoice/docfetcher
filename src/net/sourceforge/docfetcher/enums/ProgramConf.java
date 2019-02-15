@@ -59,6 +59,7 @@ public final class ProgramConf {
 		TextPreviewEnabled (true),
 		PythonApiEnabled (false),
 		ShowPathsDuringIndexing (false),
+		WriteIndexingLog (false),
 		;
 
 		private boolean value;
