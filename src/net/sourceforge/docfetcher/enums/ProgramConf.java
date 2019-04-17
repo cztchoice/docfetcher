@@ -43,6 +43,7 @@ public final class ProgramConf {
 	// TODO pre-release: reset entries whose values where changed for development purposes (e.g. fix window sizes)
 
 	public static enum Bool implements Loadable {
+		CheckSingleInstance (true),
 		FixWindowSizes (false),
 		DryRun (false),
 		AllowIndexCreation (true),

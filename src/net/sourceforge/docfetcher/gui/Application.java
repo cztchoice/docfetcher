@@ -244,7 +244,7 @@ public final class Application {
 		}
 
 		// Check single instance
-		if (!AppUtil.checkSingleInstance())
+		if (ProgramConf.Bool.CheckSingleInstance.get() && !AppUtil.checkSingleInstance())
 			return;
 		
 		checkMultipleDocFetcherJars();
