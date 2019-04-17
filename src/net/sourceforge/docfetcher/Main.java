@@ -109,6 +109,7 @@ public final class Main {
 			cmdList.add("-cp");
 			cmdList.add(classPath);
 			cmdList.add(String.format("-Djava.library.path=%s", libDir.getPath()));
+			cmdList.add("-Duser.home=" + System.getProperty("user.home"));
 			cmdList.add("-Duser.language=" + System.getProperty("user.language"));
 			cmdList.add("net.sourceforge.docfetcher.gui.Application");
 			for (String arg : args) {
