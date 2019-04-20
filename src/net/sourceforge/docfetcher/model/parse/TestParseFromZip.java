@@ -29,6 +29,7 @@ import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.EmptyFileException;
 import org.apache.poi.extractor.ExtractorFactory;
+import org.apache.poi.hwpf.OldWordFileFormatException;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.poifs.eventfilesystem.POIFSReader;
@@ -64,6 +65,21 @@ public final class TestParseFromZip {
 			}
 		};
 		new ZipAndRun(TestFiles.doc) {
+			protected void handleInputStream(InputStream in) throws Exception {
+				WordExtractor extractor = null;
+				try {
+					extractor = new WordExtractor(in);
+					extractor.getText();
+				} finally {
+					Closeables.closeQuietly(extractor);
+				}
+			}
+		};
+	}
+	
+	@Test(expected = OldWordFileFormatException.class)
+	public void testOldWordDoc() throws Exception {
+		new ZipAndRun(TestFiles.doc_old) {
 			protected void handleInputStream(InputStream in) throws Exception {
 				WordExtractor extractor = null;
 				try {

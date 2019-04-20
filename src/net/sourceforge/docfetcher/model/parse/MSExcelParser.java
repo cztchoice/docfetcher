@@ -40,7 +40,7 @@ final class MSExcelParser extends MSOfficeParser {
 	}
 
 	@Override
-	protected String extractText(InputStream in) throws IOException {
+	protected String extractText(File file) throws IOException {
 		throw new UnsupportedOperationException();
 	}
 

@@ -31,6 +31,7 @@ public enum TestFiles {
 	encrypted_odt ("encrypted-(password='docfetcher').odt"),
 	missing_meta_xml_entry ("missing-meta.xml-entry.odt"),
 	html ("test.html"),
+	doc_old ("word-old-format.doc"),
 	doc ("testWORD-Tika.doc"),
 	docx ("testWORD-Tika.docx"),
 	read_write_xls ("file-requiring-read-write-mode.xlsx"),

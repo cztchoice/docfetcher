@@ -23,6 +23,7 @@ import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.POIOLE2TextExtractor;
 import org.apache.poi.hdgf.extractor.VisioTextExtractor;
 import org.apache.poi.hpsf.PropertySetFactory;
 import org.apache.poi.hpsf.SummaryInformation;
@@ -48,17 +49,27 @@ abstract class MSOfficeParser extends FileParser {
 			// TODO post-release-1.1: 'dot' extension might interfere with GraphViz dot format
 			super(Msg.filetype_doc.get(), "doc", "dot");
 		}
-		protected String extractText(InputStream in)
+		protected String extractText(File file)
 				throws IOException, ParseException {
+			InputStream in; 
+			POIOLE2TextExtractor extractor = null;
 			try {
-				return new WordExtractor(in).getText();
+				in = new FileInputStream(file);
+				extractor = new WordExtractor(in);
+				return extractor.getText();
 			}
 			catch (OldWordFileFormatException e) {
-				return new Word6Extractor(in).getText();
+				// need to start a new stream, the previous one is closed after the exception
+				in = new FileInputStream(file);
+				extractor = new Word6Extractor(in);
+				return extractor.getText();
 			}
 			catch (EncryptedDocumentException e) {
 				// Discard throwable cause, we don't want to show its message
 				throw new ParseException(Msg.doc_pw_protected.get());
+			}
+			finally {
+				Closeables.closeQuietly(extractor);
 			}
 		}
 	}
@@ -67,10 +78,13 @@ abstract class MSOfficeParser extends FileParser {
 		public MSPowerPointParser() {
 			super(Msg.filetype_ppt.get(), "ppt", "pps");
 		}
-		protected String extractText(InputStream in)
+		protected String extractText(File file)
 				throws IOException, ParseException {
+			PowerPointExtractor ppe = null;
 			try {
-				return new PowerPointExtractor(in).getText(true, true, true, true);
+				InputStream in = new FileInputStream(file);
+				ppe = new PowerPointExtractor(in);
+				return ppe.getText(true, true, true, true);
 			}
 			catch (OldPowerPointFormatException e) {
 				throw new ParseException(e);
@@ -79,6 +93,9 @@ abstract class MSOfficeParser extends FileParser {
 				// Discard throwable cause, we don't want to show its message
 				throw new ParseException(Msg.doc_pw_protected.get());
 			}
+			finally {
+				Closeables.closeQuietly(ppe);
+			}
 		}
 	}
 	
@@ -86,10 +103,11 @@ abstract class MSOfficeParser extends FileParser {
 		public MSVisioParser() {
 			super(Msg.filetype_vsd.get(), "vsd");
 		}
-		protected String extractText(InputStream in)
+		protected String extractText(File file)
 				throws IOException {
 			VisioTextExtractor extractor = null;
 			try {
+				InputStream in = new FileInputStream(file);
 				extractor = new VisioTextExtractor(in);
 				return extractor.getText();
 			} finally {
@@ -157,10 +175,8 @@ abstract class MSOfficeParser extends FileParser {
 	
 	protected String renderText(File file, String filename)
 			throws ParseException {
-		InputStream in = null;
 		try {
-			in = new FileInputStream(file);
-			return extractText(in);
+			return extractText(file);
 		}
 		catch (AssertionError e) {
 			// Bug #469
@@ -180,12 +196,12 @@ abstract class MSOfficeParser extends FileParser {
 			throw new ParseException(e);
 		}
 		finally {
-			Closeables.closeQuietly(in);
+			// Closeables.closeQuietly(in); // This should be closed rather by the caller
 		}
 	}
 	
 	@NotNull
-	protected abstract String extractText(@NotNull InputStream in)
+	protected abstract String extractText(@NotNull File file)
 			throws IOException, ParseException;
 
 	protected final Collection<String> getExtensions() {
