@@ -266,7 +266,7 @@ public final class AppUtil {
 				// Show message, ask whether to launch new instance or to abort
 				Display display = new Display();
 				Shell shell = new Shell(display);
-				MessageBox msgBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL | SWT.PRIMARY_MODAL);
+				MessageBox msgBox = new MessageBox(shell, SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL | SWT.PRIMARY_MODAL | SWT.ON_TOP);
 				msgBox.setText(Messages.confirm_operation.value);
 				msgBox.setMessage(Messages.program_running_launch_another.format(ProgramConf.Str.AppName.get()));
 				int ans = msgBox.open();
