@@ -3,13 +3,16 @@
 #===========================================================
 - Get Eclipse (tested with v4.3, Java Developers edition)
 - Import the DocFetcher folder into your Eclipse workspace
-- In Eclipse Preferences > Java > Build Path > User Libraries, create a
-  User Library named 'SWT' which points to the right SWT jar for your
-  platform. The SWT jars can be found in lib/swt. Optionally, the same
+- In Eclipse Preferences > Java > Build Path > User Libraries: 
+  create a User Library named 'SWT' which points to the right SWT jar for your
+  platform. 
+  The SWT jars can be found in "lib/swt". Optionally, the same
   "SWT" user library can also be used for overriding other 3rd party libs
   (for example, a local build of java-libpst-0.9.4-SNAPSHOT.jar).
-- Main class: net.sourceforge.docfetcher.gui.Application
-- Required VM arguments
+
+In the Run configuration:
+ - Main > Main class: net.sourceforge.docfetcher.gui.Application
+ - Required Arguments > VM arguments
 	Windows:
 		-Djava.library.path="lib/chm4j;lib/jnotify;lib/jintellitype"
 	Linux:
@@ -17,8 +20,8 @@
 	Mac OS X:
 		-Djava.library.path="lib/jnotify"
 		-XstartOnFirstThread
-- Optional VM argument: -enableassertions
-- In the Run configuration, add the folder "dist/lang" to the classpath.
+ - Optional VM argument: -enableassertions
+ - Classpath > add the folder "dist/lang" to the classpath (Advanced... > Add Folders).
 
 
 #===========================================================
