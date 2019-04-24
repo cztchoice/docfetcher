@@ -38,6 +38,12 @@ Alle unten aufgeführten Downloads unterstützen sowohl 32-Bit- als auch 64-Bit-
 
 Andere Downloads
 ================
+DocFetcher ist als Portable-Apps-Version verfügbar, siehe [hier](https://portableapps.com/node/53747).
+
+Sowohl die normale portable DocFetcher-Version als auch die Portable-Apps-Version können so eingerichtet werden, dass sie ohne installierte Java-Laufzeit-Umgebung ausgeführt werden können. Für Details siehe das englischsprachige [DocFetcher-Wiki](http://docfetcher.sourceforge.net/wiki/doku.php?id=tips_tricks).
+
+Für 64-bit-Linux ist DocFetcher als Snap-Paket verfügbar, siehe [hier](https://snapcraft.io/docfetcher).
+
 Ältere Versionen sind auf der [SourceForge.net Download-Seite](https://sourceforge.net/projects/docfetcher/files/docfetcher/) erhältlich.
 
 Wie man an Quell-Code gelangt, ist auf [dieser Wiki Seite](http://docfetcher.sourceforge.net/wiki/doku.php?id=source_code) erklärt.
