@@ -28,6 +28,7 @@ import net.sourceforge.docfetcher.util.gui.ContextMenuManager;
 import net.sourceforge.docfetcher.util.gui.MenuAction;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.Bullet;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -35,9 +36,11 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GlyphMetrics;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Resource;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * @author Tran Nam Quang
@@ -124,6 +127,20 @@ final class HighlightingText {
 		highlightStyle = new StyleRange(0, 0, null, highlightColor);
 	}
 	
+	private void setLineNumbers() {
+		if (SettingsConf.Bool.ShowPreviewLineNumbers.get()) {
+			// Set the style, 12 pixles wide for each digit
+			int bulletWidth = Integer.toString(textViewer.getLineCount() + 1).length() * 12 + 6;
+			
+			StyleRange style = new StyleRange();
+			style.metrics = new GlyphMetrics(0, 0, bulletWidth);
+			style.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+			
+			textViewer.setLineBullet(0, textViewer.getLineCount(), new Bullet(ST.BULLET_NUMBER, style));
+			textViewer.setWrapIndent(bulletWidth);
+		}
+	}
+	
 	@NotNull
 	public StyledText getControl() {
 		return textViewer;
@@ -153,6 +170,8 @@ final class HighlightingText {
 		occCount = 0;
 		
 		textViewer.setText(string.getString());
+		setLineNumbers();
+		
 		if (string.isEmpty())
 			return;
 		
@@ -172,6 +191,7 @@ final class HighlightingText {
 		
 		int offset = textViewer.getCharCount();
 		textViewer.append(string.getString());
+		setLineNumbers();
 		
 		int[] rangeArray = getRangeArray(string, offset);
 		if (SettingsConf.Bool.HighlightingEnabled.get()) {

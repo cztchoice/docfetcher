@@ -88,6 +88,7 @@ public final class SettingsConf {
 		MainShellMaximized (false),
 		PreferHtmlPreview (true),
 		HighlightingEnabled (true),
+		ShowPreviewLineNumbers (true),
 		ShowRelativePathsMessage (true),
 		AutoScrollToFirstMatch (true),
 		CloseToTray (false), // Default must be 'false' since system tray not supported on Ubuntu Unity
