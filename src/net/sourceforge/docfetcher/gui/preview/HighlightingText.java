@@ -36,6 +36,7 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.GlyphMetrics;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Resource;
@@ -129,8 +130,12 @@ final class HighlightingText {
 	
 	private void setLineNumbers() {
 		if (SettingsConf.Bool.ShowPreviewLineNumbers.get()) {
-			// Set the style, 12 pixles wide for each digit
-			int bulletWidth = Integer.toString(textViewer.getLineCount() + 1).length() * 12 + 6;
+			// Calculate bullet width based on the font of the text viewer,
+			// add margin 8 pixels to make alignment look better
+			GC gc = new GC(textViewer);
+			Point p = gc.textExtent(Integer.toString(textViewer.getLineCount()));
+			gc.dispose();
+			int bulletWidth = p.x + 8;
 			
 			StyleRange style = new StyleRange();
 			style.metrics = new GlyphMetrics(0, 0, bulletWidth);
