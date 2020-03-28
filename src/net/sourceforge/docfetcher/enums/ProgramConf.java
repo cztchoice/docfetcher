@@ -58,6 +58,7 @@ public final class ProgramConf {
 		IgnoreJunctionsAndSymlinks (true),
 		SaveSettings (true),
 		TextPreviewEnabled (true),
+		PdfPreviewVisualOrder (true),
 		PythonApiEnabled (false),
 		ShowPathsDuringIndexing (false),
 		WriteIndexingLog (false),

@@ -18,9 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
@@ -37,6 +34,9 @@ import org.apache.xmpbox.xml.DomXmpParser;
 import org.apache.xmpbox.xml.XmpParsingException;
 
 import com.google.common.io.Closeables;
+
+import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 /**
  * @author Tran Nam Quang

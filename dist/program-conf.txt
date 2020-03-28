@@ -127,6 +127,17 @@ IndexExcelFormulas = true
 # If the above link doesn't work, google for "java supported encodings".
 TextEncodingOverride =
 
+# In PDF files, the order in which individual characters are positioned on each
+# each page (the "visual" order) does not necessarily match the order in which
+# these characters are stored in the PDF file. During indexing, DocFetcher will
+# always process the text in the "stored" order, but will by default use the
+# "visual" order for the text in the preview pane. With some PDF files, this
+# default can lead to superfluous space characters and other oddities in the
+# preview text. If you experience such problems, try changing this setting's
+# value to 'false'. However, note that this will affect the preview for *all*
+# PDF files.
+PdfPreviewVisualOrder = true
+
 
 #===============================================================================
 #	Searching, results and preview

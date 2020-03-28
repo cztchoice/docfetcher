@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -50,7 +51,9 @@ public final class PagingPdfParser {
 			}
 			
 			PagingStripper stripper = new PagingStripper();
-			stripper.setSortByPosition(true);
+			if (ProgramConf.Bool.PdfPreviewVisualOrder.get()) {
+				stripper.setSortByPosition(true);
+			}
 			stripper.writeText(doc, writer);
 		}
 		catch (Exception e) {
