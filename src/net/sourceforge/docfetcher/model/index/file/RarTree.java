@@ -99,7 +99,7 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 	private static final class RarEntryReader implements ArchiveEntryReader<FileHeader> {
 		private static final RarEntryReader instance = new RarEntryReader();
 		public String getInnerPath(FileHeader entry) {
-			String subPath = entry.isUnicode() ? entry.getFileNameW() : entry.getFileNameString();
+			String subPath = "".equals(entry.getFileNameW()) ? entry.getFileNameString() : entry.getFileNameW();
 			return Util.toForwardSlashes(subPath);
 		}
 		public boolean isDirectory(FileHeader entry) {
@@ -109,7 +109,7 @@ final class RarTree extends SolidArchiveTree<FileHeader> {
 			return entry.getMTime().getTime();
 		}
 		public long getUnpackedSize(FileHeader entry) {
-			return entry.getUnpSize();
+			return entry.getFullUnpackSize();
 		}
 		public boolean isEncrypted(FileHeader entry) {
 			return entry.isEncrypted();
