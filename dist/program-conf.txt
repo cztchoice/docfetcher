@@ -80,7 +80,7 @@ WriteIndexingLog = false
 
 # HTML file extensions. This setting will affect detection of HTML files and
 # DocFetcher's HTML pairing mechanism.
-HtmlExtensions = html;htm;xhtml;shtml;shtm;php;asp;jsp
+HtmlExtensions = html;htm;xhtml;shtml;shtm
 
 # The height of the regex table on the indexing dialog, measured (approximately)
 # in number of visible rows.

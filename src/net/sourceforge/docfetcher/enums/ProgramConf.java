@@ -147,7 +147,7 @@ public final class ProgramConf {
 	}
 
 	public static enum StrList implements Loadable {
-		HtmlExtensions ("html", "htm", "xhtml", "shtml", "shtm", "php", "asp", "jsp")
+		HtmlExtensions ("html", "htm", "xhtml", "shtml", "shtm")
 		;
 
 		private List<String> value;
