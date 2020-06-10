@@ -471,6 +471,7 @@ public final class IndexRegistry {
 			return true;
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 		finally {

@@ -16,6 +16,7 @@ import java.io.File;
 import org.eclipse.swt.SWT;
 
 import com.melloware.jintellitype.JIntellitype;
+import com.melloware.jintellitype.JIntellitypeException;
 
 import jxgrabkey.HotkeyConflictException;
 import jxgrabkey.JXGrabKey;
@@ -88,6 +89,12 @@ interface HotkeyListenerImpl {
 }
 
 final class HotkeyListenerWindowsImpl implements HotkeyListenerImpl {
+	
+	/* All JIntellitype.getInstance() calls are wrapped in an exception handler.
+	 * This is band-aid for a notorious problem where for some reason the DLL
+	 * can't be loaded. The reasons remain unknown, so we'll just ignore it.
+	 * See: https://sourceforge.net/p/docfetcher/bugs/1514/ */
+	
 	public void init(final HotkeyHandler listener) {
 		boolean isDev = SystemConf.Bool.IsDevelopmentVersion.get();
 		int arch = Util.IS_64_BIT_JVM ? 64 : 32;
@@ -95,14 +102,18 @@ final class HotkeyListenerWindowsImpl implements HotkeyListenerImpl {
 		String libPath = isDev ? "lib/jintellitype" : "lib";
 		libPath = String.format("%s/JIntellitype%d.dll", libPath, arch);
 		JIntellitype.setLibraryLocation(libPath);
-
-		JIntellitype.getInstance().addHotKeyListener(
-			new com.melloware.jintellitype.HotkeyListener() {
-				public void onHotKey(int hotkey_id) {
-					listener.onHotKey(hotkey_id);
+		
+		try {
+			JIntellitype.getInstance().addHotKeyListener(
+				new com.melloware.jintellitype.HotkeyListener() {
+					public void onHotKey(int hotkey_id) {
+						listener.onHotKey(hotkey_id);
+					}
 				}
-			}
-		);
+			);
+		} catch (JIntellitypeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean registerHotkey(int id, int mask, int key) {
@@ -112,19 +123,31 @@ final class HotkeyListenerWindowsImpl implements HotkeyListenerImpl {
 		 * modifiers to JIntellitype modifiers. The fix is to translate
 		 * directly from SWT modifiers to JIntellitype modifiers.
 		 */
-		JIntellitype.getInstance().registerHotKey(id,
-			toIntellitypeModifier(mask),
-			KeyCodeTranslator.translateSWTKey(key)
-		);
+		try {
+			JIntellitype.getInstance().registerHotKey(id,
+				toIntellitypeModifier(mask),
+				KeyCodeTranslator.translateSWTKey(key)
+			);
+		} catch (JIntellitypeException e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 
 	public void unregisterHotkey(int id) {
-		JIntellitype.getInstance().unregisterHotKey(id);
+		try {
+			JIntellitype.getInstance().unregisterHotKey(id);
+		} catch (JIntellitypeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void shutdown() {
-		JIntellitype.getInstance().cleanUp();
+		try {
+			JIntellitype.getInstance().cleanUp();
+		} catch (JIntellitypeException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private int toIntellitypeModifier(int swtModifier) {
