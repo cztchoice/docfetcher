@@ -58,7 +58,13 @@ public final class PatternAction implements Serializable {
 	public PatternAction(@NotNull String regex) {
 		this.regex = regex;
 	}
-	
+
+	public PatternAction(@NotNull String regex, @NotNull MatchTarget target, @NotNull MatchAction action) {
+		this.regex = regex;
+		this.target = target;
+		this.action = action;
+	}
+
 	// might throw PatternSyntaxException
 	public boolean matches(	@NotNull String filename,
 							@NotNull Path path,

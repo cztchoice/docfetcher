@@ -62,10 +62,12 @@ public class IndexingConfig implements Serializable {
 	
 	private static final List<String> defaultZipExtensions = Arrays.asList("zip", "jar");
 	private static final List<String> defaultTextExtensions = Arrays.asList("txt", "java", "cpp", "py");
-	private static final List<PatternAction> defaultPatternActions = Arrays.asList(
-		new PatternAction(".*\\.class"),
-		new PatternAction(".*\\.pyc"));
-	
+    private static final List<PatternAction> defaultPatternActions = Arrays.asList(new PatternAction[] { new PatternAction(".*\\.class"), 
+          new PatternAction(".*\\.pyc"), 
+          new PatternAction(".*/\\.git/.*", PatternAction.MatchTarget.PATH,     PatternAction.MatchAction.EXCLUDE), 
+          new PatternAction(".*/\\.svn/.*", PatternAction.MatchTarget.PATH,     PatternAction.MatchAction.EXCLUDE), 
+          new PatternAction("[^\\.]*",      PatternAction.MatchTarget.FILENAME, PatternAction.MatchAction.DETECT_MIME) });
+    
 	/**
 	 * Don't forget the {@link #skipTarArchives} field when accessing this list!
 	 */
