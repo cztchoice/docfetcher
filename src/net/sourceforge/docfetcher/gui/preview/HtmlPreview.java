@@ -236,6 +236,7 @@ abstract class HtmlPreview extends ToolBarForm {
 
 	public void clear() {
 		browser.setText("");
+		locationBar.setText("");
 		htmlBt.setEnabled(false);
 		htmlBt.setSelection(false);
 	}

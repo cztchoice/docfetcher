@@ -265,7 +265,7 @@ class HighlightingToolBarWithTextViewer {
 	private void updatePageToolbar(boolean visible) {
 		pageNumField.getControl().setVisible(visible);
 		pageToolbar.setVisible(visible);
-		if (visible == false)
+		if (!visible)
 			return;
 		if (pageIndex == null)
 			pageNumField.clear();

@@ -1216,29 +1216,33 @@ public final class Application {
 		saveSettingsConfFile();
 		
 		try {
-			try {
-				hotkeyHandler = new HotkeyHandler();
-			}
-			catch (UnsupportedOperationException e) {
-				return; // Hotkey not supported on OS X
-			}
-			catch (Throwable e) {
-				Util.printErr(e);
-				return;
-			}
-			
-			if (wasHotkeyEnabled) {
-				int[] hotkey = SettingsConf.IntArray.Hotkey.get();
-				boolean success = hotkeyHandler.registerHotkey(hotkey[0], hotkey[1]);
-				if (!success) {
-					handleHotkeyConflict(hotkey);
-				}
+			hotkeyHandler = new HotkeyHandler();
+		}
+		catch (UnsupportedOperationException e) {
+			return; // Hotkey not supported on OS X
+		}
+		catch (Throwable e) {
+			Util.printErr(e);
+			return;
+		}
+		
+		if (wasHotkeyEnabled) {
+			int[] hotkey = SettingsConf.IntArray.Hotkey.get();
+			boolean success = hotkeyHandler.registerHotkey(hotkey[0], hotkey[1]); // might crash the VM
+			if (!success) {
+				handleHotkeyConflict(hotkey);
 			}
 		}
-		finally {
-			SettingsConf.Bool.HotkeyEnabled.set(wasHotkeyEnabled);
-			saveSettingsConfFile();
-		}
+		
+		/*
+		 * This used to be in a finally clause, but apparently even if the VM
+		 * aborts due to failed hotkey registration, the finally clause is still
+		 * executed, which is not what we want. Relevant forum thread (in
+		 * German):
+		 * https://sourceforge.net/p/docfetcher/discussion/702424/thread/458c45e0cf/?limit=25#2055
+		 */
+		SettingsConf.Bool.HotkeyEnabled.set(wasHotkeyEnabled);
+		saveSettingsConfFile();
 		
 		SettingsConf.IntArray.Hotkey.evtChanged.add(new Event.Listener<int[]>() {
 			public void update(int[] eventData) {
