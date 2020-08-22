@@ -84,6 +84,9 @@ abstract class MSOfficeParser extends FileParser {
 			try {
 				InputStream in = new FileInputStream(file);
 				ppe = new PowerPointExtractor(in);
+				ppe.setNotesByDefault(true);
+				ppe.setCommentsByDefault(true);
+				ppe.setMasterByDefault(true);
 				return ppe.getText(true, true, true, true);
 			}
 			catch (OldPowerPointFormatException e) {
