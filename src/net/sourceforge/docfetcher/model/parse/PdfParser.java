@@ -93,10 +93,6 @@ public final class PdfParser extends StreamParser {
 					context.getReporter().subInfo(getCurrentPageNo(), pageCount);
 				}
 				protected void endPage(PDPage page) throws IOException {
-					if (context.getCancelable().isCanceled()) {
-						setEndPage(0);
-						return;
-					}
 					try {
 						for (PDAnnotation a : page.getAnnotations()) {
 							if (a instanceof PDAnnotationMarkup) {
@@ -122,6 +118,9 @@ public final class PdfParser extends StreamParser {
 						} else {
 							throw e;
 						}
+					}
+					if (context.getCancelable().isCanceled()) {
+						setEndPage(0);
 					}
 				}
 			};

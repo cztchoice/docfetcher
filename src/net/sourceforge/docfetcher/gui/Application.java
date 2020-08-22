@@ -1242,7 +1242,7 @@ public final class Application {
 		 * https://sourceforge.net/p/docfetcher/discussion/702424/thread/458c45e0cf/?limit=25#2055
 		 */
 		SettingsConf.Bool.HotkeyEnabled.set(wasHotkeyEnabled);
-		saveSettingsConfFile();
+//		saveSettingsConfFile();
 		
 		SettingsConf.IntArray.Hotkey.evtChanged.add(new Event.Listener<int[]>() {
 			public void update(int[] eventData) {

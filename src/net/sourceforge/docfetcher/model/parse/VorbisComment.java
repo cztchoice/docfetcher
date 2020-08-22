@@ -16,13 +16,8 @@ public class VorbisComment {
 		long byte1 = (bigEndian >> 16) & 0xFF;
 		long byte2 = (bigEndian >> 8) & 0xFF;
 		long byte3 = bigEndian & 0xFF;
-		long littleEndian = byte0
-				| (byte1 << 8)
-				| (byte2 << 16)
-				| (byte3 << 24);
-		return littleEndian;
+		return byte0 | (byte1 << 8) | (byte2 << 16) | (byte3 << 24);
 	}
-	
 	
 	void parse(DataInputStream dis, StringBuffer sb, boolean forViewing) throws IOException {
 		// vendor_length
@@ -52,13 +47,14 @@ public class VorbisComment {
 			byte[] comment = new byte[(int)commentSize];
 			dis.readFully(comment);
 			String entry = new String(comment);
-			if (forViewing == false) {
-				String[] cells = entry.split("=");
-				if (cells != null && cells.length >= 2) {
+			if (!forViewing) {
+				String[] cells = entry.split("=", 2);
+				if (cells.length == 2) {
 					entry = cells[1];
 				}
 			}
 			sb.append(entry + "\n");
 		}
 	}
+	
 }

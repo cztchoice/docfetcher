@@ -123,7 +123,6 @@ public final class PreviewPanel extends Composite {
 		});
 	}
 	
-	@ThreadSafe
 	public void setPreview(@NotNull ResultDocument doc) {
 		Util.checkNotNull(doc);
 		Util.assertSwtThread();
@@ -135,7 +134,6 @@ public final class PreviewPanel extends Composite {
 		setPreviewUnchecked(doc);
 	}
 	
-	@ThreadSafe
 	public boolean setHtmlFile(@NotNull File file) {
 		Util.checkNotNull(file);
 		Util.assertSwtThread();

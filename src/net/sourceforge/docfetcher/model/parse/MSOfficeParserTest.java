@@ -1,12 +1,7 @@
 package net.sourceforge.docfetcher.model.parse;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
-import org.apache.poi.extractor.ExtractorFactory;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.openxml4j.opc.PackageAccess;
 import org.junit.Test;
 
 import junit.framework.Assert;

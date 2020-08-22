@@ -79,15 +79,13 @@ public final class HighlightService {
 	@NotNull
 	private static String trimDocument(@NotNull String input) {
 		input = Util.trimRight(input);
-		Integer lineStart = 0;
+		int lineStart = 0;
 		for (int i = 0; i < input.length(); i++) {
 			char c = input.charAt(i);
 			if (c == '\r' || c == '\n') {
 				lineStart = i + 1;
 			} else if (!Character.isWhitespace(c)) {
-				if (lineStart != null)
-					return input.substring(lineStart);
-				return input.substring(i);
+				return input.substring(lineStart);
 			}
 		}
 		return "";

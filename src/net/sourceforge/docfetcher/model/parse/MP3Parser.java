@@ -26,7 +26,7 @@ final class MP3Parser extends StreamParser {
 	protected ParseResult parse(InputStream in, ParseContext context)
 			throws ParseException {
 		try {
-			return new ParseResult(extract(in, false));
+			return new ParseResult(extract(in));
 		} catch (Exception e) {
 			throw new ParseException(e);
 		}
@@ -36,7 +36,7 @@ final class MP3Parser extends StreamParser {
 	protected String renderText(InputStream in, String filename)
 			throws ParseException {
 		try {
-			return extract(in, true);
+			return extract(in);
 		} catch (Exception e) {
 			throw new ParseException(e);
 		}
@@ -58,8 +58,7 @@ final class MP3Parser extends StreamParser {
 	}
 	
 	@NotNull
-	private static String extract(@NotNull InputStream in, boolean forViewing)
-			throws Exception {
+	private static String extract(@NotNull InputStream in) throws Exception {
 		BodyContentHandler bodyHandler = new BodyContentHandler(-1);
 		Metadata metadata = new Metadata();
 		new Mp3Parser().parse(in, bodyHandler, metadata, ParseService.tikaContext());

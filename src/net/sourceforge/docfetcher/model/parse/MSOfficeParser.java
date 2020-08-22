@@ -51,7 +51,7 @@ abstract class MSOfficeParser extends FileParser {
 		}
 		protected String extractText(File file)
 				throws IOException, ParseException {
-			InputStream in; 
+			InputStream in;
 			POIOLE2TextExtractor extractor = null;
 			try {
 				in = new FileInputStream(file);
@@ -194,9 +194,6 @@ abstract class MSOfficeParser extends FileParser {
 			 * them into regular indexing errors.
 			 */
 			throw new ParseException(e);
-		}
-		finally {
-			// Closeables.closeQuietly(in); // This should be closed rather by the caller
 		}
 	}
 	

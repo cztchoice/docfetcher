@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Paulos Siahu.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Paulos Siahu - initial API and implementation
+ *******************************************************************************/
+
 package net.sourceforge.docfetcher.model.parse;
 
 import java.io.DataInputStream;
@@ -11,7 +22,6 @@ import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 /**
  * <p>Based on FLAC specifications in http://flac.sourceforge.net/format.html#metadata_block_vorbis_comment
- * 
  * 
  * @author Paulos Siahu
  */
@@ -37,7 +47,7 @@ final class FLACParser extends StreamParser {
 	
 	@NotNull
 	private static String extract(@NotNull InputStream in, boolean forViewing)
-			throws IOException, ParseException {
+			throws IOException {
 		StringBuffer sb = new StringBuffer();
 		DataInputStream dis = new DataInputStream(in);
 		

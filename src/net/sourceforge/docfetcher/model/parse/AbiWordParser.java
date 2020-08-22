@@ -79,7 +79,7 @@ final class AbiWordParser extends StreamParser {
 			pos = next.getEnd();
 		}
 		
-		// Invoke renderer on all found elements, save output to stringbuffer
+		// Invoke renderer on all found elements, save output to string buffer
 		StringBuilder sb = new StringBuilder();
 		for (Element element : topLevelNonMetaElements)
 			sb.append(element.getRenderer().toString());

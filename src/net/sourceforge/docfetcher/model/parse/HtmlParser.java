@@ -54,7 +54,7 @@ public final class HtmlParser extends StreamParser {
 		source.setLogger(null);
 		source.fullSequentialParse();
 		
-		// Get tags
+		// Get fields
 		Element titleElement = source.getNextElement(0, HTMLElementName.TITLE);
 		String title = titleElement == null ?
 				"" : CharacterReference.decodeCollapseWhiteSpace(titleElement.getContent());
@@ -71,7 +71,7 @@ public final class HtmlParser extends StreamParser {
 		else {
 			/*
 			 * Certain HTML-like files don't have a body, but contain
-			 * extractable text, e.g. Chrome bookmark files. Such files can
+			 * extractable text, e.g., Chrome bookmark files. Such files can
 			 * indexed by rendering them and processing the resulting text.
 			 */
 			contents = source.getRenderer().setIncludeHyperlinkURLs(false)

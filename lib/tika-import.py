@@ -48,6 +48,22 @@ mimetypes_path = "tika-core/src/main/resources/org/apache/tika/mime/tika-mimetyp
 # We're using this one instead of the original to avoid dragging half of Tika
 # into DocFetcher.
 OfficeParser = """
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.tika.parser.microsoft;
 
 import java.util.HashSet;
@@ -122,8 +138,8 @@ public class OfficeParser {
 
 # Get source and destination path
 if len(sys.argv) <= 2:
-	msg = "Expected source path (e.g. /path/to/tika-1.11) " + \
-		"and destination path (e.g. DocFetcher-1.1/src)."
+	msg = "Expected source path (e.g., /path/to/tika-1.11) " + \
+		"and destination path (e.g., DocFetcher-1.1/src)."
 	print(msg)
 	exit(0)
 src_root = sys.argv[1]

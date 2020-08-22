@@ -220,7 +220,7 @@ final class DelayedOverlay {
 		version++;
 		if (shell == null)
 			return;
-		shell.dispose();
+		shell.dispose(); // will set shell field to null
 	}
 
 }

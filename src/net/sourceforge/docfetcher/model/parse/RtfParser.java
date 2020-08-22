@@ -48,7 +48,7 @@ final class RtfParser extends StreamParser {
 			TikaConfig tikaConfig = new TikaConfig(new ClassLoader() {
 				protected URL findResource(String name) {
 					if ("tika-mimetypes.xml".equals(name)) {
-						return getResource("org/apache/tika/tika-mimetypes.xml");
+						return getResource("org/apache/tika/mime/tika-mimetypes.xml");
 					}
 			        return null;
 			    }
