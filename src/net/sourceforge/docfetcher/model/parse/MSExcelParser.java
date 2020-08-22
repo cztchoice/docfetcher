@@ -54,6 +54,7 @@ final class MSExcelParser extends MSOfficeParser {
 				POIFSFileSystem fs = new POIFSFileSystem(in);
 				extractor = new ExcelExtractor(fs);
 				extractor.setFormulasNotResults(ProgramConf.Bool.IndexExcelFormulas.get());
+				extractor.setIncludeCellComments(true);
 				return extractor.getText();
 			}
 			catch (OldExcelFormatException e) {

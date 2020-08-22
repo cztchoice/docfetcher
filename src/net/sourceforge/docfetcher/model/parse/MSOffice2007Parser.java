@@ -194,8 +194,10 @@ abstract class MSOffice2007Parser extends FileParser {
 	private static String extractText(@NotNull OPCPackage pkg) throws Exception {
 		POITextExtractor extractor = ExtractorFactory.createExtractor(pkg);
 		if (extractor instanceof XSSFExcelExtractor) {
+			XSSFExcelExtractor excelExtractor = (XSSFExcelExtractor) extractor;
 			boolean indexFormulas = ProgramConf.Bool.IndexExcelFormulas.get();
-			((XSSFExcelExtractor) extractor).setFormulasNotResults(indexFormulas);
+			excelExtractor.setFormulasNotResults(indexFormulas);
+			excelExtractor.setIncludeCellComments(true);
 		}
 		String text = extractor.getText();
 		return text;
