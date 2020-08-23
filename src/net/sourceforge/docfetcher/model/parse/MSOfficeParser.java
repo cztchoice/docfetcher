@@ -76,7 +76,7 @@ abstract class MSOfficeParser extends FileParser {
 	
 	public static final class MSPowerPointParser extends MSOfficeParser {
 		public MSPowerPointParser() {
-			super(Msg.filetype_ppt.get(), "ppt", "pps");
+			super(Msg.filetype_ppt.get(), "ppt", "pps", "pot");
 		}
 		protected String extractText(File file)
 				throws IOException, ParseException {
@@ -104,7 +104,7 @@ abstract class MSOfficeParser extends FileParser {
 	
 	public static final class MSVisioParser extends MSOfficeParser {
 		public MSVisioParser() {
-			super(Msg.filetype_vsd.get(), "vsd");
+			super(Msg.filetype_vsd.get(), "vsd", "vss", "vst", "vsw");
 		}
 		protected String extractText(File file)
 				throws IOException {

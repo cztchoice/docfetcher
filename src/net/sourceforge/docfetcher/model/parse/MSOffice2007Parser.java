@@ -49,19 +49,19 @@ abstract class MSOffice2007Parser extends FileParser {
 	
 	public static final class MSWord2007Parser extends MSOffice2007Parser {
 		public MSWord2007Parser() {
-			super(Msg.filetype_docx.get(), "docx", "docm", "dotx");
+			super(Msg.filetype_docx.get(), "docx", "docm", "dotx", "dotm");
 		}
 	}
 	
 	public static final class MSExcel2007Parser extends MSOffice2007Parser {
 		public MSExcel2007Parser() {
-			super(Msg.filetype_xlsx.get(), "xlsx", "xlsm", "xltx");
+			super(Msg.filetype_xlsx.get(), "xlsx", "xlsm", "xltx", "xltm");
 		}
 	}
 	
 	public static final class MSPowerPoint2007Parser extends MSOffice2007Parser {
 		public MSPowerPoint2007Parser() {
-			super(Msg.filetype_pptx.get(), "pptx", "pptm", "ppsx");
+			super(Msg.filetype_pptx.get(), "pptx", "pptm", "ppsx", "ppsm", "potx", "potm");
 		}
 	}
 	
