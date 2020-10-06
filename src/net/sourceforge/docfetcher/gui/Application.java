@@ -804,7 +804,10 @@ public final class Application {
 		ToolBarForm filesizeForm = new ToolBarForm(comp) {
 			protected Control createToolBar(Composite parent) {
 				final Label item = new Label(parent, SWT.NONE);
-				item.setImage(Img.MINIMIZE.get());
+				Image image = SettingsConf.Bool.FilesizeFilterMaximized.get()
+					? Img.MINIMIZE.get()
+					: Img.MAXIMIZE.get();
+				item.setImage(image);
 				item.addMouseListener(new MouseAdapter() {
 					public void mouseUp(MouseEvent e) {
 						boolean isVisible = !isContentsVisible();
