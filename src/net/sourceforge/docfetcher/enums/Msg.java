@@ -629,9 +629,9 @@ public enum Msg {
 		Comments.prefOption + "Whether the search history (i.e. the list of " +
 		"recently entered queries) should be cleared when the program exits."),
 	pref_use_type_ahead_search (
-        "Use type-ahead search",
-        Comments.prefOption + "Whether the program should carry out a search " +
-        "while the user is typing in the search bar."),
+		"Use type-ahead search",
+		Comments.prefOption + "Whether the program should carry out a search " +
+		"while the user is typing in the search bar."),
 	pref_word_segmentation (
 		"Word segmentation:",
 		Comments.prefOption + "The word segmentation algorithm to use during " +

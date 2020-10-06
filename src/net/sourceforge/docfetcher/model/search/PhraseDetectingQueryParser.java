@@ -11,14 +11,12 @@
 
 package net.sourceforge.docfetcher.model.search;
 
-import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.MultiPhraseQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.util.Version;
+
+import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
 
 /**
  * @author Tran Nam Quang
@@ -36,7 +34,7 @@ public final class PhraseDetectingQueryParser extends QueryParser {
 	
 	public PhraseDetectingQueryParser(  String defaultField,
                                         Analyzer analyzer) {
-		super( defaultField, analyzer);
+		super(defaultField, analyzer);
 	}
 	
 	public boolean isPhraseQuery() {
@@ -60,7 +58,7 @@ public final class PhraseDetectingQueryParser extends QueryParser {
 		return super.newPrefixQuery(prefix);
 	}
 
-	protected Query newWildcardQuery(org.apache.lucene.index.Term t) {
+	protected Query newWildcardQuery(Term t) {
 		isPhraseQuery = false;
 		return super.newWildcardQuery(t);
 	}

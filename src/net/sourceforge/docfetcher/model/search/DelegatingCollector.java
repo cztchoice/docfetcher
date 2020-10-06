@@ -25,18 +25,19 @@ import org.apache.lucene.search.Collector;
 import org.apache.lucene.search.Scorer;
 import org.apache.lucene.search.SimpleCollector;
 
-
-/** A simple delegating collector where one can set the delegate after creation */
+/**
+ * A simple delegating collector where one can set the delegate after creation.
+ */
 public class DelegatingCollector extends SimpleCollector {
 
     /* for internal testing purposes only to determine the number of times a delegating collector chain was used */
-    public static int setLastDelegateCount;
+//    public static int setLastDelegateCount;
 
     protected Collector delegate;
     protected LeafCollector leafDelegate;
-    protected Scorer scorer;
-    protected LeafReaderContext context;
-    protected int docBase;
+//    protected Scorer scorer;
+//    protected LeafReaderContext context;
+//    protected int docBase;
 
     public Collector getDelegate() {
         return delegate;
@@ -46,17 +47,17 @@ public class DelegatingCollector extends SimpleCollector {
         this.delegate = delegate;
     }
 
-    /** Sets the last delegate in a chain of DelegatingCollectors */
-    public void setLastDelegate(Collector delegate) {
-        DelegatingCollector ptr = this;
-        for(; ptr.getDelegate() instanceof DelegatingCollector; ptr = (DelegatingCollector)ptr.getDelegate());
-        ptr.setDelegate(delegate);
-        setLastDelegateCount++;
-    }
+//    /** Sets the last delegate in a chain of DelegatingCollectors */
+//    public void setLastDelegate(Collector delegate) {
+//        DelegatingCollector ptr = this;
+//        for(; ptr.getDelegate() instanceof DelegatingCollector; ptr = (DelegatingCollector)ptr.getDelegate());
+//        ptr.setDelegate(delegate);
+//        setLastDelegateCount++;
+//    }
 
     @Override
     public void setScorer(Scorer scorer) throws IOException {
-        this.scorer = scorer;
+//        this.scorer = scorer;
         if (leafDelegate != null) {
             leafDelegate.setScorer(scorer);
         }
@@ -74,14 +75,14 @@ public class DelegatingCollector extends SimpleCollector {
 
     @Override
     protected void doSetNextReader(LeafReaderContext context) throws IOException {
-        this.context = context;
-        this.docBase = context.docBase;
+//        this.context = context;
+//        this.docBase = context.docBase;
         leafDelegate = delegate.getLeafCollector(context);
     }
 
-    public void finish() throws IOException {
-        if(delegate instanceof DelegatingCollector) {
-            ((DelegatingCollector) delegate).finish();
-        }
-    }
+//    public void finish() throws IOException {
+//        if(delegate instanceof DelegatingCollector) {
+//            ((DelegatingCollector) delegate).finish();
+//        }
+//    }
 }

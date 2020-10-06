@@ -13,6 +13,23 @@ package net.sourceforge.docfetcher.gui;
 
 import java.io.File;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.ToolBar;
+
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
@@ -23,21 +40,6 @@ import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.collect.MemoryList;
 import net.sourceforge.docfetcher.util.gui.ToolItemFactory;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.ToolBar;
 
 /**
  * @author Tran Nam Quang
@@ -71,14 +73,20 @@ public final class SearchBar {
 
 		searchBox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				String query = searchBox.getText().trim();
-				if(!query.isEmpty()){
-					if (Util.isEnterKey(e.keyCode))
+				if (Util.isEnterKey(e.keyCode)) {
+					String query = searchBox.getText().trim();
+					if (!query.isEmpty()) {
 						evtSearch.fire(query);
-					else if(SettingsConf.Bool.UseTypeAheadSearch.get() &&
-							!Util.isSpecialStateMask(e.stateMask) &&
-							Util.isTypeAheadAccept(e.character))
-						evtSearchTypeAhead.fire(query);
+					}
+				}
+			}
+		});
+		
+		searchBox.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(ModifyEvent e) {
+				if (SettingsConf.Bool.UseTypeAheadSearch.get()) {
+					evtSearchTypeAhead.fire(searchBox.getText().trim());
 				}
 			}
 		});
