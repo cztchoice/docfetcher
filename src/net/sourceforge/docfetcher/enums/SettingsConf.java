@@ -169,7 +169,6 @@ public final class SettingsConf {
 			"\r\n# escaped by a preceding \\.")
 	public static enum Str implements Storable {
 		LastIndexedFolder (Util.USER_HOME_PATH),
-		LastIndexedPSTFile (""),
 		;
 
 		public final Event<String> evtChanged = new Event<String> ();

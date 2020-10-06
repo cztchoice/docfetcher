@@ -202,9 +202,12 @@ public final class FolderWatcher {
 		for (LuceneIndex index : watchQueueCopy.keySet()) {
 			File rootFile = index.getCanonicalRootFile();
 			
-			// Don't watch read-only files (some might be on a CD-ROM)
-			if (!rootFile.canWrite())
-				continue;
+			/* If the file is read-only, it might reside on a CD-ROM, in which
+			 * case installing a watch is unnecessary. However, it might also be
+			 * located on a network drive that is read-only to us, but writable
+			 * to other users. Therefore, we still have to install a watch. */
+//			if (!rootFile.canWrite())
+//				continue;
 			
 			/*
 			 * Note: Before adding or removing a watch, we must check

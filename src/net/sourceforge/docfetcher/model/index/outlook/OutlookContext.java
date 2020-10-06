@@ -3,6 +3,7 @@ package net.sourceforge.docfetcher.model.index.outlook;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -96,7 +97,12 @@ final class OutlookContext {
 		String body = email.getBody();
 		String sender = getSender(email);
 		String recipients = Util.join(", ", getRecipients(email));
-		long size = body.length(); // assume every char takes up one byte
+		long size;
+		try {
+			size = body.getBytes("utf-8").length;
+		} catch (UnsupportedEncodingException e) {
+			size = body.getBytes().length;
+		}
 		
 		luceneDoc.add(Fields.UID.create(doc.getUniqueId()));
 		luceneDoc.add(Fields.SUBJECT.create(subject));

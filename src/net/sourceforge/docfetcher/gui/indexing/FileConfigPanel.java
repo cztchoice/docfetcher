@@ -42,6 +42,7 @@ import org.eclipse.swt.widgets.Group;
  * @author Tran Nam Quang
  */
 final class FileConfigPanel extends ConfigPanel {
+	
 	@NotNull private IndexNameGroupWrapper indexGroupWrapper;
 	@NotNull private FileExtensionGroupWrapper extGroupWrapper;
 	@NotNull private PatternTable patternTable;

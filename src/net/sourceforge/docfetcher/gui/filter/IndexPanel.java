@@ -649,8 +649,8 @@ public final class IndexPanel {
 													@NotNull final IndexRegistry indexRegistry,
 													@Nullable final DialogFactory dialogFactory,
 													final boolean dirNotFile) {
-		String lastPath = SettingsConf.Str.LastIndexedFolder.get();
-		if (!new File(lastPath).exists())
+		String lastPath = SettingsConf.Str.LastIndexedFolder.get().trim();
+		if (lastPath.isEmpty() || !new File(lastPath).isDirectory())
 			lastPath = SettingsConf.Str.LastIndexedFolder.defaultValue;
 
 		Object success = new InputLoop<Object>() {
@@ -686,7 +686,10 @@ public final class IndexPanel {
 
 			protected Object onAccept(String newValue) {
 				String absPath = Util.getSystemAbsPath(newValue);
-				SettingsConf.Str.LastIndexedFolder.set(absPath); // TODO test
+				if (!dirNotFile) {
+					absPath = new File(absPath).getParent();
+				}
+				SettingsConf.Str.LastIndexedFolder.set(absPath);
 				if (dialogFactory != null)
 					dialogFactory.open();
 				return new Object();
@@ -699,9 +702,9 @@ public final class IndexPanel {
 	public static boolean createOutlookTaskFromDialog(	@NotNull final Shell shell,
 														@NotNull final IndexRegistry indexRegistry,
 														@Nullable final DialogFactory dialogFactory) {
-		String lastPath = SettingsConf.Str.LastIndexedPSTFile.get();
-		if (!lastPath.equals("") && !new File(lastPath).isFile())
-			lastPath = SettingsConf.Str.LastIndexedPSTFile.defaultValue;
+		String lastPath = SettingsConf.Str.LastIndexedFolder.get().trim();
+		if (lastPath.isEmpty() || !new File(lastPath).isDirectory())
+			lastPath = SettingsConf.Str.LastIndexedFolder.defaultValue;
 
 		File pstFile = getOutlookPSTFile();
 		if (pstFile != null) {
@@ -716,7 +719,7 @@ public final class IndexPanel {
 			protected String getNewValue(String lastValue) {
 				FileDialog dialog = new FileDialog(shell);
 				dialog.setText(Msg.select_outlook_pst_title.get());
-				dialog.setFilterNames(new String[] { "Outlook Personal Storage Table (*.pst, *.ost, *.zdb)" });
+				dialog.setFilterNames(new String[] { "Outlook Personal Storage Table (*.pst, *.ost)" });
 				if (!lastValue.equals(""))
 					dialog.setFilterPath(lastValue);
 				return dialog.open();
@@ -738,7 +741,8 @@ public final class IndexPanel {
 
 			protected Void onAccept(String newValue) {
 				String path = Util.getSystemAbsPath(newValue);
-				SettingsConf.Str.LastIndexedPSTFile.set(path); // TODO test
+				path = new File(path).getParent();
+				SettingsConf.Str.LastIndexedFolder.set(path);
 				if (dialogFactory != null)
 					dialogFactory.open();
 				return null;

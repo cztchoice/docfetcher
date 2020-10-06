@@ -59,7 +59,14 @@ final class RegexTestPanel extends Composite {
 		Button fileChooserBt = Util.createPushButton(this, "...", new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
-				dialog.setFilterPath(index.getCanonicalRootFile().getPath());
+				File rootFile = index.getCanonicalRootFile();
+				if (rootFile.isFile()) {
+					rootFile = rootFile.getParentFile();
+					if (rootFile == null) {
+						rootFile = Util.USER_DIR;
+					}
+				}
+				dialog.setFilterPath(rootFile.getPath());
 				dialog.setText(Msg.choose_regex_testfile_title.get());
 				String filepath = dialog.open();
 				if (filepath == null)
@@ -71,24 +78,14 @@ final class RegexTestPanel extends Composite {
 			}
 		});
 		
-		fileBox.addKeyListener(new KeyAdapter(){
+		fileBox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (Util.isEnterKey(e.keyCode)) {
-					fileBox.setText(new Path(fileBox.getText()).getPath());
-					fileBox.setSelection(fileBox.getText().length());
-					if(fileBox.getText().isEmpty()){
-						clearLabel();
-					} else {
-						updateLabel();
-					}
-				} else {
-					clearLabel();
-				}
+				updateLabel();
 			}
 		});
-
+		
 		setLayout(Util.createGridLayout(2, false, 0, 0));
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, true, false, 2, 1));
+		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		fileBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		fileChooserBt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 	}
@@ -110,6 +107,7 @@ final class RegexTestPanel extends Composite {
 		File file = Util.getCanonicalFile(path);
 		Path newPath = IndexingConfig.getStorablePath(file, storeRelativePaths);
 		fileBox.setText(newPath.getPath());
+		updateLabel();
 	}
 	
 	private void updateLabel() {
@@ -121,12 +119,6 @@ final class RegexTestPanel extends Composite {
 		catch (PatternSyntaxException e) {
 			label.setText(Msg.sel_regex_malformed.get());
 		}
-		layout();
-	}
-	
-	private void clearLabel() {
-		label.setText("");
-		layout();
 	}
 
 	private boolean matches() throws PatternSyntaxException {

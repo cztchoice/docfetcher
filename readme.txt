@@ -14,9 +14,9 @@ In the Run configuration:
  - Main > Main class: net.sourceforge.docfetcher.gui.Application
  - Required Arguments > VM arguments
 	Windows:
-		-Djava.library.path="lib/chm4j;lib/jnotify;lib/jintellitype"
+		-Djava.library.path="lib/jnotify;lib/jintellitype"
 	Linux:
-		-Djava.library.path="lib/chm4j:lib/jnotify:lib/jxgrabkey"
+		-Djava.library.path="lib/jnotify:lib/jxgrabkey"
 	Mac OS X:
 		-Djava.library.path="lib/jnotify"
 		-XstartOnFirstThread

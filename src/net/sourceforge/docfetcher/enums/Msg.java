@@ -80,13 +80,11 @@ public enum Msg {
 	file_or_folder_not_found (
 		"File or folder not found:",
 		"An error message that is shown when the program fails to find a " +
-		"certain file or folder. The path of the file/folder will be " +
-		"inserted into the {0} slot."),
+		"certain file or folder."),
 	files_or_folders_not_found (
 		"Files or folders not found:",
 		"An error message that is shown when the program fails to find " +
-		"certain files or folders. The path of the files and folders will be " +
-		"inserted into the {0} slot."),
+		"certain files or folders."),
 	missing_image_files (
 		"Missing image files:",
 		"Error message shown on startup if some of the program's image " +

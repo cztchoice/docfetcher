@@ -11,14 +11,7 @@
 
 package net.sourceforge.docfetcher.gui.indexing;
 
-import net.sourceforge.docfetcher.model.LuceneIndex;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.gui.GroupWrapper;
-
 import java.io.File;
-import java.util.Collection;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -26,6 +19,12 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
+
+import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.model.LuceneIndex;
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.gui.GroupWrapper;
 
 /**
  * @author Roy van Lamoen

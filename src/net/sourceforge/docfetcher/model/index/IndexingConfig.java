@@ -72,7 +72,7 @@ public class IndexingConfig implements Serializable {
 	 * Don't forget the {@link #skipTarArchives} field when accessing this list!
 	 */
 	public static final List<String> tarExtensions = Arrays.asList(
-		"tar", "tar.gz", "tgz", "tar.bz2", "tb2", "tbz");
+		"tar", "tar.gz", "tgz", "tar.bz2", "tb2", "tbz", "tbz2");
 	
 	private static final Pattern dotSlashPattern = Pattern.compile("\\.\\.?[/\\\\].*");
 	

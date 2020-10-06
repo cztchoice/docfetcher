@@ -75,7 +75,7 @@ final class ThinArrowButton extends Canvas {
 					for (int i = 1; i < coords.length; i = i + 2)
 						coords[i] += btHeight / 2;
 
-					e.gc.fillRectangle(2, 2, btWidth - 4, btHeight - 4);
+//					e.gc.fillRectangle(2, 2, btWidth - 4, btHeight - 4);
 					e.gc.setBackground(Col.WIDGET_FOREGROUND.get());
 					e.gc.setAntialias(SWT.ON);
 					e.gc.fillPolygon(coords);
