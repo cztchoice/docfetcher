@@ -68,11 +68,17 @@ public class IndexingConfig implements Serializable {
           new PatternAction(".*/\\.svn/.*", PatternAction.MatchTarget.PATH,     PatternAction.MatchAction.EXCLUDE), 
           new PatternAction("[^\\.]*",      PatternAction.MatchTarget.FILENAME, PatternAction.MatchAction.DETECT_MIME) });
     
+	/*
+	 * "tbz2" is not included in the tarExtensions below because TrueZIP doesn't
+	 * have a registered driver for it out of the box, and it's not clear how to
+	 * set up such a driver.
+	 */
+    
 	/**
 	 * Don't forget the {@link #skipTarArchives} field when accessing this list!
 	 */
 	public static final List<String> tarExtensions = Arrays.asList(
-		"tar", "tar.gz", "tgz", "tar.bz2", "tb2", "tbz", "tbz2");
+		"tar", "tar.gz", "tgz", "tar.bz2", "tb2", "tbz");
 	
 	private static final Pattern dotSlashPattern = Pattern.compile("\\.\\.?[/\\\\].*");
 	
