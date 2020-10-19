@@ -6,7 +6,7 @@
 ; DEPENDENCIES
 ; All dependencies of this script can be found in dev/nsis-dependencies, BUT
 ; those files might be out of date, so try the latest versions of the
-; dependencies first. They can be found here:
+; dependencies first, if any are available. They can be found here:
 ; - http://nsis.sourceforge.net/Inetc_plug-in
 ; - http://nsis.sourceforge.net/Java_Runtime_Environment_Dynamic_Installer
 ; - http://nsis.sourceforge.net/Processes_plug-in
@@ -14,7 +14,7 @@
 ; file everything related to CUSTOM_PAGE_JREINFO was deleted in order to work
 ; around compilation errors which may or may not show up in your case.
 
-RequestExecutionLevel admin ; without this, the startmenu links won't be removed on Windows Vista/7
+RequestExecutionLevel admin ; without this, the startmenu links won't be removed on Windows Vista and later
 SetCompress force
 SetCompressor /FINAL zlib
 
@@ -63,7 +63,7 @@ Function .onInit
 	Processes::FindProcess "DocFetcher.exe"
 	StrCmp $R0 0 done
 	MessageBox MB_RETRYCANCEL|MB_ICONEXCLAMATION \
-		"     DocFetcher is running! $\n$\nPlease close all open instances before upgrading." \
+		"DocFetcher is running! Please close it before reinstalling." \
 	IDRETRY startinst
 	Abort
 	done:
@@ -85,12 +85,12 @@ Function finalPage
 	Pop $0
 	${NSD_CreateLabel} 75u 30u 80% 8u "DocFetcher was succesfully installed on your computer."
 	Pop $0
-	${NSD_CreateCheckbox} 80u 50u 50% 8u "Run DocFetcher v${VERSION}"
+	${NSD_CreateCheckbox} 80u 50u 50% 8u "Run DocFetcher ${VERSION}"
 	Pop $CHECKBOX
 	SendMessage $CHECKBOX ${BM_SETCHECK} ${BST_CHECKED} 0
 	GetFunctionAddress $1 OnCheckbox
 	nsDialogs::OnClick $CHECKBOX $1
-
+	
 	; Add an image
 	${NSD_CreateBitmap} 0 0 100% 40% ""
 	Pop $Image
@@ -115,50 +115,49 @@ Function .onInstSuccess
 	endpage:
 FunctionEnd
 Function .onInstFailed
-    DetailPrint " --- "
-    DetailPrint " Make sure DocFetcher is not running and try installation again "
-    MessageBox MB_OK|MB_ICONEXCLAMATION "Please restart your computer and try the installation again."
+	DetailPrint " --- "
+	DetailPrint " Make sure DocFetcher is not running and try installing again."
+	MessageBox MB_OK|MB_ICONEXCLAMATION "Please restart your computer and try the installation again."
 FunctionEnd
-
 
 Section "DocFetcher"
 	SetShellVarContext all
 	Call DownloadAndInstallJREIfNecessary
-    killdaemon:
+	killdaemon:
 		Processes::FindProcess "docfetcher-daemon-windows"
 		StrCmp $R0 0 nodaemon
-		DetailPrint "Attempting to kill docfetcher-daemon..."
+		DetailPrint "Attempting to kill DocFetcher daemon..."
 		Processes::KillProcess "docfetcher-daemon-windows"
 		Sleep 250
-    Goto killdaemon
-    nodaemon:
+	Goto killdaemon
+	nodaemon:
 	
-	; Remove existing DocFetcher folder. This is necessary because:
+	; Remove the existing program folder. This is necessary because:
 	; - Otherwise the uninstaller might not work cleanly.
 	; - Loading different versions of the same library might crash the program. See bug #3558268.
 	RMDir /r $INSTDIR
-
+	
 	; Copy files
 	SetOutPath $INSTDIR
 	File ${PORTABLE_PATH}\*.exe
 	File ${PORTABLE_PATH}\*.txt
 	File ${PORTABLE_PATH}\*.py
-
+	
 	SetOutPath $INSTDIR\misc
 	File ${PORTABLE_PATH}\misc\*.bat
 	File ${PORTABLE_PATH}\misc\*.exe
 	File ${PORTABLE_PATH}\misc\licenses.zip
 	File ${PORTABLE_PATH}\misc\paths.txt
-
+	
 	SetOutPath $INSTDIR\help
 	File /r ${PORTABLE_PATH}\help\*.*
-
+	
 	SetOutPath $INSTDIR\img
 	File /r ${PORTABLE_PATH}\img\*.*
 	
 	SetOutPath $INSTDIR\lang
 	File /r ${PORTABLE_PATH}\lang\*.*
-
+	
 	;SetOutPath $INSTDIR\templates
 	;File /r ${PORTABLE_PATH}\templates\*.xml
 	
@@ -166,10 +165,10 @@ Section "DocFetcher"
 	SetOutPath $INSTDIR\lib
 	File /r /x *.so /x *.dylib /x *linux* /x *macosx* /x *docfetcher*.jar ${PORTABLE_PATH}\lib\*.*
 	File build\tmp\net.sourceforge.docfetcher*.jar
-
+	
 	; Uninstaller
 	WriteUninstaller $INSTDIR\uninstaller.exe
-
+	
 	; Write to registry
 	Var /GLOBAL regkey
 	Var /GLOBAL homepage
@@ -186,38 +185,38 @@ Section "DocFetcher"
 	WriteRegDWORD HKLM $regkey "NoModify" 1
 	WriteRegDWORD HKLM $regkey "NoRepair" 1
 	WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "DocFetcher-Daemon" "$INSTDIR\docfetcher-daemon-windows.exe"
-
+	
 	SetShellVarContext current
-
+	
 	; Start menu entries
 	CreateDirectory $SMPROGRAMS\DocFetcher
 	CreateShortCut $SMPROGRAMS\DocFetcher\DocFetcher.lnk $INSTDIR\DocFetcher.exe
 	CreateShortCut "$SMPROGRAMS\DocFetcher\Uninstall DocFetcher.lnk" $INSTDIR\uninstaller.exe
 	CreateShortCut $SMPROGRAMS\DocFetcher\Readme.lnk $INSTDIR\Readme.txt
-
+	
 	; Launch daemon
 	Exec '"$INSTDIR\docfetcher-daemon-windows.exe"'
 SectionEnd
 
 Section "un.Uninstall"
 	SetShellVarContext all
-
+	
 	; Kill daemon
 	Processes::KillProcess "docfetcher-daemon-windows"
 	Sleep 1000
-
+	
 	; Remove program folder
 	RMDir /r /REBOOTOK $INSTDIR
-
+	
 	; Remove registry key
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\DocFetcher"
 	DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "DocFetcher-Daemon"
-
+	
 	SetShellVarContext current
-
+	
 	; Remove application data folder
 	RMDir /r /REBOOTOK $APPDATA\DocFetcher
-
+	
 	; Remove start menu entries
 	Delete /REBOOTOK $SMPROGRAMS\DocFetcher\DocFetcher.lnk
 	Delete /REBOOTOK "$SMPROGRAMS\DocFetcher\Uninstall DocFetcher.lnk"

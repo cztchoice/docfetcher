@@ -1,17 +1,19 @@
 @echo off
 
-rem  Note: This file is an alternative launcher for DocFetcher. How to use it:
+rem  This file is an alternative launcher for the program, provided for easy
+rem  customization. How to use it:
 rem  1) Move this file one level up into the DocFetcher folder.
 rem  2) Modify this file as needed.
 rem  3) Double-click on this file to launch DocFetcher.
 rem  
 rem  Common modifications of this file:
 rem  
-rem  1) You can give DocFetcher more memory with the setting -Xmx... in the last
-rem     line. For example, -Xmx512m will give DocFetcher up to 512 MB of memory,
-rem     whereas -Xmx8g will give DocFetcher up to 8 GB of memory. The latter
-rem     only works if your machine has at least 8 GB of RAM. Also, note that
-rem     using more memory than about 1 GB requires a 64-bit Java runtime.
+rem  1) You can adjust the maximum amount of memory available to the program
+rem     with the setting -Xmx... in the last line. For example, -Xmx512m will
+rem     give the program up to 512 MB of memory, whereas -Xmx8g will give it up
+rem     to 8 GB of memory. The latter only works if your machine has at least 8
+rem     GB of RAM. Also note that using more memory than about 1 GB requires a
+rem     64-bit Java runtime.
 rem  
 rem  2) You can replace the "java" keyword in the last line with an absolute or
 rem     relative path to the Java executable. If the path contains spaces, put

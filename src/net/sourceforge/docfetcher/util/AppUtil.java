@@ -21,15 +21,6 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sourceforge.docfetcher.enums.ProgramConf;
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.enums.SystemConf;
-import net.sourceforge.docfetcher.gui.KeyCodeTranslator;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.gui.dialog.StackTraceWindow;
-
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -40,6 +31,14 @@ import org.eclipse.swt.widgets.Shell;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 import com.sun.jna.platform.win32.Shell32Util;
+
+import net.sourceforge.docfetcher.enums.ProgramConf;
+import net.sourceforge.docfetcher.enums.SettingsConf;
+import net.sourceforge.docfetcher.enums.SystemConf;
+import net.sourceforge.docfetcher.gui.KeyCodeTranslator;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.docfetcher.util.gui.dialog.StackTraceWindow;
 
 /**
  * A container for various utility methods. These aren't members of the

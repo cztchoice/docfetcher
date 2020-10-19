@@ -29,7 +29,7 @@ print("Copying sources to build directory...")
 shutil.copytree(
 	"src",
 	"build/tmp/src-builder",
-	ignore = shutil.ignore_patterns(".svn", ".cvs", ".git")
+	ignore = shutil.ignore_patterns(".cvs", ".git", ".svn")
 )
 
 # *args -> [string]
