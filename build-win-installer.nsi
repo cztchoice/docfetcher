@@ -9,7 +9,8 @@
 ; dependencies first, if any are available. They can be found here:
 ; - http://nsis.sourceforge.net/Inetc_plug-in
 ; - http://nsis.sourceforge.net/Java_Runtime_Environment_Dynamic_Installer
-; - http://nsis.sourceforge.net/Processes_plug-in
+; - https://nsis.sourceforge.io/ApplicationID_plug-in
+; - https://nsis.sourceforge.io/Processes_plug-in
 ; In case of errors, try updating NSIS. Also, in the local JREDyna_Inetc.nsh
 ; file everything related to CUSTOM_PAGE_JREINFO was deleted in order to work
 ; around compilation errors which may or may not show up in your case.
@@ -193,6 +194,7 @@ Section "DocFetcher"
 	CreateShortCut $SMPROGRAMS\DocFetcher\DocFetcher.lnk $INSTDIR\DocFetcher.exe
 	CreateShortCut "$SMPROGRAMS\DocFetcher\Uninstall DocFetcher.lnk" $INSTDIR\uninstaller.exe
 	CreateShortCut $SMPROGRAMS\DocFetcher\Readme.lnk $INSTDIR\Readme.txt
+	ApplicationID::Set "$SMPROGRAMS\DocFetcher\DocFetcher.lnk" "DocFetcher"
 	
 	; Launch daemon
 	Exec '"$INSTDIR\docfetcher-daemon-windows.exe"'
