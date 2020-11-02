@@ -1,3 +1,5 @@
+**Announcement**: You may be interested in [DocFetcher Pro](http://docfetcher.sourceforge.net/wiki/doku.php?id=docfetcher_pro), the upcoming commercial version of DocFetcher.
+
 Описание
 ===========
 DocFetcher ­– это приложение с открытым исходным кодом, позволяющее вам совершать поиск по содержимому файлов на вашем компьютере. &mdash; Это как Google, но только для локальных файлов. Приложение работает на Windows, Linux и OS&nbsp;X. Распространяется по лицензии [Eclipse Public License](https://ru.wikipedia.org/wiki/Eclipse_Public_License).

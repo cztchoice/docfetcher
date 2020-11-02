@@ -1,3 +1,5 @@
+**Announcement**: You may be interested in [DocFetcher Pro](http://docfetcher.sourceforge.net/wiki/doku.php?id=docfetcher_pro), the upcoming commercial version of DocFetcher.
+
 Descrizione
 ===========
 DocFetcher è un programma Open Source utilizzabile per effettuare ricerche locali sul computer consentendo la ricerca del contenuto dei file ivi presenti &mdash; È possibile pensare a DocFetcher come al motore di ricerca Google applicato al proprio computer. L'applicazione gira su Windows, Linux e OS&nbsp;X ed è reso disponibile sotto la [Eclipse Public License](https://en.wikipedia.org/wiki/Eclipse_Public_License).

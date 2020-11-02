@@ -1,3 +1,5 @@
+**Announcement**: You may be interested in [DocFetcher Pro](http://docfetcher.sourceforge.net/wiki/doku.php?id=docfetcher_pro), the upcoming commercial version of DocFetcher.
+
 Descripción
 ===========
 DocFetcher es una aplicación Open Source de búsqueda de escritorio: Permite que busques contenidos de ficheros en tu ordenador.  &mdash; Puedes verlo como una especie de Google para tus ficheros locales. La aplicación funciona en Windows, Linux y OS&nbsp;X, y está disponible bajo la [Licencia Eclipse Public](https://en.wikipedia.org/wiki/Eclipse_Public_License).

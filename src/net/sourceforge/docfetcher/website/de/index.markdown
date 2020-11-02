@@ -1,3 +1,5 @@
+**Ankündigung**: Sie könnten an [DocFetcher Pro](http://docfetcher.sourceforge.net/wiki/doku.php?id=docfetcher_pro) interessiert sein, der in naher Zukunft verfügbaren kommerziellen Version von DocFetcher.
+
 Beschreibung
 ============
 DocFetcher ist ein Open Source Desktop-Suchprogramm: Es ermöglicht die Volltext-Suche in Dateien auf dem Computer &mdash; eine Art Google für den Heimrechner. Das Programm läuft auf Windows, Linux und OS&nbsp;X, und ist verfügbar unter der [Eclipse Public License](https://en.wikipedia.org/wiki/Eclipse_Public_License).
