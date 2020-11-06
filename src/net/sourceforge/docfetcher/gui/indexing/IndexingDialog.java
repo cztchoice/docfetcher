@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.ToolItem;
 
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.filter.IndexPanel;
 import net.sourceforge.docfetcher.gui.indexing.SingletonDialogFactory.Dialog;
@@ -122,77 +123,79 @@ public final class IndexingDialog implements Dialog {
 	private void initToolBarMenu(@NotNull ToolBar toolBar) {
 		ToolItemFactory tif = new ToolItemFactory(toolBar);
 		
-		final ToolItem addItem = tif.image(Img.ADD.get())
-				.toolTip(Msg.add_to_queue.get()).create();
-		
-		addItem.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				abstract class ChildDialogAction extends MenuAction {
-					public ChildDialogAction(Image image, String label) {
-						super(image, label);
-					}
-					public final void run() {
-						// Only one child dialog can be open at any time
-						assert !childDialogOpen;
-						
-						childDialogOpen = true;
-						boolean success = doRun();
-						childDialogOpen = false;
-						
-						/*
-						 * If all existing tasks have been completed while the
-						 * child dialog was open and the user cancelled the
-						 * child dialog, close the indexing dialog.
-						 */
-						if (!success && tabFolder.getItemCount() == 0) {
-							indexRegistry.getQueue().removeListeners(
-								addedListener, removedListener);
-							shell.dispose();
+		if (ProgramConf.Bool.AllowIndexCreation.get()) {
+			final ToolItem addItem = tif.image(Img.ADD.get())
+					.toolTip(Msg.add_to_queue.get()).create();
+			
+			addItem.addSelectionListener(new SelectionAdapter() {
+				public void widgetSelected(SelectionEvent e) {
+					abstract class ChildDialogAction extends MenuAction {
+						public ChildDialogAction(Image image, String label) {
+							super(image, label);
 						}
+						public final void run() {
+							// Only one child dialog can be open at any time
+							assert !childDialogOpen;
+							
+							childDialogOpen = true;
+							boolean success = doRun();
+							childDialogOpen = false;
+							
+							/*
+							 * If all existing tasks have been completed while
+							 * the child dialog was open and the user cancelled
+							 * the child dialog, close the indexing dialog.
+							 */
+							if (!success && tabFolder.getItemCount() == 0) {
+								indexRegistry.getQueue().removeListeners(
+									addedListener, removedListener);
+								shell.dispose();
+							}
+						}
+						protected abstract boolean doRun();
 					}
-					protected abstract boolean doRun();
+					
+					DropDownMenuManager menuManager = new DropDownMenuManager(
+						addItem, tabFolder);
+					
+					menuManager.add(new ChildDialogAction(
+						Img.FOLDER.get(), Msg.add_folder.get()) {
+						public boolean doRun() {
+							return IndexPanel.createFileTaskFromDialog(
+								shell, indexRegistry, null, true);
+						}
+					});
+	
+					menuManager.addSeparator();
+	
+					menuManager.add(new ChildDialogAction(
+						Img.PACKAGE.get(), Msg.add_archive.get()) {
+						public boolean doRun() {
+							return IndexPanel.createFileTaskFromDialog(
+								shell, indexRegistry, null, false);
+						}
+					});
+	
+					menuManager.add(new ChildDialogAction(
+						Img.EMAIL.get(), Msg.add_outlook_pst.get()) {
+						public boolean doRun() {
+							return IndexPanel.createOutlookTaskFromDialog(
+								shell, indexRegistry, null);
+						}
+					});
+					
+					menuManager.add(new MenuAction(
+						Img.CLIPBOARD.get(), Msg.add_from_clipboard.get()) {
+						public void run() {
+							IndexPanel.createTaskFromClipboard(
+								shell, indexRegistry, null);
+						}
+					});
+					
+					menuManager.show();
 				}
-				
-				DropDownMenuManager menuManager = new DropDownMenuManager(
-					addItem, tabFolder);
-				
-				menuManager.add(new ChildDialogAction(
-					Img.FOLDER.get(), Msg.add_folder.get()) {
-					public boolean doRun() {
-						return IndexPanel.createFileTaskFromDialog(
-							shell, indexRegistry, null, true);
-					}
-				});
-
-				menuManager.addSeparator();
-
-				menuManager.add(new ChildDialogAction(
-					Img.PACKAGE.get(), Msg.add_archive.get()) {
-					public boolean doRun() {
-						return IndexPanel.createFileTaskFromDialog(
-							shell, indexRegistry, null, false);
-					}
-				});
-
-				menuManager.add(new ChildDialogAction(
-					Img.EMAIL.get(), Msg.add_outlook_pst.get()) {
-					public boolean doRun() {
-						return IndexPanel.createOutlookTaskFromDialog(
-							shell, indexRegistry, null);
-					}
-				});
-				
-				menuManager.add(new MenuAction(
-					Img.CLIPBOARD.get(), Msg.add_from_clipboard.get()) {
-					public void run() {
-						IndexPanel.createTaskFromClipboard(
-							shell, indexRegistry, null);
-					}
-				});
-				
-				menuManager.show();
-			}
-		});
+			});
+		}
 		
 		tif.image(Img.HIDE.get()).toolTip(Msg.minimize_to_status_bar.get())
 				.listener(new SelectionAdapter() {
