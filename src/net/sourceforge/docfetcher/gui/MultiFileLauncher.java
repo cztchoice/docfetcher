@@ -16,6 +16,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
@@ -28,7 +29,9 @@ import net.sourceforge.docfetcher.util.collect.BoundedList;
 @VisibleForPackageGroup
 public final class MultiFileLauncher {
 	
-	private final BoundedList<File> files = new BoundedList<File>(UtilGui.OPEN_LIMIT, false);
+	private final BoundedList<File> files = new BoundedList<File>(
+		ProgramConf.Int.OpenLimit.get(), false
+	);
 	private final Set<String> missing = new LinkedHashSet<String>();
 	
 	public void addFile(@NotNull File file) {
@@ -59,7 +62,7 @@ public final class MultiFileLauncher {
 		
 		// Abort with an error message if the user tried to open too many files
 		if (files.getVirtualSize() > files.getCapacity()) {
-			String msg = Msg.open_limit.format(UtilGui.OPEN_LIMIT);
+			String msg = Msg.open_limit.format(ProgramConf.Int.OpenLimit.get());
 			AppUtil.showError(msg, true, true);
 			return false;
 		}

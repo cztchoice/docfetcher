@@ -40,8 +40,6 @@ public final class UtilGui {
 	private UtilGui() {
 	}
 	
-	static final int OPEN_LIMIT = 10;
-	
 	public static final int DIALOG_STYLE = SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM | SWT.MIN | SWT.MAX | SWT.RESIZE;
 	
 	/**

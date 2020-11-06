@@ -167,6 +167,12 @@ InitialSorting = 0
 # index (rather than picking the highest-scoring results across all indexes).
 MaxResultsTotal = 10000
 
+# By default, the program will not simultaneously open more files than the
+# number specified by this setting. This is to prevent accidentally opening
+# hundreds of files all at once. Adjust this setting if you need to be able to
+# open more files than the default number.
+OpenLimit = 10
+
 # The capacity of the unpack cache. The latter holds archive entries that were
 # unpacked for display in the preview pane and makes sure they won't get deleted
 # immediately. The oldest entries are deleted first when this capacity limit
