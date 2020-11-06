@@ -11,24 +11,57 @@
 
 package net.sourceforge.docfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
+
+import net.sourceforge.docfetcher.util.AppUtil;
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 /**
  * @author Tran Nam Quang
  */
 public class InfoDialog {
+	
+	public static void main(String[] args) {
+		Display display = new Display();
+		final Shell shell = new Shell(display);
+		FillLayout layout = new FillLayout();
+		layout.marginWidth = layout.marginHeight = 5;
+		shell.setLayout(layout);
+		Button bt = new Button(shell, SWT.PUSH);
+		bt.setText("Open Dialog");
+		bt.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				InfoDialog dialog = new InfoDialog(shell);
+				dialog.setTitle("Title");
+				dialog.setText("You can click this <a href=\"https://www.google.com\">link</a>.");
+				dialog.open();
+			}
+		});
+		display.asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				Util.setCenteredBounds(shell, 200, 150);
+			}
+		});
+		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+		display.dispose();
+	}
 	
 	private final Shell shell;
 	private final Label icon;

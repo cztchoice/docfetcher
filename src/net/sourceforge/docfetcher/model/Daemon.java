@@ -71,12 +71,14 @@ public final class Daemon {
 	 */
 	public void enqueueUpdateTasks() {
 		if (!indexesFile.exists())
-			return; // Happens when we're inside the IDE
+			return; // Happens if we're inside the IDE
 		
 		final IndexingQueue queue = indexRegistry.getQueue();
 		try {
 			Files.readLines(indexesFile, Charsets.UTF_8, new LineProcessor<Void>() {
 				public boolean processLine(String line) throws IOException {
+					line = line.trim();
+					
 					// Ignore comment lines
 					if (line.startsWith("//")) //$NON-NLS-1$
 						return true;

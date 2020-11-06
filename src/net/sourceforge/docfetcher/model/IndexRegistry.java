@@ -43,6 +43,7 @@ import org.apache.lucene.analysis.core.WhitespaceTokenizer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardFilter;
 import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.analysis.util.CharTokenizer;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.util.Version;
 
@@ -62,7 +63,6 @@ import net.sourceforge.docfetcher.model.index.IndexingQueue;
 import net.sourceforge.docfetcher.model.index.file.FileFactory;
 import net.sourceforge.docfetcher.model.index.outlook.OutlookMailFactory;
 import net.sourceforge.docfetcher.model.search.Searcher;
-import net.sourceforge.docfetcher.model.search.SourceCodeTokenizer;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.CharsetDetectorHelper;
 import net.sourceforge.docfetcher.util.Event;
@@ -154,7 +154,7 @@ public final class IndexRegistry {
 	public static void resetAnalyzer() {
 		switch (SettingsConf.Int.LuceneAnalyzer.get()) {
 		case 1:
-			analyzer = new SourceCodeAnalyzer(LUCENE_VERSION); break;
+			analyzer = new SourceCodeAnalyzer(); break;
 		case 2:
 			analyzer = new AnsjAnalyzer(AnsjAnalyzer.TYPE.index_ansj); break;
 		case 3:
@@ -620,19 +620,21 @@ public final class IndexRegistry {
 	}
 
 	private static class SourceCodeAnalyzer extends Analyzer {
-		private Version matchVersion;
-
-		public SourceCodeAnalyzer(Version matchVersion) {
-			this.matchVersion = matchVersion;
-		}
-
 		@Override
 		protected TokenStreamComponents createComponents(String fieldName) {
-			final Tokenizer source = new SourceCodeTokenizer();
+			final Tokenizer source = new CharTokenizer() {
+				/**
+				 * Collects only characters which can be part of an identifier
+				 * in typical programming languages.
+				 */
+				@Override
+				protected boolean isTokenChar(int c) {
+				    return Character.isLetterOrDigit(c) || c == '_';
+				}
+			};
 			TokenStream sink = new StandardFilter(source);
 			sink = new LowerCaseFilter(sink);
 		    sink = new StopFilter(sink, CharArraySet.EMPTY_SET);
-		    //sink = new SourceCodeTokenFilter(matchVersion, sink);
 			return new TokenStreamComponents(source, sink);
 		}
 	}

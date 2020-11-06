@@ -253,7 +253,7 @@ public final class Searcher {
 		 * allows the user to re-check the unchecked indexes and see previously
 		 * hidden results without starting another search.
 		 */
-		stopped =false;
+		stopped = false;
 		
 		// Create Lucene query
 		QueryWrapper queryWrapper = createQuery(queryString);
@@ -278,7 +278,7 @@ public final class Searcher {
 			checkIndexesExist();
 			
 			// Perform search; might throw OutOfMemoryError
-			DelegatingCollector collector= new DelegatingCollector(){
+			DelegatingCollector collector = new DelegatingCollector(){
 				@Override
 				public void collect(int doc) throws IOException {
 					leafDelegate.collect(doc);
@@ -291,7 +291,7 @@ public final class Searcher {
 			try{
 				luceneSearcher.search(query, collector);
 			}
-			catch (StoppedSearcherException e){}
+			catch (StoppedSearcherException e) {}
 			ScoreDoc[] scoreDocs = ((TopScoreDocCollector)collector.getDelegate()).topDocs().scoreDocs;
 
 			// Create result documents
@@ -307,9 +307,6 @@ public final class Searcher {
 			}
 			return Arrays.asList(results);
 		}
-		catch (IllegalArgumentException e) {
-			throw wrapEmptyIndexException(e);
-		}
 		catch (IOException e) {
 			throw new SearchException(e.getMessage()); // TODO i18n
 		}
@@ -324,23 +321,6 @@ public final class Searcher {
 	@ThreadSafe
 	public void stopSearch(){
 		stopped =true;
-	}
-
-		@NotNull
-	private static SearchException wrapEmptyIndexException(@NotNull IllegalArgumentException e)
-			throws SearchException {
-		/*
-		 * Workaround for bug #390: Lucene 3.5 throws this exception if the
-		 * indexes are empty, i.e. if no documents have been indexed so far.
-		 * This happens if the user indexes an empty folder hierarchy with no
-		 * files in it. Apparently, this problem has been fixed in Lucene 4.0,
-		 * so when the Lucene jar is upgraded to 4.0, this workaround may be
-		 * removed.
-		 */
-		if (e.getMessage() != null && e.getMessage().contains("numHits must be > 0"))
-			return new SearchException("No files were indexed."); // not internationalized
-		else
-			throw e;
 	}
 	
 	@ImmutableCopy
@@ -388,9 +368,6 @@ public final class Searcher {
 			});
 			
 			return Arrays.asList(results);
-		}
-		catch (IllegalArgumentException e) {
-			throw wrapEmptyIndexException(e);
 		}
 		catch (IOException e) {
 			throw new SearchException(e.getMessage()); // TODO i18n
@@ -497,9 +474,6 @@ public final class Searcher {
 			
 			return new ResultPage(
 				Arrays.asList(results), newPageIndex, pageCount, hitCount);
-		}
-		catch (IllegalArgumentException e) {
-			throw wrapEmptyIndexException(e);
 		}
 		catch (OutOfMemoryError e) {
 			throw new CheckedOutOfMemoryError(e);

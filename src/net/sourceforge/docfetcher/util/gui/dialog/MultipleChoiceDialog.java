@@ -33,13 +33,13 @@ import org.eclipse.swt.widgets.Shell;
  * @author Tran Nam Quang
  */
 public final class MultipleChoiceDialog<A> {
-
+	
 	public static void main(String[] args) {
 		Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
 		Util.setCenteredBounds(shell, 150, 75);
-
+		
 		Button bt = new Button(shell, SWT.PUSH);
 		bt.setText("Open Dialog");
 		bt.addSelectionListener(new SelectionAdapter() {
@@ -56,7 +56,7 @@ public final class MultipleChoiceDialog<A> {
 				Util.println(answer);
 			}
 		});
-
+		
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -64,7 +64,7 @@ public final class MultipleChoiceDialog<A> {
 		}
 		display.dispose();
 	}
-
+	
 	private final Shell shell;
 	private final Label icon;
 	private final Link label;
@@ -74,25 +74,27 @@ public final class MultipleChoiceDialog<A> {
 	
 	@Nullable private Button firstButton;
 	@Nullable private A answer;
-
+	
 	public MultipleChoiceDialog(@NotNull Shell parent) {
 		Util.checkNotNull(parent);
+		
 		shell = new Shell(parent, SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM);
-		gridLayout = Util.createGridLayout(0, true, 10, 10);
-		shell.setLayout(gridLayout);
-
 		Composite labelComp = new Composite(shell, SWT.NONE);
-		gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 1);
-		labelComp.setLayoutData(gridData);
-		labelComp.setLayout(Util.createGridLayout(2, false, 10, 15));
 		
 		icon = new Label(labelComp, SWT.NONE);
 		icon.setImage(shell.getDisplay().getSystemImage(SWT.ICON_QUESTION));
-		icon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		
 		label = new Link(labelComp, SWT.NONE);
 		label.setBackground(icon.getBackground());
-		label.setForeground(icon.getForeground()); // Not necessary
+		label.setForeground(icon.getForeground()); // not necessary
+		
+		gridLayout = Util.createGridLayout(0, true, 10, 10); // number of columns will be increased later
+		shell.setLayout(gridLayout);
+		gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 1); // horizontal span will be increased later
+		labelComp.setLayoutData(gridData);
+		
+		labelComp.setLayout(Util.createGridLayout(2, false, 10, 15));
+		icon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		GridData labelData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		labelData.widthHint = 250;
 		label.setLayoutData(labelData);
@@ -144,7 +146,7 @@ public final class MultipleChoiceDialog<A> {
 		
 		return answer;
 	}
-
+	
 	@Nullable
 	public A open() {
 		Util.setCenteredBounds(shell);
@@ -156,5 +158,5 @@ public final class MultipleChoiceDialog<A> {
 		}
 		return answer;
 	}
-
+	
 }

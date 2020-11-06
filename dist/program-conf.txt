@@ -40,9 +40,9 @@ ReportObsoleteIndexFiles = true
 # setting to prevent users from mucking around in this file.
 ShowAdvancedSettingsLink = true
 
-# Whether the user is allowed to create, update, rename, rebuild or remove
-# indexes, respectively. Disabling any of these setings will hide the respective
-# context menu entries in the Search Scope pane.
+# Whether the user is allowed to perform various actions on indexes. Disabling
+# any of these setings will hide the respective context menu entry in the Search
+# Scope pane.
 AllowIndexCreation = true
 AllowIndexUpdate = true
 AllowIndexRenaming = true
@@ -62,24 +62,24 @@ SaveSettings = true
 #	Indexing
 #===============================================================================
 
-# During indexing, DocFetcher will normally only display the names of the files
-# being indexed. With this setting set to true, DocFetcher will display the full
-# file path. This is useful for locating files that cause DocFetcher to hang so
-# that it doesn't show the file path in the error table.
+# During indexing, the program will normally only display the names of the files
+# being indexed. With this setting set to true, the program will display the
+# full file path. This is useful for locating files that cause the program to
+# hang so that it doesn't show the file path in the error table.
 ShowPathsDuringIndexing = false
 
-# With this setting set to true, DocFetcher will continuously write the path of
+# With this setting set to true, the program will continuously write the path of
 # each file currently being indexed to a log file. There is one log file per
 # index, and the log files are recreated every time its index is rebuilt. The
 # log files can be found in the respective index folders. For the location of
 # the latter, see the DocFetcher FAQ:
 # http://docfetcher.sourceforge.net/wiki/doku.php?id=faq#where_does_docfetcher_put_its_index_files_how_can_i_change_the_location_of_the_index_files
-# The log files are intended for identifying problematic files DocFetcher chokes
-# and crashes on during indexing.
+# The log files are intended for identifying problematic files the program
+# chokes and crashes on during indexing.
 WriteIndexingLog = false
 
-# HTML file extensions. This setting will affect detection of HTML files and
-# DocFetcher's HTML pairing mechanism.
+# HTML file extensions. This setting will affect detection of HTML files and the
+# HTML pairing algorithm.
 HtmlExtensions = html;htm;xhtml;shtml;shtm
 
 # The height of the regex table on the indexing dialog, measured (approximately)
@@ -98,38 +98,38 @@ DryRun = false
 
 # Whether support for tar archives is disabled. If disabled, tar archives will
 # be treated as ordinary files. Set this to true if you experience tar-related
-# issues, e.g. your temporary directory filling up with tzp*.tmp files, or just
+# issues, e.g., your temporary directory filling up with tzp*.tmp files, or just
 # want to speed up indexing by completely avoiding the unpacking of tar
 # archives.
 SkipTarArchives = false
 
-# Whether DocFetcher should follow or ignore NTFS junctions and symlinks during
-# indexing. Normally, DocFetcher ignores them in order to avoid getting stuck
+# Whether the program should follow or ignore NTFS junctions and symlinks during
+# indexing. Normally, the program ignores them in order to avoid getting stuck
 # in circular folder structures.
 IgnoreJunctionsAndSymlinks = true
 
-# This setting determines whether DocFetcher indexes a formula in an MS Excel
+# This setting determines whether the program indexes a formula in an MS Excel
 # file as is, or whether it indexes the formula's result instead. For example,
-# if a cell contains the formula "=2+2", DocFetcher will either literally
+# if a cell contains the formula "=2+2", the program will either literally
 # extract "=2+2" from the cell, or "4", depending on this setting's value.
 # Changes to this setting will immediately affect the preview pane, but not the
 # indexes, so you'll have to rebuild the latter after the change.
 IndexExcelFormulas = true
 
-# Plain text files (e.g. files with extension ".txt") don't contain any explicit
-# text encoding information, so when DocFetcher parses them, it has to use
-# heuristics to determine the encoding. This might not always give the correct
-# result; if that happens, you can use this setting to disable the heuristics
-# and specify the text encoding manually. For example, set this setting's value
-# to "GBK" for Simplified Chinese GBK encoding. For a list of available
-# encodings, see:
+# Plain text files (e.g., files with extension ".txt") don't contain any
+# explicit text encoding information, so when the program parses them, it has to
+# use heuristics to determine the encoding. This might not always give the
+# correct result; if that happens, you can use this setting to disable the
+# heuristics and specify the text encoding manually. For example, set this
+# setting's value to "GBK" for Simplified Chinese GBK encoding. For a list of
+# available encodings, see:
 # http://docs.oracle.com/javase/7/docs/technotes/guides/intl/encoding.doc.html
 # If the above link doesn't work, google for "java supported encodings".
 TextEncodingOverride =
 
 # In PDF files, the order in which individual characters are positioned on each
 # each page (the "visual" order) does not necessarily match the order in which
-# these characters are stored in the PDF file. During indexing, DocFetcher will
+# these characters are stored in the PDF file. During indexing, the program will
 # always process the text in the "stored" order, but will by default use the
 # "visual" order for the text in the preview pane. With some PDF files, this
 # default can lead to superfluous space characters and other oddities in the
@@ -150,20 +150,20 @@ SearchBoxMaxWidth = 500
 # drop-down menu next to the search text field.
 SearchHistorySize = 20
 
-# By default, DocFetcher initially sorts the results by score. To change the
+# By default, the program initially sorts the results by score. To change the
 # initial sorting criterion, specify the number of the column to sort by here.
 # The numbering starts at 1. Zero and out-of-range values will be ignored.
-# If the value is negative, the sorting is reversed, e.g. "-2" means "sort by
+# If the value is negative, the sorting is reversed, e.g., "-2" means "sort by
 # second column, but in reversed order".
 InitialSorting = 0
 
 # The maximum number of search results to return for each query. If you set a
-# value that is too high, DocFetcher may crash with an OutOfMemoryError while
+# value that is too high, the program may crash with an OutOfMemoryError while
 # searching.
 # This setting is primarily used for capping memory consumption and search time
 # when dealing with very large indexes. It is not recommended to use this
 # setting for trimming down the the results, since a low value for this setting
-# will cause DocFetcher to try to pick an equal number of results from each
+# will cause the program to try to pick an equal number of results from each
 # index (rather than picking the highest-scoring results across all indexes).
 MaxResultsTotal = 10000
 

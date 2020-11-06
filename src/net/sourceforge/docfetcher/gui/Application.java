@@ -272,8 +272,11 @@ public final class Application {
 
 		// Set shell icons, must be done *after* loading the images
 		shell.setImages(new Image[] {
-			Img.DOCFETCHER_16.get(), Img.DOCFETCHER_32.get(),
-			Img.DOCFETCHER_48.get(), Img.DOCFETCHER_64.get(),
+			Img.DOCFETCHER_16.get(),
+			Img.DOCFETCHER_24.get(),
+			Img.DOCFETCHER_32.get(),
+			Img.DOCFETCHER_48.get(),
+			Img.DOCFETCHER_64.get(),
 			Img.DOCFETCHER_128.get()});
 
 		// Set default uncaught exception handler
@@ -456,7 +459,7 @@ public final class Application {
 					if (msg.equals(statusBarPart.getText()))
 						statusBarPart.setContents(null, "");
 				}
-				else if ((m & (SWT.ALT | SWT.CTRL | SWT.COMMAND)) != 0 && k == 'f') {
+				else if ((m & (SWT.MOD1 | SWT.MOD2 | SWT.MOD3 | SWT.MOD4)) != 0 && k == 'f') {
 					searchBar.setFocus();
 				}
 				else {

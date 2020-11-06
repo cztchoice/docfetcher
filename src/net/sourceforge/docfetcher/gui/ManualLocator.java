@@ -31,7 +31,6 @@ public final class ManualLocator {
 	
 	@Nullable
 	public static File getManualFile() {
-		// TODO test on a platforms and with different locales that this really works
 		String helpDirParent;
 		if (SystemConf.Bool.IsDevelopmentVersion.get())
 			helpDirParent = "dist";
@@ -109,7 +108,7 @@ public final class ManualLocator {
 		
 		// The target folder names to search for
 		String[] manualDirNames = new String[] {
-				Locale.getDefault().getDisplayName(Locale.ENGLISH), // e.g. Germany (Germany)
+				Locale.getDefault().getDisplayName(Locale.ENGLISH), // e.g., Germany (Germany)
 				new Locale(Locale.getDefault().getLanguage()).getDisplayName(Locale.ENGLISH), // e.g. Germany
 				Locale.ENGLISH.getDisplayName(Locale.ENGLISH) // English
 		};
