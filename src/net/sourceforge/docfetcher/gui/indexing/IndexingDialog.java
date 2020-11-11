@@ -332,9 +332,15 @@ public final class IndexingDialog implements Dialog {
 		MultipleChoiceDialog<CancelAction> dialog = new MultipleChoiceDialog<CancelAction>(shell);
 		dialog.setTitle(Msg.abort_indexing.get());
 		dialog.setText(Msg.keep_partial_index.get());
-		dialog.addButton(Msg.keep.get(), CancelAction.KEEP);
-		dialog.addButton(Msg.discard.get(), CancelAction.DISCARD);
-		dialog.addButton(Msg.dont_abort.get(), null);
+		if (shell.getDisplay().getDismissalAlignment() == SWT.LEFT) {
+			dialog.addButton(Msg.keep.get(), CancelAction.KEEP);
+			dialog.addButton(Msg.discard.get(), CancelAction.DISCARD);
+			dialog.addButton(Msg.dont_abort.get(), null);
+		} else {
+			dialog.addButton(Msg.dont_abort.get(), null);
+			dialog.addButton(Msg.discard.get(), CancelAction.DISCARD);
+			dialog.addButton(Msg.keep.get(), CancelAction.KEEP);
+		}
 		return dialog.open();
 	}
 
