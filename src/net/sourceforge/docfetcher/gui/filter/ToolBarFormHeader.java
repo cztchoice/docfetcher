@@ -30,16 +30,22 @@ class ToolBarFormHeader extends CustomBorderComposite {
 	@Nullable private final Composite toolBar;
 	
 	public ToolBarFormHeader(Composite parent) {
-		super(parent);
+		super(parent, true, false, true, true);
 		GridLayout gridLayout = Util.createGridLayout(3, false, 3, 5);
 		gridLayout.marginLeft = 3;
 		setLayout(gridLayout);
 		
+		// verticalIndent + 1 on Windows due to bottom border not being drawn
+		
 		imageLabel = new Label(this, SWT.NONE);
-		imageLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		GridData gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gd.verticalIndent = Util.IS_WINDOWS ? 1 : 0;
+		imageLabel.setLayoutData(gd);
 		
 		textLabel = new Label(this, SWT.NONE);
-		textLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		gd = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gd.verticalIndent = Util.IS_WINDOWS ? 1 : 0;
+		textLabel.setLayoutData(gd);
 		
 		// margin=1 for the fill layout to leave room for the custom border
 		toolBar = new Composite(this, SWT.NONE);

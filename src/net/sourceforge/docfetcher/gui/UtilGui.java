@@ -11,6 +11,18 @@
 
 package net.sourceforge.docfetcher.gui;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Control;
+
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.enums.SettingsConf.FontDescription;
@@ -20,16 +32,6 @@ import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
 import net.sourceforge.docfetcher.util.gui.Col;
 import net.sourceforge.docfetcher.util.gui.dialog.InfoDialog;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.events.FocusAdapter;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Control;
 
 /**
  * @author Tran Nam Quang
@@ -58,7 +60,28 @@ public final class UtilGui {
 			}
 		});
 	}
-
+	
+	/**
+	 * Paints a border around the given Control. This can be used as a
+	 * replacement for the ugly native border of Composites with SWT.BORDER
+	 * style on Windows with classic theme turned on.
+	 * <p>
+	 * The individual pieces of the border can be included or omitted via the
+	 * given boolean flags.
+	 */
+	public static void paintBorder(final Control control, boolean top,
+			boolean bottom, boolean left, boolean right) {
+		control.addPaintListener(new PaintListener() {
+			public void paintControl(PaintEvent e) {
+				Point size = control.getSize();
+				e.gc.setForeground(Col.WIDGET_NORMAL_SHADOW.get());
+				drawLines(e.gc, size, 0, -1, top, bottom, left, right);
+				e.gc.setForeground(Col.WIDGET_LIGHT_SHADOW.get());
+				drawLines(e.gc, size, 1, -2, top, bottom, left, right);
+			}
+		});
+	}
+	
 	/**
 	 * Attaches a focus listener to the given StyledText that clears the
 	 * selection and resets the caret position when the StyledText looses focus.
@@ -172,6 +195,22 @@ public final class UtilGui {
 		if (shift) key = Msg.shift_key.get() + " + " + key;
 		if (ctrl) key = Msg.ctrl_key.get() + " + " + key;
 		return key;
+	}
+	
+	private static void drawLines(GC gc, Point size, int m1, int m2,
+			boolean top, boolean bottom, boolean left, boolean right) {
+		if (top) {
+			gc.drawLine(m1, m1, size.x + m2, m1);
+		}
+		if (bottom) {
+			gc.drawLine(m1, size.y + m2, size.x + m2, size.y + m2);
+		}
+		if (left) {
+			gc.drawLine(m1, m1, m1, size.y + m2);
+		}
+		if (right) {
+			gc.drawLine(size.x + m2, m1, size.x + m2, size.y + m2);
+		}
 	}
 	
 }

@@ -62,7 +62,7 @@ public final class SearchBar {
 	private final MemoryList<String> searchHistory;
 
 	public SearchBar(@NotNull Composite parent, @NotNull final File programConfFile) {
-		comp = new CustomBorderComposite(parent) {
+		comp = new CustomBorderComposite(parent, true, false, true, true) {
 			public Point computeSize(int wHint, int hHint, boolean changed) {
 				return SearchBar.this.computeSize(wHint, hHint);
 			}

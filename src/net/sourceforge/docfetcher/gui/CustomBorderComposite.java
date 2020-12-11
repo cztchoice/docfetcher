@@ -28,9 +28,14 @@ import org.eclipse.swt.widgets.Composite;
 public class CustomBorderComposite extends Composite {
 	
 	public CustomBorderComposite(@NotNull Composite parent) {
+		this(parent, true, true, true, true);
+	}
+	
+	public CustomBorderComposite(@NotNull Composite parent, boolean top,
+			boolean bottom, boolean left, boolean right) {
 		super(parent, Util.IS_WINDOWS ? SWT.NONE : SWT.BORDER);
 		if (Util.IS_WINDOWS)
-			UtilGui.paintBorder(this);
+			UtilGui.paintBorder(this, top, bottom, left, right);
 	}
 
 }
