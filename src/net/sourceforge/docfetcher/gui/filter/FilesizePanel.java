@@ -89,9 +89,10 @@ public final class FilesizePanel {
 	private final Combo maxCombo;
 
 	public FilesizePanel(@NotNull Composite parent) {
-		comp = new Composite(parent, SWT.NONE);
+		comp = new Composite(parent, Util.IS_WINDOWS ? SWT.NONE : SWT.BORDER);
 		comp.setLayout(new FormLayout());
-		UtilGui.paintBorder(comp);
+		if (Util.IS_WINDOWS)
+			UtilGui.paintBorder(comp);
 
 		int textStyle = SWT.RIGHT | SWT.SINGLE | SWT.BORDER;
 		int comboStyle = SWT.DROP_DOWN | SWT.READ_ONLY;

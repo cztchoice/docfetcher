@@ -99,7 +99,9 @@ final class FileExtensionGroupWrapper {
 			}
 		});
 		
-		chooserBt.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+		GridData gd = new GridData(SWT.FILL, SWT.FILL, false, true);
+		gd.horizontalIndent = 5;
+		chooserBt.setLayoutData(gd);
 		return field;
 	}
 	

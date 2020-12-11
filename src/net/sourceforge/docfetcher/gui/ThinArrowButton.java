@@ -43,6 +43,7 @@ final class ThinArrowButton extends Canvas {
 	 */
 	public ThinArrowButton(Composite parent, int style) {
 		super(parent, SWT.NONE);
+		this.setCursor(this.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 		UtilGui.paintBorder(this);
 		
 		this.style = style;

@@ -87,7 +87,9 @@ final class RegexTestPanel extends Composite {
 		setLayout(Util.createGridLayout(2, false, 0, 0));
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		fileBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		fileChooserBt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
+		GridData gd = new GridData(SWT.FILL, SWT.CENTER, false, false);
+		gd.horizontalIndent = 5;
+		fileChooserBt.setLayoutData(gd);
 	}
 	
 	public void setPatternActions(@NotNull List<PatternAction> patternActions) {

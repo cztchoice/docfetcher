@@ -53,7 +53,7 @@ public final class UtilGui {
 				Point size = control.getSize();
 				e.gc.setForeground(Col.WIDGET_NORMAL_SHADOW.get());
 				e.gc.drawRectangle(0, 0, size.x - 1, size.y - 1);
-				e.gc.setForeground(Col.WHITE.get());
+				e.gc.setForeground(Col.WIDGET_LIGHT_SHADOW.get());
 				e.gc.drawRectangle(1, 1, size.x - 3, size.y - 3);
 			}
 		});

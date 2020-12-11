@@ -11,20 +11,21 @@
 
 package net.sourceforge.docfetcher.gui.filter;
 
-import net.sourceforge.docfetcher.enums.Img;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+
+import net.sourceforge.docfetcher.enums.Img;
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.Nullable;
 
 public abstract class TwoFormExpander extends Composite {
 	
@@ -157,8 +158,11 @@ public abstract class TwoFormExpander extends Composite {
 				itemLeftBottom, itemRightBottom,
 				itemLeftBottom0, itemRightBottom0,
 		};
-		for (Label item : items)
+		Cursor cursor = this.getDisplay().getSystemCursor(SWT.CURSOR_HAND);
+		for (Label item : items) {
+			item.setCursor(cursor);
 			Util.addMouseHighlighter(item);
+		}
 	}
 	
 	@NotNull

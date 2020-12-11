@@ -109,9 +109,6 @@ final class EmailPreview extends Composite {
 		headerComp = createEmailHeader(comp);
 		headerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		
-		Label sep = new Label(comp, SWT.SEPARATOR | SWT.HORIZONTAL);
-		sep.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		
 		toolBarWithTextViewer.createTextViewer(comp).setLayoutData(
 			new GridData(SWT.FILL, SWT.FILL, true, true));
 		toolBarWithTextViewer.setUseMonoFont(false);

@@ -829,6 +829,7 @@ public final class Application {
 						SettingsConf.Bool.FilesizeFilterMaximized.set(isVisible);
 					}
 				});
+				item.setCursor(item.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 				Util.addMouseHighlighter(item);
 				return item;
 			}
