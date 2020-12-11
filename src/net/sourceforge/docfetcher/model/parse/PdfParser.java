@@ -112,12 +112,7 @@ public final class PdfParser extends StreamParser {
 							}
 						}
 					} catch (IOException e) {
-						if (e.getMessage().startsWith("Error: Unknown annotation type")) {
-							// Ignore unsupported annotations
-							System.err.println(e.getMessage());
-						} else {
-							throw e;
-						}
+						System.err.println(e.getMessage());
 					}
 					if (context.getCancelable().isCanceled()) {
 						setEndPage(0);

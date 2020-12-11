@@ -231,7 +231,11 @@ public final class Application {
 		else
 			swtLibDir = new File(swtLibDir, swtLibSuffix);
 		swtLibDir.mkdirs(); // SWT won't recognize the path if it doesn't exist
-		System.setProperty("swt.library.path", Util.getAbsPath(swtLibDir));
+		if (swtLibDir.isDirectory() && swtLibDir.canWrite()) {
+			System.setProperty("swt.library.path", Util.getAbsPath(swtLibDir));
+		} else {
+			System.setProperty("swt.library.path", Util.TEMP_DIR.getPath());
+		}
 		
 		// Load program configuration and preferences
 		programConfFile = loadProgramConf(confPathOverride);
@@ -459,7 +463,9 @@ public final class Application {
 					if (msg.equals(statusBarPart.getText()))
 						statusBarPart.setContents(null, "");
 				}
-				else if ((m & (SWT.MOD1 | SWT.MOD2 | SWT.MOD3 | SWT.MOD4)) != 0 && k == 'f') {
+				/* Do not swallow the Shift + F shortcut, otherwise it will be
+				 * impossible to type a capital F in the search field. */
+				else if (m == SWT.MOD1 && k == 'f') {
 					searchBar.setFocus();
 				}
 				else {
