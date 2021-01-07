@@ -17,7 +17,6 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
@@ -69,8 +68,8 @@ public final class UtilGui {
 	 * The individual pieces of the border can be included or omitted via the
 	 * given boolean flags.
 	 */
-	public static void paintBorder(final Control control, boolean top,
-			boolean bottom, boolean left, boolean right) {
+	public static void paintBorder(final Control control, final boolean top,
+			final boolean bottom, final boolean left, final boolean right) {
 		control.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent e) {
 				Point size = control.getSize();

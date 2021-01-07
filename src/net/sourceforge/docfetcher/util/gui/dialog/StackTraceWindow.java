@@ -46,7 +46,10 @@ public class StackTraceWindow {
 		});
 		
 		text = new Text(shell, SWT.MULTI | SWT.READ_ONLY | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		text.setBackground(Col.WHITE.get());
+		/*
+		 * Don't set the background color manually, it needs to match both light
+		 * and dark themes.
+		 */
 		text.setForeground(Col.RED.get());
 		text.setFocus();
 		

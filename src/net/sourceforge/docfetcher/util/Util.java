@@ -371,12 +371,12 @@ public final class Util {
 	}
 
 	public static String ensureLinuxLineSep(@NotNull String input) {
-		return input.replace("\r\n", "\n");
+		return input.replaceAll("\r\n?", "\n");
 	}
 
 	public static String ensureWindowsLineSep(@NotNull String input) {
 		// Two replace passes are needed to avoid converting "\r\n" to "\r\r\n".
-		return input.replace("\r\n", "\n").replace("\n", "\r\n");
+		return input.replaceAll("\r\n?", "\n").replace("\n", "\r\n");
 	}
 
 	/**
