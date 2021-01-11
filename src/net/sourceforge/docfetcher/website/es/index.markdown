@@ -1,4 +1,4 @@
-**Announcement**: You may be interested in [DocFetcher Pro](http://docfetcher.sourceforge.net/wiki/doku.php?id=docfetcher_pro), the upcoming commercial version of DocFetcher.
+**Announcement**: DocFetcher Pro 1.0, the commercial big brother of DocFetcher, has been released in January 2021. See the [DocFetcher Pro website](https://docfetcherpro.com/) for more.
 
 Descripción
 ===========
