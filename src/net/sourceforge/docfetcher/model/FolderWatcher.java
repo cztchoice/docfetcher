@@ -339,10 +339,15 @@ public final class FolderWatcher {
 			if (target.equals(watchedIndex.getCanonicalRootFile()))
 				return true;
 
-			// Ignore so-called 'temporary owner files' created by MS Word.
+			// Ignore so-called 'temporary owner files' created by MS Office.
 			// See bug #2804172.
-			if (name.matches("~\\$.*\\.docx?"))
+			if (name.startsWith("~$"))
 				return false;
+			
+			// Ignore lock files from Libre Office
+			if (name.startsWith(".~")) {
+				return false;
+			}
 			
 			// Ignore target if it's matched by the user-defined filter
 			IndexingConfig config = watchedIndex.getConfig();

@@ -1,6 +1,6 @@
-#===========================================================
+#===============================================================================
 #	Setup in Eclipse
-#===========================================================
+#===============================================================================
 - Get Eclipse (tested with v4.3, Java Developers edition)
 - Import the DocFetcher folder into your Eclipse workspace
 - In Eclipse Preferences > Java > Build Path > User Libraries: 
@@ -24,9 +24,9 @@ In the Run configuration:
  - Classpath > add the folder "dist/lang" to the classpath (Advanced... > Add Folders).
 
 
-#===========================================================
+#===============================================================================
 #	Building DocFetcher from the console
-#===========================================================
+#===============================================================================
 - Requirements: Python and JDK 7.0+
 - The bin folder of your JDK installation containing the various JDK binaries
   (javac, java, jar) has to be on your PATH variable. See:
@@ -65,9 +65,9 @@ In the Run configuration:
 	- must specify SourceForge.net user name and password
 
 
-#===========================================================
+#===============================================================================
 #	The DocFetcher Launchers
-#===========================================================
+#===============================================================================
 The DocFetcher launchers for all platforms can be found under dist/launchers.
 The DocFetcher.exe launchers in that folder have been created with Launch4J,
 according to the settings in dev/launch4j-config.txt, and using the icon file
