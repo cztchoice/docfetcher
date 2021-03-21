@@ -5,3 +5,4 @@
 /dist/help/
 /dist/website/
 .idea/
+*.DS_Store
