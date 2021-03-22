@@ -31,7 +31,8 @@ work either, you might see a helpful error message if you start the script from
 the terminal.
 
 OS X:
-Launch the program by double-clicking on the DocFetcher application bundle.
+Launch the program by double-clicking on the DocFetcher application bundle. If
+that doesn't work, try double-clicking the script DocFetcher-macOS.
 
 
 More information & trouble-shooting

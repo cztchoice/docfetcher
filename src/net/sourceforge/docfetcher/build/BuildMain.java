@@ -199,6 +199,18 @@ public final class BuildMain {
 			"${main_class}", Main.class.getName()
 		);
 
+		/*
+		 * Alternative (fallback) launcher for OS X, workaround for the
+		 * application bundle not being signed. See:
+		 * https://sourceforge.net/p/docfetcher/discussion/702424/thread/ee550dd7e4/
+		 */
+		String macOsXLauncherAlt = U.format("%s/%s-macOS", releaseDir, appName);
+		U.copyTextFile(
+			"dist/launchers/launcher-macosx-portable-alt.sh",
+			macOsXLauncherAlt,
+			LineSep.UNIX
+		);
+		
 		// Create DocFetcher.app launcher for Mac OS X
 		String macOsXLauncher = U.format("%s/%s.app/Contents/MacOS/%s", releaseDir, appName, appName);
 		U.copyTextFile(
@@ -215,7 +227,8 @@ public final class BuildMain {
 
 		makeExecutable(
 			"Cannot make the portable launcher shell scripts executable.",
-			linuxLauncherGtk2, linuxLauncherGtk3, macOsXLauncher);
+			linuxLauncherGtk2, linuxLauncherGtk3, macOsXLauncher,
+			macOsXLauncherAlt);
 
 		String exeLauncher = U.format("%s/%s.exe", releaseDir, appName);
 		U.copyBinaryFile("dist/launchers/DocFetcher-512.exe", exeLauncher);
