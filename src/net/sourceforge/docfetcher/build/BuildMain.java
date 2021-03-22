@@ -299,7 +299,6 @@ public final class BuildMain {
 			LineSep.UNIX,
 			"${app_name}", appName,
 			"${app_version}", version,
-			"${build_date}", buildDate,
 			"${package_id}", packageId);
 	}
 
