@@ -319,7 +319,8 @@ public final class ResultPanel {
 		
 		menuManager.addSeparator();
 		
-		menuManager.add(new MenuAction(Msg.copy.get()) {
+		String label = Util.IS_MAC_OS_X ? Msg.copy_macosx.get() : Msg.copy.get();
+		menuManager.add(new MenuAction(label) {
 			public boolean isEnabled() {
 				return !viewer.getSelection().isEmpty();
 			}

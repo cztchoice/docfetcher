@@ -22,6 +22,7 @@ import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.search.HighlightedString;
 import net.sourceforge.docfetcher.model.search.Range;
 import net.sourceforge.docfetcher.util.Event;
+import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.ContextMenuManager;
@@ -115,7 +116,8 @@ final class HighlightingText {
 		
 		// Context menu
 		ContextMenuManager menuManager = new ContextMenuManager(textViewer);
-		menuManager.add(new MenuAction(Img.CLIPBOARD.get(), Msg.copy.get()) {
+		String label = Util.IS_MAC_OS_X ? Msg.copy_macosx.get() : Msg.copy.get();
+		menuManager.add(new MenuAction(Img.CLIPBOARD.get(), label) {
 			public void run() {
 				textViewer.invokeAction(ST.COPY);
 			}

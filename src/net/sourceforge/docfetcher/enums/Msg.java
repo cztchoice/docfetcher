@@ -551,6 +551,7 @@ public enum Msg {
 	error_message ("Error Message"),
 	total_elapsed_time ("Total elapsed time: {0}"),
 	copy ("Copy\tCtrl+C"), // Also used on result pane
+	copy_macosx ("Copy\t\u2318C"),
 	install_watch_failed (
 		"Failed to install a watch on folder {0}.\n\n" +
 		"Please see the <a href=\"{1}\">manual</a> for a possible workaround.\n\n" +
