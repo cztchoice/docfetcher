@@ -1,11 +1,11 @@
 #!/bin/sh
 
-# This script creates a disk image for Mac OS X on Linux.
+# This script creates a disk image (.dmg) for macOS on Linux.
 #
 # Requirements:
-# - mkfs.hfsplus must be installed
-# - the script build.py must be run first
-# - do not run this as root, see bug #412
+# - mkfs.hfsplus must be on the PATH.
+# - The script build.py must be run first.
+# - Do not run this as root, see bug #412.
 #
 # Output:
 # - build/DocFetcher-{version-number}.dmg
@@ -17,7 +17,11 @@ then
 	exit 0
 fi
 
-version=`cat current-version.txt`
+script=$(readlink -f "$0")
+scriptdir=`dirname "$script"`
+cd "$scriptdir"
+
+version=`cat current-version.txt | grep -v "#" | head -1`
 
 du_output=`du -sk build/DocFetcher.app 2>&1`
 dir_size=`echo $du_output | cut -f1 -d" "`
