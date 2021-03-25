@@ -59,6 +59,7 @@ final class HighlightingText {
 	private int occCount;
 	private Font normalFont;
 	private Font monoFont;
+	private boolean useMonoFont = true;
 	
 	public HighlightingText(@NotNull Composite parent) {
 		int style = SWT.FULL_SELECTION | SWT.READ_ONLY | SWT.WRAP | SWT.MULTI | SWT.V_SCROLL | SWT.BORDER;
@@ -131,20 +132,28 @@ final class HighlightingText {
 	}
 	
 	private void setLineNumbers() {
-		if (SettingsConf.Bool.ShowPreviewLineNumbers.get()) {
-			// Calculate bullet width based on the font of the text viewer,
-			// add margin 8 pixels to make alignment look better
+		/* If there's no text, don't show the line number, otherwise the latter
+		 * will make it look as if there's text. */
+		if (useMonoFont && textViewer.getCharCount() > 0) {
+			int indent = 8; // line number indent in pixels
+			String gap = " "; // gap between line number and line text
+			
 			GC gc = new GC(textViewer);
-			Point p = gc.textExtent(Integer.toString(textViewer.getLineCount()));
+			Point p = gc.stringExtent(textViewer.getLineCount() + gap);
 			gc.dispose();
-			int bulletWidth = p.x + 8;
+			int bulletWidth = p.x + indent;
 			
 			StyleRange style = new StyleRange();
 			style.metrics = new GlyphMetrics(0, 0, bulletWidth);
 			style.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
 			
-			textViewer.setLineBullet(0, textViewer.getLineCount(), new Bullet(ST.BULLET_NUMBER, style));
+			Bullet bullet = new Bullet(ST.BULLET_NUMBER | ST.BULLET_TEXT, style);
+			bullet.text = gap;
+			textViewer.setLineBullet(0, textViewer.getLineCount(), bullet);
 			textViewer.setWrapIndent(bulletWidth);
+		} else {
+			textViewer.setLineBullet(0, textViewer.getLineCount(), null);
+			textViewer.setWrapIndent(0);
 		}
 	}
 	
@@ -160,6 +169,7 @@ final class HighlightingText {
 	}
 	
 	public void setUseMonoFont(boolean useMonoFont) {
+		this.useMonoFont = useMonoFont;
 		if (useMonoFont) {
 			if (monoFont == null)
 				monoFont = UtilGui.getPreviewFontMono().createFont();
