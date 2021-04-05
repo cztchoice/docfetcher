@@ -124,7 +124,7 @@ public final class AppUtil {
 				"This program just died! " +
 				"The stacktrace below has been written to {0}."),
 		program_running_launch_another (
-				"It seems {0} is already running. " +
+				"It seems an instance of {0} was not terminated cleanly or is still running. " +
 				"Do you want to launch another instance?"),
 		ok ("&OK"),
 		cancel ("&Cancel"),

@@ -33,6 +33,7 @@ import java.util.Set;
 
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 import com.google.common.io.Closeables;
@@ -152,6 +153,27 @@ public final class ConfLoader {
 			enums.add((Class<T>) nestedClass);
 		}
 		return enums;
+	}
+	
+	/*
+	 * For the given key, returns the associated raw string value in the given
+	 * enclosing class. Returns null if the key is not found.
+	 */
+	@Nullable
+	@SuppressWarnings("unchecked")
+	public static String getRawValue(String key, Class<?> containerClass) {
+		for (Class<?> nestedClass : containerClass.getDeclaredClasses()) {
+			if (! nestedClass.isEnum()) continue;
+			Class<?>[] interfaces = nestedClass.getInterfaces();
+			assert interfaces.length == 1;
+			Class<Storable> clazz = (Class<Storable>) nestedClass;
+			for (Storable entry : clazz.getEnumConstants()) {
+				if (entry.name().equals(key)) {
+					return entry.valueToString();
+				}
+			}
+		}
+		return null;
 	}
 
 	/**

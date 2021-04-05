@@ -16,8 +16,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.primitives.Ints;
+
+import net.sourceforge.docfetcher.util.ConfLoader.Storable;
 import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.ConfLoader.Loadable;
 import net.sourceforge.docfetcher.util.annotations.Immutable;
 
 /**
@@ -42,7 +44,7 @@ public final class ProgramConf {
 	// TODO pre-release: remove unused entries
 	// TODO pre-release: reset entries whose values where changed for development purposes (e.g. fix window sizes)
 
-	public static enum Bool implements Loadable {
+	public static enum Bool implements Storable {
 		CheckSingleInstance (true),
 		FixWindowSizes (false),
 		DryRun (false),
@@ -74,9 +76,12 @@ public final class ProgramConf {
 		public void load(String str) {
 			value = Boolean.parseBoolean(str);
 		}
+		public String valueToString() {
+			return Boolean.toString(value);
+		}
 	}
 
-	public static enum Int implements Loadable {
+	public static enum Int implements Storable {
 		SearchHistorySize (20, 1),
 		MaxLinesInProgressPanel (1000, 2),
 		SearchBoxMaxWidth (500, 0),
@@ -110,9 +115,12 @@ public final class ProgramConf {
 		public void load(String str) {
 			value = Util.clamp(Util.toInt(str, value), min, max);
 		}
+		public String valueToString() {
+			return Integer.toString(value);
+		}
 	}
 
-	public static enum Str implements Loadable {
+	public static enum Str implements Storable {
 		AppName ("DocFetcher"),
 		TextEncodingOverride (""),
 		;
@@ -130,9 +138,12 @@ public final class ProgramConf {
 		public File getFile() {
 			return new File(value);
 		}
+		public String valueToString() {
+			return value;
+		}
 	}
 
-	public static enum IntArray implements Loadable {
+	public static enum IntArray implements Storable {
 		;
 
 		private int[] value;
@@ -145,9 +156,12 @@ public final class ProgramConf {
 		public void load(String str) {
 			value = Util.toIntArray(str, value);
 		}
+		public String valueToString() {
+			return Ints.join(", ", value);
+		}
 	}
 
-	public static enum StrList implements Loadable {
+	public static enum StrList implements Storable {
 		HtmlExtensions ("html", "htm", "xhtml", "shtml", "shtm")
 		;
 
@@ -161,6 +175,9 @@ public final class ProgramConf {
 		}
 		public void load(String str) {
 			value = Util.decodeStrings(';', str);
+		}
+		public String valueToString() {
+			return Util.encodeStrings(";", value);
 		}
 	}
 

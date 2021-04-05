@@ -14,7 +14,7 @@ package net.sourceforge.docfetcher.gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringReader;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,11 +45,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 
+import com.drew.lang.Charsets;
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
-import com.google.common.io.Closeables;
 import com.google.common.io.Files;
+import com.google.common.io.LineReader;
 import com.google.common.io.Resources;
 
 import net.sourceforge.docfetcher.Main;
@@ -731,26 +732,21 @@ public final class Application {
 			List<Loadable> notLoaded = ConfLoader.load(
 				confFile, ProgramConf.class, false);
 			if (!notLoaded.isEmpty()) {
-				List<String> entryNames = new ArrayList<String>(
-					notLoaded.size());
-				for (Loadable entry : notLoaded)
-					entryNames.add("  " + entry.name());
-				String msg = Msg.entries_missing.format(confFile.getName());
-				msg += "\n" + Joiner.on("\n").join(entryNames);
 				if (SystemConf.Bool.IsDevelopmentVersion.get()) {
+					List<String> entryNames = new ArrayList<>(notLoaded.size());
+					for (Loadable entry : notLoaded)
+						entryNames.add("  " + entry.name());
+					String msg = Msg.entries_missing.format(confFile.getName());
+					msg += "\n" + Joiner.on("\n").join(entryNames);
 					AppUtil.showErrorOnStart(msg, false);
 				}
 				else {
-					msg += "\n\n" + Msg.entries_missing_regenerate.get();
-					int style = SWT.YES | SWT.NO | SWT.ICON_WARNING;
-					if (AppUtil.showErrorOnStart(msg, style) == SWT.YES) {
-						regenerateConfFile(confFile);
-					}
+					regenerateConfFile(confFile, ProgramConf.class);
 				}
 			}
 		}
 		catch (FileNotFoundException e) {
-			regenerateConfFile(confFile);
+			regenerateConfFile(confFile, ProgramConf.class);
 		}
 		catch (IOException e) {
 			AppUtil.showStackTraceInOwnDisplay(e);
@@ -758,25 +754,58 @@ public final class Application {
 		return confFile;
 	}
 
-	private static void regenerateConfFile(File confFile) {
-		/*
-		 * Restore conf file if missing. In case of the non-portable
-		 * version, the conf file will be missing the first time the program
-		 * is started.
-		 */
-		InputStream in = Main.class.getResourceAsStream(confFile.getName());
+	/**
+	 * Regenerates the given conf file from an internal template, replacing
+	 * values in the template with values loaded from the given container class
+	 * if possible.
+	 * <p>
+	 * Note: In case of the non-portable version, the program-conf.txt file will
+	 * be missing when the program is started for the first time.
+	 */
+	private static void regenerateConfFile(	File confFile,
+											Class<?> containerClass) {
+		Pattern linePat = Pattern.compile("(\\w+)\\s*=.*");
 		try {
-			ConfLoader.load(in, ProgramConf.class);
 			URL url = Resources.getResource(Main.class, confFile.getName());
+			LineReader lineReader = new LineReader(
+				new StringReader(Resources.toString(url, Charsets.UTF_8))
+			);
+			List<String> outLines = new ArrayList<>();
+			while (true) {
+				String line = lineReader.readLine();
+				if (line == null) {
+					break;
+				}
+				line = line.trim();
+				if (line.isEmpty() || line.startsWith("#")) {
+					outLines.add(line);
+					continue;
+				}
+				Matcher mat = linePat.matcher(line);
+				if (!mat.matches()) {
+					outLines.add(line);
+					continue;
+				}
+				String key = mat.group(1);
+				String value = ConfLoader.getRawValue(key, containerClass);
+				if (value != null) {
+					if (value.trim().isEmpty()) {
+						outLines.add(String.format("%s =", key));
+					}
+					else {
+						outLines.add(String.format("%s = %s", key, value));
+					}
+				}
+				else {
+					outLines.add(line);
+				}
+			}
+			String outStr = Util.join(Util.LS, outLines);
 			Util.getParentFile(confFile).mkdirs();
-			Files.copy(
-				Resources.newInputStreamSupplier(url), confFile);
+			Files.write(outStr, confFile, Charsets.UTF_8);
 		}
 		catch (Exception e1) {
 			AppUtil.showStackTraceInOwnDisplay(e1);
-		}
-		finally {
-			Closeables.closeQuietly(in);
 		}
 	}
 	
