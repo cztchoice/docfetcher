@@ -1248,6 +1248,21 @@ public final class Application {
 
 	private static void initHotkey() {
 		/*
+		 * On Windows, the hotkey is disabled by default due to various known
+		 * issues:
+		 * 
+		 * Thread (in German) about the program refusing to launch, with no
+		 * error messages and running on Java 64-bit:
+		 * https://sourceforge.net/p/docfetcher/discussion/702424/thread/458c45e0cf/
+		 * 
+		 * One of many bug reports where the program crashes with Java 32-bit:
+		 * https://sourceforge.net/p/docfetcher/bugs/1514/
+		 */
+		if (Util.IS_WINDOWS && !ProgramConf.Bool.HotkeyOnWindowsEnabled.get()) {
+			return;
+		}
+		
+		/*
 		 * As registering the hotkey is prone to crashing the VM, we'll
 		 * temporarily disable the hotkey before attempting to register it, so
 		 * that if the VM does crash, the hotkey will be disabled the next time.

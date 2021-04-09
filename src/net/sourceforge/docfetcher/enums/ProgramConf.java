@@ -64,6 +64,7 @@ public final class ProgramConf {
 		PythonApiEnabled (false),
 		ShowPathsDuringIndexing (false),
 		WriteIndexingLog (false),
+		HotkeyOnWindowsEnabled (false),
 		;
 
 		private boolean value;

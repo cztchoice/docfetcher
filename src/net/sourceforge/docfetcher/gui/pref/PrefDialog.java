@@ -144,8 +144,16 @@ public final class PrefDialog {
 				UtilGui.getPreviewFontMono())
 		));
 
-		if (!Util.IS_MAC_OS_X)
+		boolean hotkeyEnabled = true;
+		if (Util.IS_WINDOWS && !ProgramConf.Bool.HotkeyOnWindowsEnabled.get()) {
+			hotkeyEnabled = false;
+		}
+		else if (Util.IS_MAC_OS_X) {
+			hotkeyEnabled = false;
+		}
+		if (hotkeyEnabled) {
 			fieldOptions.add(new HotkeyOption(Msg.pref_hotkey.get()));
+		}
 
 		new ConfigComposite(shell, SWT.H_SCROLL | SWT.V_SCROLL) {
 			protected Control createContents(Composite parent) {
