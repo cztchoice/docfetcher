@@ -19,16 +19,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.sourceforge.docfetcher.util.annotations.MutableCopy;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-import net.sourceforge.docfetcher.util.gui.Col;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.swt.SWT;
@@ -77,6 +74,12 @@ import com.google.common.io.Files;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.WString;
+
+import net.sourceforge.docfetcher.util.annotations.MutableCopy;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
+import net.sourceforge.docfetcher.util.gui.Col;
 
 /**
  * @author Tran Nam Quang
@@ -355,6 +358,109 @@ public final class Util {
 				return input.substring(0, i + 1);
 		}
 		return "";
+	}
+	
+	/**
+	 * For a given string and a given array of start-end offset pairs, returns a
+	 * map from zero-based line indices to the start-end offset pairs associated
+	 * with that particular line.
+	 */
+	@NotNull
+	public static Map<Integer, int[]> createLineMap(@NotNull String string,
+													@NotNull int[] spans) {
+		Util.checkThat(spans.length % 2 == 0);
+		if (spans.length == 0) {
+			return Collections.emptyMap();
+		}
+		List<SpanObject<int[]>> spanObjects = new ArrayList<>();
+		for (int i = 0; i < spans.length / 2; i++) {
+			int[] span = new int[] {spans[i * 2], spans[i * 2 + 1]};
+			spanObjects.add(new SpanObject<int[]>(span, span[0], span[1]));
+		}
+		final Map<Integer, int[]> lineMap = new HashMap<>();
+		LineMap<int[]> lineMapAdder = new LineMap<int[]>() {
+			@Override
+			public void add(int lineIndex, int[] span) {
+				int[] oldSpans = lineMap.get(lineIndex);
+				if (oldSpans == null) {
+					lineMap.put(lineIndex, span);
+				} else {
+					int[] newSpans = new int[oldSpans.length + span.length];
+					System.arraycopy(oldSpans, 0, newSpans, 0, oldSpans.length);
+					System.arraycopy(span, 0, newSpans, oldSpans.length, span.length);
+				}
+			}
+		};
+		createLineMap(string, spanObjects, lineMapAdder);
+		return lineMap;
+	}
+	
+	private static <A> void createLineMap(	String string,
+											Collection<SpanObject<A>> spanObjects,
+											LineMap<A> lineMap) {
+		if (spanObjects.isEmpty()) {
+			return;
+		}
+		int breakCount = 0;
+		int lastStart = 0;
+		for (SpanObject<A> spanObject : spanObjects) {
+			int start = spanObject.start;
+			int end = spanObject.end;
+			if (0 <= start && end <= string.length()) {
+				assert (start <= end);
+				breakCount += lineCount(string, lastStart, start) - 1;
+				int startLine = breakCount;
+				breakCount += lineCount(string, start, end) - 1;
+				for (int lineIndex = startLine; lineIndex <= breakCount; lineIndex++) {
+					lineMap.add(lineIndex, spanObject.object);
+				}
+				lastStart = end;
+			}
+		}
+	}
+
+	private  static final class SpanObject<A> {
+		public final A object;
+		public final int start;
+		public final int end;
+		public Iterable<String> parts = Collections.emptyList();
+
+		public SpanObject(A object, int start, int end) {
+			this.object = object;
+			this.start = start;
+			this.end = end;
+		}
+	}
+
+	private  static interface LineMap<A> {
+		public void add(int lineIndex, A object);
+	}
+	
+	/** Returns the number of lines in the given range of the given string. */
+	private static int lineCount(String string, int start, int end) {
+		int count = 1;
+		boolean rState = false;
+		int i = start;
+		while (i < end) {
+			char c = string.charAt(i);
+			if (rState) {
+				count += 1;
+				if (c != '\r') {
+					rState = false;
+				}
+			} else {
+				if (c == '\r') {
+					rState = true;
+				} else if (c == '\n') {
+					count += 1;
+				}
+			}
+			i += 1;
+		}
+		if (rState) {
+			count += 1;
+		}
+		return count;
 	}
 
 	public static <T> boolean equals(@NotNull Collection<T> col, @NotNull T[] a) {

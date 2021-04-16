@@ -140,7 +140,7 @@ class HighlightingToolBarWithTextViewer {
 					public void widgetSelected(SelectionEvent e) {
 						boolean selected = highlightBt.getSelection();
 						SettingsConf.Bool.HighlightingEnabled.set(selected);
-						textViewer.updateHighlighting();
+						textViewer.redraw();
 					}
 				}).create();
 		
@@ -150,7 +150,7 @@ class HighlightingToolBarWithTextViewer {
 				boolean selected = highlightBt.getSelection();
 				if (!eventData.equals(selected)) {
 					highlightBt.setSelection(eventData);
-					textViewer.updateHighlighting();
+					textViewer.redraw();
 				}
 			}
 		});
@@ -320,7 +320,7 @@ class HighlightingToolBarWithTextViewer {
 		occCount += string.getRangeCount();
 		if (pages.isEmpty()) {
 			pageIndex = 0;
-			textViewer.appendText(string);
+			textViewer.setText(string);
 		}
 		pages.add(string);
 		

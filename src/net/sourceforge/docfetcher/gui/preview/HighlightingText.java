@@ -11,25 +11,14 @@
 
 package net.sourceforge.docfetcher.gui.preview;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
-import net.sourceforge.docfetcher.enums.Img;
-import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
-import net.sourceforge.docfetcher.model.search.HighlightedString;
-import net.sourceforge.docfetcher.model.search.Range;
-import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.Nullable;
-import net.sourceforge.docfetcher.util.gui.ContextMenuManager;
-import net.sourceforge.docfetcher.util.gui.MenuAction;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.Bullet;
+import org.eclipse.swt.custom.LineStyleEvent;
+import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.ST;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -44,6 +33,19 @@ import org.eclipse.swt.graphics.Resource;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
+import net.sourceforge.docfetcher.enums.Img;
+import net.sourceforge.docfetcher.enums.Msg;
+import net.sourceforge.docfetcher.enums.SettingsConf;
+import net.sourceforge.docfetcher.gui.UtilGui;
+import net.sourceforge.docfetcher.model.search.HighlightedString;
+import net.sourceforge.docfetcher.model.search.Range;
+import net.sourceforge.docfetcher.util.Event;
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.Nullable;
+import net.sourceforge.docfetcher.util.gui.ContextMenuManager;
+import net.sourceforge.docfetcher.util.gui.MenuAction;
+
 /**
  * @author Tran Nam Quang
  */
@@ -51,12 +53,16 @@ final class HighlightingText {
 	
 	private static final int margin = 10;
 	
-	@NotNull private StyledText textViewer; //TODO Replace with: http://sourceforge.net/projects/jintilla
-	@NotNull private StyleRange highlightStyle;
+	@NotNull private StyledText textViewer;
 	@NotNull private Color highlightColor;
+	@NotNull private StyleRange highlightStyle;
 	
-	private final List<int[]> rangesList = new ArrayList<int[]>();
-	private int occCount;
+	private int[] highlightSpans = new int[0]; // start-end pairs
+	private Map<Integer, int[]> lineIndexToSpans = new HashMap<>(); // start-end pairs
+	
+	private int lineNumbersWidth = 0;
+	private Bullet lineNumbersBullet = null;
+	
 	private Font normalFont;
 	private Font monoFont;
 	private boolean useMonoFont = true;
@@ -66,15 +72,37 @@ final class HighlightingText {
 		textViewer = new StyledText(parent, style);
 		textViewer.setMargins(margin, margin, margin, margin);
 		textViewer.setContent(new AppendingStyledTextContent());
+		textViewer.addLineStyleListener(new LineStyleListener() {
+			@Override
+			public void lineGetStyle(LineStyleEvent event) {
+				handleLineStyleEvent(event);
+			}
+		});
 		setHighlightColorAndStyle();
+		
+		StyleRange bulletStyle = new StyleRange();
+		bulletStyle.metrics = new GlyphMetrics(0, 0, lineNumbersWidth);
+		bulletStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+		lineNumbersBullet = new Bullet(ST.BULLET_NUMBER | ST.BULLET_TEXT, bulletStyle);
 		
 		// Update highlight color when preferences entry changes
 		SettingsConf.IntArray.PreviewHighlighting.evtChanged.add(new Event.Listener<int[]>() {
 			public void update(int[] eventData) {
-				Color oldColor = highlightColor;
+				final Color oldColor = highlightColor;
 				setHighlightColorAndStyle();
-				updateHighlighting();
-				oldColor.dispose();
+				textViewer.redraw();
+				/*
+				 * The StyledText widget will update its style asynchronously
+				 * and for some reason must access the old color while doing so.
+				 * Thus, the following asyncExec is needed; otherwise StyledText
+				 * will try to access a disposed color and throw an exception.
+				 */
+				Util.runAsyncExec(textViewer, new Runnable() {
+					@Override
+					public void run() {
+						oldColor.dispose();
+					}
+				});
 			}
 		});
 		
@@ -88,6 +116,8 @@ final class HighlightingText {
 				if (textViewer.getFont() == oldFont)
 					textViewer.setFont(normalFont);
 				oldFont.dispose();
+				updateLineNumbersCache();
+				textViewer.redraw();
 			}
 		});
 		
@@ -101,6 +131,8 @@ final class HighlightingText {
 				if (textViewer.getFont() == oldFont)
 					textViewer.setFont(monoFont);
 				oldFont.dispose();
+				updateLineNumbersCache();
+				textViewer.redraw();
 			}
 		});
 		
@@ -131,41 +163,40 @@ final class HighlightingText {
 		highlightStyle = new StyleRange(0, 0, null, highlightColor);
 	}
 	
-	private void setLineNumbers() {
-		/* If there's no text, don't show the line number, otherwise the latter
-		 * will make it look as if there's text. */
-		if (useMonoFont && textViewer.getCharCount() > 0) {
-			int indent = 8; // line number indent in pixels
-			String gap = " "; // gap between line number and line text
-			
-			GC gc = new GC(textViewer);
-			Point p = gc.stringExtent(textViewer.getLineCount() + gap);
-			gc.dispose();
-			int bulletWidth = p.x + indent;
-			
-			StyleRange style = new StyleRange();
-			style.metrics = new GlyphMetrics(0, 0, bulletWidth);
-			style.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
-			
-			Bullet bullet = new Bullet(ST.BULLET_NUMBER | ST.BULLET_TEXT, style);
-			bullet.text = gap;
-			textViewer.setLineBullet(0, textViewer.getLineCount(), bullet);
-			textViewer.setWrapIndent(bulletWidth);
-		} else {
-			textViewer.setLineBullet(0, textViewer.getLineCount(), null);
-			textViewer.setWrapIndent(0);
-		}
-	}
-	
 	@NotNull
 	public StyledText getControl() {
 		return textViewer;
 	}
 	
+	public void redraw() {
+		textViewer.redraw();
+	}
+	
+	public void setText(@NotNull HighlightedString string) {
+		if (string.isEmpty()) {
+			highlightSpans = new int[0];
+			lineIndexToSpans.clear();
+		} else {
+			List<Range> ranges = string.getRanges();
+			highlightSpans = new int[ranges.size() * 2];
+			for (int i = 0; i < ranges.size(); i++) {
+				int start = ranges.get(i).start;
+				highlightSpans[i * 2] = start;
+				highlightSpans[i * 2 + 1] = start + ranges.get(i).length;
+			}
+			lineIndexToSpans = Util.createLineMap(string.getString(), highlightSpans);
+		}
+		textViewer.setText(string.getString());
+		updateLineNumbersCache();
+		textViewer.redraw();
+	}
+	
 	public void clear() {
 		textViewer.setText("");
-		rangesList.clear();
-		occCount = 0;
+		highlightSpans = new int[0];
+		lineIndexToSpans.clear();
+		updateLineNumbersCache();
+		textViewer.redraw();
 	}
 	
 	public void setUseMonoFont(boolean useMonoFont) {
@@ -180,61 +211,8 @@ final class HighlightingText {
 				normalFont = UtilGui.getPreviewFontNormal().createFont();
 			textViewer.setFont(normalFont);
 		}
-	}
-	
-	public void setText(@NotNull HighlightedString string) {
-		rangesList.clear();
-		occCount = 0;
-		
-		textViewer.setText(string.getString());
-		setLineNumbers();
-		
-		if (string.isEmpty())
-			return;
-		
-		int[] rangeArray = getRangeArray(string, 0);
-		if (SettingsConf.Bool.HighlightingEnabled.get()) {
-			StyleRange[] styles = getStylesArray(string);
-			textViewer.setStyleRanges(rangeArray, styles);
-		}
-		
-		rangesList.add(rangeArray);
-		occCount = string.getRangeCount();
-	}
-	
-	public void appendText(@NotNull HighlightedString string) {
-		if (string.isEmpty())
-			return;
-		
-		int offset = textViewer.getCharCount();
-		textViewer.append(string.getString());
-		setLineNumbers();
-		
-		int[] rangeArray = getRangeArray(string, offset);
-		if (SettingsConf.Bool.HighlightingEnabled.get()) {
-			StyleRange[] styles = getStylesArray(string);
-			textViewer.setStyleRanges(offset, string.length(), rangeArray, styles);
-		}
-		
-		rangesList.add(rangeArray);
-		occCount += string.getRangeCount();
-	}
-	
-	public void updateHighlighting() {
-		if (SettingsConf.Bool.HighlightingEnabled.get()) {
-			int[] fullRangeArray = new int[2 * occCount];
-			int offset = 0;
-			for (int[] array : rangesList) {
-				System.arraycopy(array, 0, fullRangeArray, offset, array.length);
-				offset += array.length;
-			}
-			StyleRange[] styleArray = new StyleRange[occCount];
-			Arrays.fill(styleArray, highlightStyle);
-			textViewer.setStyleRanges(fullRangeArray, styleArray);
-		}
-		else {
-			textViewer.setStyleRanges(new StyleRange[0]);
-		}
+		updateLineNumbersCache();
+		textViewer.redraw();
 	}
 
 	/**
@@ -253,32 +231,6 @@ final class HighlightingText {
 		return goTo(forward, searchStart);
 	}
 	
-	// argument is one-based
-	public void goTo(int occ) {
-		int tokenStart = -1;
-		int tokenEnd = -1;
-		int tokenIndex = 0;
-		
-		outer: {
-			for (int[] ranges : rangesList) {
-				for (int i = 0; i < ranges.length - 1; i += 2) {
-					tokenIndex++;
-					if (tokenIndex == occ) {
-						tokenStart = ranges[i];
-						tokenEnd = tokenStart + ranges[i + 1];
-						break outer;
-					}
-				}
-			}
-		}
-		
-		if (tokenStart == -1)
-			return;
-		
-		textViewer.setSelection(tokenStart, tokenEnd);
-		scrollToMiddle((tokenStart + tokenEnd) / 2);
-	}
-	
 	/**
 	 * Selects and scrolls to the last occurrence, if one exists.
 	 * <p>
@@ -291,66 +243,47 @@ final class HighlightingText {
 		return goTo(false, textViewer.getCharCount());
 	}
 	
-	@Nullable
-	private Integer goTo(boolean forward, int searchStart) {
-		int tokenStart = -1;
-		int tokenEnd = -1;
-		int tokenIndex = 0;
-		
-		outer: {
-			if (forward) {
-				for (int[] ranges : rangesList) {
-					for (int i = 0; i < ranges.length - 1; i += 2) {
-						tokenIndex++;
-						if (ranges[i] >= searchStart) {
-							tokenStart = ranges[i];
-							tokenEnd = tokenStart + ranges[i + 1];
-							break outer;
-						}
-					}
-				}
-			}
-			else {
-				for (int[] ranges : rangesList) {
-					for (int i = 0; i < ranges.length - 1; i += 2) {
-						if (ranges[i] + ranges[i + 1] <= searchStart) {
-							tokenStart = ranges[i];
-							tokenEnd = tokenStart + ranges[i + 1];
-							tokenIndex++;
-						}
-						else {
-							break outer;
-						}
-					}
-				}
-			}
+	// argument is one-based
+	public void goTo(int occ) {
+		int i = occ - 1;
+		if (i < 0 || i >= highlightSpans.length / 2) {
+			return;
 		}
-		
-		if (tokenStart == -1)
-			return null;
-		
-		textViewer.setSelection(tokenStart, tokenEnd);
-		scrollToMiddle((tokenStart + tokenEnd) / 2);
-		return tokenIndex;
-	}
-
-	@NotNull
-	private static int[] getRangeArray(@NotNull HighlightedString string,
-								int offset) {
-		List<Range> ranges = string.getRanges();
-		int[] rangeArray = new int[ranges.size() * 2];
-		for (int i = 0; i < ranges.size(); i++) {
-			rangeArray[i * 2] = ranges.get(i).start + offset;
-			rangeArray[i * 2 + 1] = ranges.get(i).length;
-		}
-		return rangeArray;
+		int start = highlightSpans[i * 2];
+		int end = highlightSpans[i * 2 + 1];
+		selectAndShowSpan(start, end);
 	}
 	
-	@NotNull
-	private StyleRange[] getStylesArray(@NotNull HighlightedString string) {
-		StyleRange[] styles = new StyleRange[string.getRangeCount()];
-		Arrays.fill(styles, highlightStyle);
-		return styles;
+	// returns one-based occurrence index, or null
+	@Nullable
+	private Integer goTo(boolean forward, int searchStart) {
+		if (forward) {
+			for (int i = 0; i < highlightSpans.length / 2; i++) {
+				int start = highlightSpans[i * 2];
+				if (start >= searchStart) {
+					int end = highlightSpans[i * 2 + 1];
+					selectAndShowSpan(start, end);
+					return i + 1;
+				}
+			}
+		} else {
+			int i = highlightSpans.length / 2 - 1;
+			while (i >= 0) {
+				int end = highlightSpans[i * 2 + 1];
+				if (end <= searchStart) {
+					int start = highlightSpans[i * 2];
+					selectAndShowSpan(start, end);
+					return i + 1;
+				}
+				i--;
+			}
+		}
+		return null;
+	}
+	
+	private void selectAndShowSpan(int start, int end) {
+		textViewer.setSelection(start, end);
+		scrollToMiddle((start + end) / 2);
 	}
 	
 	/**
@@ -380,6 +313,52 @@ final class HighlightingText {
 		}
 		catch (Exception e) {
 			// Ignore invalid caret offset
+		}
+	}
+	
+	private void updateLineNumbersCache() {
+		int indent = 8; // line number indent in pixels
+		String gap = " "; // gap between line number and line text
+		
+		GC gc = new GC(textViewer);
+		int width = indent + gc.stringExtent(textViewer.getLineCount() + gap).x;
+		gc.dispose();
+		
+		StyleRange style = new StyleRange();
+		style.metrics = new GlyphMetrics(0, 0, width);
+		style.foreground = textViewer.getDisplay().getSystemColor(SWT.COLOR_GRAY);
+		
+		Bullet bullet = new Bullet(ST.BULLET_NUMBER | ST.BULLET_TEXT, style);
+		bullet.text = gap;
+		
+		lineNumbersWidth = width;
+		lineNumbersBullet = bullet;
+	}
+	
+	private void handleLineStyleEvent(LineStyleEvent e) {
+		int lineIndex = textViewer.getLineAtOffset(e.lineOffset);
+		if (SettingsConf.Bool.HighlightingEnabled.get()) {
+			int[] spans = lineIndexToSpans.get(lineIndex);
+			if (spans != null) {
+				e.ranges = new int[spans.length];
+				e.styles = new StyleRange[spans.length / 2];
+				for (int i = 0; i < spans.length / 2; i++) {
+					int start = spans[i * 2];
+					e.ranges[i * 2] = start;
+					e.ranges[i * 2 + 1] = spans[i * 2 + 1] - start;
+					e.styles[i] = highlightStyle;
+				}
+			}
+		}
+		
+		/*
+		 * If there's no text, don't show the line number, otherwise the latter
+		 * will make it look as if there's text.
+		 */
+		if (useMonoFont && textViewer.getCharCount() > 0) {
+			e.bulletIndex = lineIndex;
+			e.bullet = lineNumbersBullet;
+			e.wrapIndent = lineNumbersWidth;
 		}
 	}
 
