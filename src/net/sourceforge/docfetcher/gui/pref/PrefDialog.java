@@ -145,7 +145,7 @@ public final class PrefDialog {
 		));
 
 		boolean hotkeyEnabled = true;
-		if (Util.IS_WINDOWS && !ProgramConf.Bool.HotkeyOnWindowsEnabled.get()) {
+		if (!ProgramConf.Bool.HotkeyEnabled.get()) {
 			hotkeyEnabled = false;
 		}
 		else if (Util.IS_MAC_OS_X) {

@@ -57,13 +57,14 @@ FixWindowSizes = false
 # Whether any changes to the program settings should be written to disk.
 SaveSettings = true
 
-# When running the program on Windows, the program's global hotkey is disabled
-# by default due to a known launch issue. More precisely, with the hotkey
+# The global hotkey to bring the program window to the front is disabled by
+# default due to known launch issues. On Windows in particular, with the hotkey
 # enabled, the program may either crash at startup with an error message
 # containing the word "JIntellitypeException", or it may crash at startup with
 # no error message at all. This setting allows you to enable the hotkey despite
-# the potential launch issue.
-HotkeyOnWindowsEnabled = false
+# the potential launch issues. Note that the hotkey is only supported on Windows
+# and Linux, not on macOS.
+HotkeyEnabled = false
 
 
 #===============================================================================

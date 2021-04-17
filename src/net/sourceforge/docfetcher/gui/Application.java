@@ -1264,7 +1264,7 @@ public final class Application {
 		 * One of many bug reports where the program crashes with Java 32-bit:
 		 * https://sourceforge.net/p/docfetcher/bugs/1514/
 		 */
-		if (Util.IS_WINDOWS && !ProgramConf.Bool.HotkeyOnWindowsEnabled.get()) {
+		if (!ProgramConf.Bool.HotkeyEnabled.get()) {
 			return;
 		}
 		
