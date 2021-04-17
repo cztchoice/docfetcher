@@ -538,18 +538,26 @@ public final class IndexRegistry {
 			File indexDir = index.getIndexDirPath().getCanonicalFile();
 			indexDir.mkdirs();
 			File serFile = new File(indexDir, SER_FILENAME);
-
+			
 			/*
 			 * DocFetcher might have been burned onto a CD-ROM; if so, then just
 			 * ignore it.
 			 */
 			if (serFile.exists() && !serFile.canWrite())
 				return;
-
+			
+			/*
+			 * Instead of writing to the tree file directly, we'll write to a
+			 * temporary file and then rename it to the tree file, provided that
+			 * no errors occurred. This prevents the creation of broken tree
+			 * files.
+			 */
+			File tempFile = new File(indexDir, SER_FILENAME + ".temp");
+			
 			ObjectOutputStream out = null;
 			try {
-				serFile.createNewFile();
-				FileOutputStream fout = new FileOutputStream(serFile);
+				tempFile.createNewFile();
+				FileOutputStream fout = new FileOutputStream(tempFile);
 				FileLock lock = fout.getChannel().lock();
 				try {
 					/*
@@ -562,6 +570,9 @@ public final class IndexRegistry {
 				finally {
 					lock.release();
 				}
+				
+				serFile.delete();
+				tempFile.renameTo(serFile);
 			}
 			catch (StackOverflowError e) {
 				AppUtil.showError("Couldn't save index '" + index.getDisplayName() + "': Folder hierarchy "
@@ -580,7 +591,7 @@ public final class IndexRegistry {
 					AppUtil.showError(Msg.rename_index_failed.get(), true, false);
 				}
 			}
-
+			
 			// Update cached last-modified value of index
 			indexes.put(index, serFile.lastModified());
 		}
