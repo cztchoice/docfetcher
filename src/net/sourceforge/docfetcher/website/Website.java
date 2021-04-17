@@ -12,13 +12,19 @@
 package net.sourceforge.docfetcher.website;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
+
+import org.pegdown.Extensions;
+import org.pegdown.PegDownProcessor;
+
+import com.google.common.base.Charsets;
+import com.google.common.base.Joiner;
+import com.google.common.io.Files;
 
 import net.sourceforge.docfetcher.UtilGlobal;
 import net.sourceforge.docfetcher.build.BuildMain;
@@ -27,14 +33,6 @@ import net.sourceforge.docfetcher.enums.MsgWriter;
 import net.sourceforge.docfetcher.util.CharsetDetectorHelper;
 import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
-
-import org.pegdown.Extensions;
-import org.pegdown.PegDownProcessor;
-
-import com.google.common.base.Charsets;
-import com.google.common.base.Joiner;
-import com.google.common.io.Closeables;
-import com.google.common.io.Files;
 
 /**
  * @author Tran Nam Quang

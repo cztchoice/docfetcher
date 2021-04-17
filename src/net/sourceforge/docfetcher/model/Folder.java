@@ -227,7 +227,7 @@ public abstract class Folder
 			if (subFolders == null)
 				subFolders = Maps.newHashMap();
 			if (subFolder.parent != null)
-				subFolder.parent.subFolders.remove(subFolder);
+				subFolder.parent.subFolders.remove(subFolder.getName());
 			subFolder.parent = (F) this;
 			subFolder.path = null;
 			subFolder.updatePathHashCode();

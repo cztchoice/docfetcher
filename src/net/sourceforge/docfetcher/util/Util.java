@@ -423,7 +423,7 @@ public final class Util {
 		public final A object;
 		public final int start;
 		public final int end;
-		public Iterable<String> parts = Collections.emptyList();
+//		public Iterable<String> parts = Collections.emptyList();
 
 		public SpanObject(A object, int start, int end) {
 			this.object = object;

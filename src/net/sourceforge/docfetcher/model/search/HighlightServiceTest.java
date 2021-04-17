@@ -114,7 +114,7 @@ public final class HighlightServiceTest {
 			FieldPhraseList fieldPhraseList = new FieldPhraseList( fieldTermStack, fieldQuery );
 			java.lang.reflect.Field field = fieldPhraseList.getClass().getDeclaredField("phraseList");
 			field.setAccessible(true);
-			LinkedList<WeightedPhraseInfo> list = (LinkedList<WeightedPhraseInfo>) field.get(fieldPhraseList);
+			@SuppressWarnings("unchecked") LinkedList<WeightedPhraseInfo> list = (LinkedList<WeightedPhraseInfo>) field.get(fieldPhraseList);
 			assertEquals(2, list.get(0).getStartOffset());
 			assertEquals(8, list.get(0).getEndOffset());
 		} finally {

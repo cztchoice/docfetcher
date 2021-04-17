@@ -44,6 +44,7 @@ public final class TreeCheckState {
 		folderCount += other.folderCount;
 	}
 	
+	@SuppressWarnings("unlikely-arg-type")
 	public boolean isChecked(@NotNull Path path) {
 		Util.checkNotNull(path);
 		if (checkedSet.isEmpty())
@@ -60,6 +61,7 @@ public final class TreeCheckState {
 			this.path = path;
 		}
 		
+		@SuppressWarnings("unlikely-arg-type")
 		public boolean equals(Object obj) {
 			/*
 			 * The hash map implementation will call this equals method rather

@@ -108,6 +108,7 @@ public enum Fields {
 		return createContent(fieldValue, false);
 	}
 	
+	@SuppressWarnings("resource")
 	@NotNull
 	public static Field createContent(	@NotNull CharSequence fieldValue,
 										boolean withOffsets) {
