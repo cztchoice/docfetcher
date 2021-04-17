@@ -14,24 +14,29 @@ package net.sourceforge.docfetcher.gui;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Shell;
+
+import com.google.common.collect.Lists;
+
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-
-import com.google.common.collect.Lists;
 
 /**
  * A status bar widget consisting of multiple parts with the following
@@ -39,6 +44,7 @@ import com.google.common.collect.Lists;
  * <ul>
  * <li>There is one left part and zero or more right parts.
  * <li>All parts have a text label and an optional image.
+ * <li>The text labels may contain HTML hyperlinks.
  * <li>The right parts can be shown and hidden.
  * </ul>
  * This class is intended to be subclassed, optionally overriding
@@ -53,28 +59,47 @@ public class StatusBar extends Composite {
 	 */
 	public static final class StatusBarPart {
 		public final Event<Void> evtClicked;
+		public final Event<Void> evtLinkClicked = new Event<>();
 		
 		private final StatusBar statusBar;
-		private final CLabel label;
+		private final Composite comp;
+		private final CLabel imgLabel;
+		private final Link textLabel;
 		private boolean isVisible = true;
 		
 		public StatusBarPart(@NotNull StatusBar statusBar, boolean clickable) {
 			Util.checkNotNull(statusBar);
 			this.statusBar = statusBar;
-			label = new CLabel(statusBar, SWT.LEFT);
+			
+			comp = new Composite(statusBar, SWT.NONE);
+			imgLabel = new CLabel(comp, SWT.NONE);
+			textLabel = new Link(comp, SWT.NONE);
+			
+			GridLayout layout = new GridLayout(2, false);
+			layout.marginWidth = layout.marginHeight = 0;
+			comp.setLayout(layout);
+			imgLabel.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
+			textLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
 			
 			if (clickable) {
 				evtClicked = new Event<Void>();
-				label.addMouseListener(new MouseAdapter() {
+				textLabel.addMouseListener(new MouseAdapter() {
 					public void mouseUp(MouseEvent e) {
 						evtClicked.fire(null);
 					}
 				});
-				Util.addMouseHighlighter(label);
+				Util.addMouseHighlighter(textLabel);
 			}
 			else {
 				evtClicked = null;
 			}
+			
+			textLabel.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					evtLinkClicked.fire(null);
+				}
+			});
 		}
 		
 		/**
@@ -82,7 +107,7 @@ public class StatusBar extends Composite {
 		 */
 		@NotNull
 		public Control getControl() {
-			return label;
+			return comp;
 		}
 		
 		/**
@@ -101,17 +126,18 @@ public class StatusBar extends Composite {
 			if (this.isVisible == isVisible)
 				return;
 			this.isVisible = isVisible;
-			label.setVisible(isVisible);
+			comp.setVisible(isVisible);
 			statusBar.updateLayout();
 		}
 		
 		/**
-		 * Sets the image and text of this part. The image may be null.
+		 * Sets the image and text of this part. The image may be null. The text
+		 * may contain HTML hyperlinks.
 		 */
 		public void setContents(@Nullable Image image, @NotNull String text) {
 			Util.checkNotNull(text);
-			label.setImage(image);
-			label.setText(text);
+			imgLabel.setImage(image);
+			textLabel.setText(text);
 			statusBar.updateLayout();
 		}
 		
@@ -120,7 +146,7 @@ public class StatusBar extends Composite {
 		 */
 		@Nullable
 		public Image getImage() {
-			return label.getImage();
+			return imgLabel.getImage();
 		}
 		
 		/**
@@ -128,7 +154,7 @@ public class StatusBar extends Composite {
 		 */
 		@NotNull
 		public String getText() {
-			return label.getText();
+			return textLabel.getText();
 		}
 		
 		/**
@@ -139,8 +165,8 @@ public class StatusBar extends Composite {
 		public Rectangle getBounds() {
 			if (!isVisible)
 				return null;
-			Shell shell = label.getShell();
-			Rectangle bounds = label.getBounds();
+			Shell shell = comp.getShell();
+			Rectangle bounds = comp.getBounds();
 			return shell.getDisplay().map(statusBar, shell, bounds);
 		}
 	}
@@ -194,18 +220,18 @@ public class StatusBar extends Composite {
 		Control lastControl = null;
 		for (StatusBarPart part : parts) {
 			if (!part.isVisible) {
-				part.label.setLayoutData(null);
+				part.getControl().setLayoutData(null);
 				continue;
 			}
 			if (lastControl == null)
 				fdf.right();
 			else
 				fdf.right(lastControl, -20);
-			fdf.applyTo(part.label);
-			lastControl = part.label;
+			fdf.applyTo(part.getControl());
+			lastControl = part.getControl();
 		}
 		
-		assert lastControl == leftPart.label;
+		assert lastControl == leftPart.getControl();
 		fdf.left().applyTo(lastControl);
 		
 		layout();

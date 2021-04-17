@@ -1193,13 +1193,19 @@ public final class Application {
 						indexPanel.openIndexingDialog();
 					}
 				});
-
-				StatusBarPart webInterfaceStatus = new StatusBarPart(statusBar, true);
-				webInterfaceStatus.setContents(Img.INDEXING.get(), Msg.web_interface.get());
+				
+				StatusBarPart proLink = new StatusBarPart(statusBar, false);
+				proLink.setContents(null, "<a>" + Msg.try_docfetcher_pro.get() + "</a>");
+				proLink.evtLinkClicked.add(new Event.Listener<Void> () {
+					@Override
+					public void update(Void eventData) {
+						Util.launch("https://docfetcherpro.com/about/");
+					}
+				});
 
 				List<StatusBarPart> parts = new ArrayList<StatusBarPart>(2);
 				parts.add(indexingStatus);
-//				parts.add(webInterfaceStatus); // TODO web interface
+				parts.add(proLink);
 				return parts;
 			}
 		};
