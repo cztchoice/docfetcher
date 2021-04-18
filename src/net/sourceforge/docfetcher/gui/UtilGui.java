@@ -65,20 +65,34 @@ public final class UtilGui {
 	 * replacement for the ugly native border of Composites with SWT.BORDER
 	 * style on Windows with classic theme turned on.
 	 * <p>
-	 * The individual pieces of the border can be included or omitted via the
-	 * given boolean flags.
+	 * The individual pieces of the border can be included or omitted by
+	 * overriding the <tt>isBorderVisible</tt> method.
 	 */
-	public static void paintBorder(final Control control, final boolean top,
-			final boolean bottom, final boolean left, final boolean right) {
-		control.addPaintListener(new PaintListener() {
-			public void paintControl(PaintEvent e) {
-				Point size = control.getSize();
-				e.gc.setForeground(Col.WIDGET_NORMAL_SHADOW.get());
-				drawLines(e.gc, size, 0, -1, top, bottom, left, right);
-				e.gc.setForeground(Col.WIDGET_LIGHT_SHADOW.get());
-				drawLines(e.gc, size, 1, -2, top, bottom, left, right);
-			}
-		});
+	public static class PaintBorder {
+		public PaintBorder(Control control) {
+			control.addPaintListener(new PaintListener() {
+				public void paintControl(PaintEvent e) {
+					Point size = control.getSize();
+					boolean top = isBorderVisible(SWT.TOP);
+					boolean bottom = isBorderVisible(SWT.BOTTOM);
+					boolean left = isBorderVisible(SWT.LEFT);
+					boolean right = isBorderVisible(SWT.RIGHT);
+					e.gc.setForeground(Col.WIDGET_NORMAL_SHADOW.get());
+					drawLines(e.gc, size, 0, -1, top, bottom, left, right);
+					e.gc.setForeground(Col.WIDGET_LIGHT_SHADOW.get());
+					drawLines(e.gc, size, 1, -2, top, bottom, left, right);
+				}
+			});
+		}
+
+		/**
+		 * Returns whether the border on the given side is visible (i.e., should
+		 * be drawn). The given side can be <tt>SWT.TOP</tt>,
+		 * <tt>SWT.BOTTOM</tt>, <tt>SWT.LEFT</tt> or <tt>SWT.RIGHT</tt>.
+		 */
+		protected boolean isBorderVisible(int side) {
+			return true;
+		}
 	}
 	
 	/**

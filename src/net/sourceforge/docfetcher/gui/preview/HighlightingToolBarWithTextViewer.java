@@ -60,7 +60,12 @@ class HighlightingToolBarWithTextViewer {
 	private final List<HighlightedString> pages = new ArrayList<HighlightedString>();
 	
 	public HighlightingToolBarWithTextViewer(@NotNull Composite toolBarParent) {
-		barComp = new CustomBorderComposite(toolBarParent, true, false, true, true);
+		barComp = new CustomBorderComposite(toolBarParent) {
+			@Override
+			protected boolean isBorderVisible(int side) {
+				return side != SWT.BOTTOM;
+			}
+		};
 		int margin = Util.IS_WINDOWS ? 2 : 0;
 		barComp.setLayout(Util.createGridLayout(2, false, margin, 0));
 		

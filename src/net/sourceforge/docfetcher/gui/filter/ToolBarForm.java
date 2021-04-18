@@ -34,6 +34,13 @@ public abstract class ToolBarForm extends Composite {
 			protected Control createToolBar(Composite parent) {
 				return ToolBarForm.this.createToolBar(parent);
 			}
+			@Override
+			protected boolean isBorderVisible(int side) {
+				if (side != SWT.BOTTOM) {
+					return true;
+				}
+				return !contents.isVisible();
+			}
 		};
 		contents = createContents(this);
 		header.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -71,6 +78,7 @@ public abstract class ToolBarForm extends Composite {
 		GridData gridData = (GridData) contents.getLayoutData();
 		gridData.exclude = ! isVisible;
 		layout();
+		header.redraw(); // show or hide bottom border of header
 	}
 	
 	public final boolean isContentsVisible() {

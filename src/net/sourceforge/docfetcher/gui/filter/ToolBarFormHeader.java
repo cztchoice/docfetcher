@@ -23,6 +23,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
+/**
+ * Note: Subclassers can override <tt>isBorderVisible</tt> to change the
+ * visibility of the borders.
+ */
 class ToolBarFormHeader extends CustomBorderComposite {
 	
 	private final Label imageLabel;
@@ -30,7 +34,7 @@ class ToolBarFormHeader extends CustomBorderComposite {
 	@Nullable private final Composite toolBar;
 	
 	public ToolBarFormHeader(Composite parent) {
-		super(parent, true, false, true, true);
+		super(parent);
 		GridLayout gridLayout = Util.createGridLayout(3, false, 3, 5);
 		gridLayout.marginLeft = 3;
 		setLayout(gridLayout);

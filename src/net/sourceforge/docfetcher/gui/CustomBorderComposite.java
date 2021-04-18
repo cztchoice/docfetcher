@@ -28,14 +28,24 @@ import org.eclipse.swt.widgets.Composite;
 public class CustomBorderComposite extends Composite {
 	
 	public CustomBorderComposite(@NotNull Composite parent) {
-		this(parent, true, true, true, true);
+		super(parent, Util.IS_WINDOWS ? SWT.NONE : SWT.BORDER);
+		if (Util.IS_WINDOWS) {
+			new UtilGui.PaintBorder(this) {
+				@Override
+				protected boolean isBorderVisible(int side) {
+					return CustomBorderComposite.this.isBorderVisible(side);
+				}
+			};
+		}
 	}
 	
-	public CustomBorderComposite(@NotNull Composite parent, boolean top,
-			boolean bottom, boolean left, boolean right) {
-		super(parent, Util.IS_WINDOWS ? SWT.NONE : SWT.BORDER);
-		if (Util.IS_WINDOWS)
-			UtilGui.paintBorder(this, top, bottom, left, right);
+	/**
+	 * Returns whether the border on the given side is visible (i.e., should be
+	 * drawn). The given side can be <tt>SWT.TOP</tt>, <tt>SWT.BOTTOM</tt>,
+	 * <tt>SWT.LEFT</tt> or <tt>SWT.RIGHT</tt>. 
+	 */
+	protected boolean isBorderVisible(int side) {
+		return true;
 	}
 
 }
