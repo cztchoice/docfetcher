@@ -196,6 +196,14 @@ public class StatusBar extends Composite {
 	}
 	
 	/**
+	 * Returns the right parts.
+	 */
+	@NotNull
+	public final List<StatusBarPart> getRightParts() {
+		return Collections.unmodifiableList(rightParts);
+	}
+	
+	/**
 	 * Creates and returns the parts to be added on the right side of the status
 	 * bar.
 	 */

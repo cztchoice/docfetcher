@@ -76,6 +76,7 @@ public final class SettingsConf {
 		UseTypeAheadSearch (false),
 		ResetLocationFilterOnExit (true),
 		HotkeyEnabled (true),
+		ShowDocFetcherProTip (true),
 
 		ShowFilterPanel (true),
 		ShowPreviewPanel (true),

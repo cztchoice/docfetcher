@@ -17,10 +17,13 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Link;
 
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.SettingsConf;
@@ -42,6 +45,65 @@ public final class UtilGui {
 	}
 	
 	public static final int DIALOG_STYLE = SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM | SWT.MIN | SWT.MAX | SWT.RESIZE;
+	
+	/**
+	 * Returns whether the system currently seems to use a dark theme.
+	 */
+	public static boolean isDarkTheme() {
+		Color col = Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		return !isMoreWhite(col);
+	}
+	
+	/**
+	 * Returns whether the perceived brigthness of the given color is closer to
+	 * white than to black.
+	 */
+	public static boolean isMoreWhite(Color col) {
+		int r = col.getRed();
+		int g = col.getGreen();
+		int b = col.getBlue();
+		return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.5;
+	}
+	
+	/**
+	 * Sets the background of the given control to the given SWT color constant.
+	 */
+	public static void setBackground(Control control, int colInt) {
+		control.setBackground(control.getDisplay().getSystemColor(colInt));
+	}
+	
+	/**
+	 * Sets the foreground of the given control to the given SWT color constant.
+	 */
+	public static void setForeground(Control control, int colInt) {
+		control.setForeground(control.getDisplay().getSystemColor(colInt));
+	}
+	
+	/**
+	 * Sets the foreground of the given link to the given SWT color constant.
+	 */
+	public static void setLinkForeground(Link link, int colInt) {
+		link.setLinkForeground(link.getDisplay().getSystemColor(colInt));
+	}
+	
+	/**
+	 * Returns either <tt>SWT.COLOR_BLACK</tt> or <tt>SWT.COLOR_WHITE</tt>,
+	 * depending on whether black or white would be a more readable text
+	 * foreground color on the given color as the background color.
+	 */
+	public static int getTextForegroundInt(Color col) {
+		return isMoreWhite(col) ? SWT.COLOR_BLACK : SWT.COLOR_WHITE;
+	}
+	
+	/**
+	 * Sets the foreground color of the given control to either black or white
+	 * depending on the perceived brightness of the control's background color.
+	 */
+	public static void setForegroundFromBackground(Control control) {
+		Color bgCol = control.getBackground();
+		int fgColInt = getTextForegroundInt(bgCol);
+		setForeground(control, fgColInt);
+	}
 	
 	/**
 	 * Paints a border around the given Control. This can be used as a
@@ -69,7 +131,7 @@ public final class UtilGui {
 	 * overriding the <tt>isBorderVisible</tt> method.
 	 */
 	public static class PaintBorder {
-		public PaintBorder(Control control) {
+		public PaintBorder(final Control control) {
 			control.addPaintListener(new PaintListener() {
 				public void paintControl(PaintEvent e) {
 					Point size = control.getSize();
@@ -99,12 +161,21 @@ public final class UtilGui {
 	 * Attaches a focus listener to the given StyledText that clears the
 	 * selection and resets the caret position when the StyledText looses focus.
 	 */
-	public static void clearSelectionOnFocusLost(@NotNull final StyledText styledText) {
-		styledText.addFocusListener(new FocusAdapter() {
+	public static void clearSelectionOnFocusLost(@NotNull final StyledText st) {
+		st.addFocusListener(new FocusAdapter() {
 			public void focusLost(FocusEvent e) {
-				styledText.setSelection(0);
+				st.setSelection(0);
 			}
 		});
+	}
+	
+	/** Hides the caret and the selection in the given StyledText. */
+	public static void hideCaretAndSelection(@NotNull StyledText st) {
+		st.setCaret(null);
+		st.setEditable(false);
+		st.setCursor(st.getDisplay().getSystemCursor(SWT.CURSOR_ARROW));
+		st.setSelectionBackground(st.getBackground());
+		st.setSelectionForeground(st.getForeground());
 	}
 	
 	public static void setGridData(	@NotNull Control control,

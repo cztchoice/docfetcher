@@ -31,11 +31,16 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.events.TraverseEvent;
+import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -125,6 +130,7 @@ public final class Application {
 	private static volatile StatusBarPart indexingStatus;
 	private static SystemTrayHider systemTrayHider;
 	private static StatusBar statusBar;
+	@Nullable private static HintOverlay docfetcherProTip;
 	private static boolean systemTrayShutdown = false;
 	private static File settingsConfFile;
 	
@@ -302,7 +308,11 @@ public final class Application {
 		initStatusBar();
 		initHotkey();
 		initGlobalKeys(display);
-
+		
+		if (SettingsConf.Bool.ShowDocFetcherProTip.get()) {
+			showDocFetcherProTip();
+		}
+		
 		new SearchQueue(
 			searchBar, filesizePanel, fileTypePanel, indexPanel, resultPanel,
 			statusBar);
@@ -1174,7 +1184,6 @@ public final class Application {
 			: SettingsConf.IntArray.RightSashHorizontal.get();
 	}
 
-	@NotNull
 	private static void initStatusBar() {
 		statusBar = new StatusBar(shell) {
 			public List<StatusBarPart> createRightParts(StatusBar statusBar) {
@@ -1199,7 +1208,10 @@ public final class Application {
 				proLink.evtLinkClicked.add(new Event.Listener<Void> () {
 					@Override
 					public void update(Void eventData) {
-						Util.launch("https://docfetcherpro.com/about/");
+						Util.launch("https://docfetcherpro.com/going-pro/");
+						if (docfetcherProTip != null) {
+							docfetcherProTip.shell.close();
+						}
 					}
 				});
 
@@ -1209,6 +1221,98 @@ public final class Application {
 				return parts;
 			}
 		};
+	}
+	
+	private static void showDocFetcherProTip() {
+		String text = Msg.docfetcher_pro_tip.get();
+		String linkText = Msg.dont_show_msg_again.get();
+		final HintOverlay overlay = new HintOverlay(shell, text, linkText);
+		
+		overlay.evtLinkClicked.add(new Event.Listener<Void>() {
+			@Override
+			public void update(Void eventData) {
+				overlay.shell.close();
+			}
+		});
+		overlay.shell.addShellListener(new ShellAdapter() {
+			@Override
+			public void shellClosed(ShellEvent e) {
+				/*
+				 * This code is not run if the overlay is closed due to the
+				 * parent shell being closed.
+				 */
+				SettingsConf.Bool.ShowDocFetcherProTip.set(false);
+				docfetcherProTip = null;
+			}
+		});
+		overlay.shell.addTraverseListener(new TraverseListener() {
+			@Override
+			public void keyTraversed(TraverseEvent e) {
+				// Prevent closing the overlay by pressing the escape key
+				if (e.detail == SWT.TRAVERSE_ESCAPE) {
+					e.doit = false;
+				}
+			}
+		});
+		
+		final Runnable setLocation = new Runnable() {
+			@Override
+			public void run() {
+				Point overlaySize = overlay.shell.getSize();
+				List<StatusBarPart> parts = statusBar.getRightParts();
+				if (parts.isEmpty()) {
+					return;
+				}
+				Control link = parts.get(parts.size() - 1).getControl();
+				Rectangle b = link.getBounds();
+				b = link.getDisplay().map(link.getParent(), null, b);
+				Point pt = new Point(b.x + b.width, b.y);
+				Point pt2 = new Point(
+					pt.x - overlaySize.x - 5, pt.y - overlaySize.y - 10);
+				overlay.shell.setLocation(pt2);
+			}
+		};
+		
+		shell.getDisplay().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				int width = Util.IS_WINDOWS ? 300 : 350;
+				Point size = overlay.shell.computeSize(width, SWT.DEFAULT);
+				overlay.shell.setSize(size);
+				setLocation.run();
+				overlay.open();
+			}
+		});
+		
+		final ControlAdapter listener = new ControlAdapter() {
+			@Override
+			public void controlMoved(ControlEvent e) {
+				setLocation.run();
+			}
+			@Override
+			public void controlResized(ControlEvent e) {
+				/*
+				 * This asyncExec is necessary for reacting to shell
+				 * maximization and un-maximization. For some reason, it also
+				 * makes the reaction to shell resizing immediate instead of
+				 * "wobbly".
+				 */
+				shell.getDisplay().asyncExec(setLocation);
+			}
+		};
+		shell.addControlListener(listener);
+		/*
+		 * Detach the listener once the overlay is disposed, otherwise we may
+		 * crash by trying to access a disposed widget.
+		 */
+		overlay.shell.addDisposeListener(new DisposeListener() {
+			@Override
+			public void widgetDisposed(DisposeEvent e) {
+				shell.removeControlListener(listener);
+			}
+		});
+		
+		docfetcherProTip = overlay;
 	}
 
 	private static void handleShellClosed(@NotNull ShellEvent e) {
