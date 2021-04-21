@@ -15,11 +15,11 @@ import java.io.File;
 
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.gui.ManualLocator;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.Col;
 import net.sourceforge.docfetcher.util.gui.ConfigComposite;
@@ -54,11 +54,11 @@ abstract class ConfigPanel {
 		this.index = index;
 		
 		comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(Util.createGridLayout(1, false, 5, 0));
+		comp.setLayout(UtilGui.createGridLayout(1, false, 5, 0));
 		
 		Composite targetComp = new Composite(comp, SWT.NONE);
 		UtilGui.setGridData(targetComp, false);
-		targetComp.setLayout(Util.createGridLayout(1, false, 0, 0));
+		targetComp.setLayout(UtilGui.createGridLayout(1, false, 0, 0));
 		
 		int targetStyle = SWT.SINGLE | SWT.READ_ONLY;
 		StyledText targetField = new StyledText(targetComp, targetStyle);
@@ -112,25 +112,25 @@ abstract class ConfigPanel {
 	protected final Control createButtonArea(Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 		
-		Button helpBt = Util.createPushButton(comp, Msg.help.get(), new SelectionAdapter() {
+		Button helpBt = UtilGui.createPushButton(comp, Msg.help.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				File file = ManualLocator.getManualSubpageFile("Indexing_Options.html");
 				if (file == null) {
 					AppUtil.showError(Msg.file_not_found.get() + "\n" +
 							"Indexing_Options.html", true, false);
 				} else {
-					Util.launch(file);
+					UtilGui.launch(file);
 				}
 			}
 		});
 		
-		Button resetBt = Util.createPushButton(comp, Msg.restore_defaults.get(), new SelectionAdapter() {
+		Button resetBt = UtilGui.createPushButton(comp, Msg.restore_defaults.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				restoreDefaults();
 			}
 		});
 		
-		runBt = Util.createPushButton(comp, Msg.run.get(), new SelectionAdapter() {
+		runBt = UtilGui.createPushButton(comp, Msg.run.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// Check that the target file or directory still exists
 				File rootFile = index.getCanonicalRootFile();
@@ -147,7 +147,7 @@ abstract class ConfigPanel {
 		
 		comp.setLayout(new FormLayout());
 		FormDataFactory fdf = FormDataFactory.getInstance();
-		fdf.margin(0).top().bottom().left().minWidth(Util.BTW).applyTo(helpBt);
+		fdf.margin(0).top().bottom().left().minWidth(UtilGui.BTW).applyTo(helpBt);
 		fdf.left(helpBt, 5).applyTo(resetBt);
 		fdf.unleft().right().applyTo(runBt);
 		

@@ -18,7 +18,7 @@ import java.util.List;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.model.parse.Parser;
 import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.collect.ListMap;
 import net.sourceforge.docfetcher.util.collect.ListMap.Entry;
@@ -78,7 +78,7 @@ public final class FileTypePanel {
 		// Handle check state changes
 		table.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (Util.contains(e.detail, SWT.CHECK))
+				if (UtilGui.contains(e.detail, SWT.CHECK))
 					evtCheckStatesChanged.fire(null);
 			}
 		});

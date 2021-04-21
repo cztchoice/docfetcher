@@ -13,6 +13,7 @@ package net.sourceforge.docfetcher.gui.filter;
 
 import net.sourceforge.docfetcher.gui.CustomBorderComposite;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import org.eclipse.swt.SWT;
@@ -35,7 +36,7 @@ class ToolBarFormHeader extends CustomBorderComposite {
 	
 	public ToolBarFormHeader(Composite parent) {
 		super(parent);
-		GridLayout gridLayout = Util.createGridLayout(3, false, 3, 5);
+		GridLayout gridLayout = UtilGui.createGridLayout(3, false, 3, 5);
 		gridLayout.marginLeft = 3;
 		setLayout(gridLayout);
 		
@@ -53,7 +54,7 @@ class ToolBarFormHeader extends CustomBorderComposite {
 		
 		// margin=1 for the fill layout to leave room for the custom border
 		toolBar = new Composite(this, SWT.NONE);
-		toolBar.setLayout(Util.createFillLayout(1));
+		toolBar.setLayout(UtilGui.createFillLayout(1));
 		createToolBar(toolBar);
 		toolBar.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		

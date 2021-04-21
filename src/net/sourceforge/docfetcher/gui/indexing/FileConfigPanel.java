@@ -17,7 +17,6 @@ import java.util.List;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.model.index.IndexingConfig;
 import net.sourceforge.docfetcher.model.index.PatternAction;
@@ -25,6 +24,7 @@ import net.sourceforge.docfetcher.model.index.PatternAction.MatchTarget;
 import net.sourceforge.docfetcher.model.parse.ParseService;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.collect.LazyList;
 import net.sourceforge.docfetcher.util.gui.GroupWrapper;
@@ -67,7 +67,7 @@ final class FileConfigPanel extends ConfigPanel {
 		
 		Group patternGroup = new GroupWrapper(comp, Msg.exclude_files_detect_mime_type.get()) {
 			protected void createLayout(Group parent) {
-				parent.setLayout(Util.createFillLayout(5));
+				parent.setLayout(UtilGui.createFillLayout(5));
 			}
 			protected void createContents(Group parent) {
 				patternTable = new PatternTable(parent, index);
@@ -76,14 +76,14 @@ final class FileConfigPanel extends ConfigPanel {
 		
 		Group miscGroup = new GroupWrapper(comp, Msg.miscellaneous.get()) {
 			protected void createLayout(Group parent) {
-				parent.setLayout(Util.createGridLayout(1, false, 3, 3));
+				parent.setLayout(UtilGui.createGridLayout(1, false, 3, 3));
 			}
 			protected void createContents(Group parent) {
 				createMiscGroupContents(parent);
 			}
 		}.getGroup();
 		
-		GridLayout gridLayout = Util.createGridLayout(1, false, 0, 10);
+		GridLayout gridLayout = UtilGui.createGridLayout(1, false, 0, 10);
 		gridLayout.marginTop = 5;
 		comp.setLayout(gridLayout);
 		UtilGui.setGridData(extGroup, false);
@@ -94,11 +94,11 @@ final class FileConfigPanel extends ConfigPanel {
 	}
 	
 	private void createMiscGroupContents(@NotNull Group parent) {
-		htmlPairingBt = Util.createCheckButton(parent, Msg.index_html_pairs.get());
-		detectExecArchivesBt = Util.createCheckButton(parent, Msg.detect_exec_archives.get());
-		indexFilenameBt = Util.createCheckButton(parent, Msg.index_filenames.get());
-		storeRelativePathsBt = Util.createCheckButton(parent, Msg.store_relative_paths.get());
-		watchFolderBt = Util.createCheckButton(parent, Msg.watch_folders.get());
+		htmlPairingBt = UtilGui.createCheckButton(parent, Msg.index_html_pairs.get());
+		detectExecArchivesBt = UtilGui.createCheckButton(parent, Msg.detect_exec_archives.get());
+		indexFilenameBt = UtilGui.createCheckButton(parent, Msg.index_filenames.get());
+		storeRelativePathsBt = UtilGui.createCheckButton(parent, Msg.store_relative_paths.get());
+		watchFolderBt = UtilGui.createCheckButton(parent, Msg.watch_folders.get());
 		
 		IndexingConfig config = index.getConfig();
 		

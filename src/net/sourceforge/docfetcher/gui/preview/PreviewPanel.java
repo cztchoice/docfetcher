@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.gui.preview.DelayedOverlay.Hider;
 import net.sourceforge.docfetcher.model.FileResource;
 import net.sourceforge.docfetcher.model.MailResource;
@@ -33,6 +32,7 @@ import net.sourceforge.docfetcher.model.search.ResultDocument.PreviewPageHandler
 import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -86,7 +86,7 @@ public final class PreviewPanel extends Composite {
 	
 	public PreviewPanel(@NotNull Composite parent) {
 		super(parent, SWT.NONE);
-		setLayout(Util.createGridLayout(1, false, 0, 2));
+		setLayout(UtilGui.createGridLayout(1, false, 0, 2));
 		
 		stackComp = new Composite(this, SWT.NONE);
 		stackComp.setLayout(stackLayout = new StackLayout());
@@ -125,7 +125,7 @@ public final class PreviewPanel extends Composite {
 	
 	public void setPreview(@NotNull ResultDocument doc) {
 		Util.checkNotNull(doc);
-		Util.assertSwtThread();
+		UtilGui.assertSwtThread();
 		
 		if (lastDoc == doc)
 			return;
@@ -136,7 +136,7 @@ public final class PreviewPanel extends Composite {
 	
 	public boolean setHtmlFile(@NotNull File file) {
 		Util.checkNotNull(file);
-		Util.assertSwtThread();
+		UtilGui.assertSwtThread();
 
 		if (!createAndShowHtmlPreview())
 			return false;
@@ -220,7 +220,7 @@ public final class PreviewPanel extends Composite {
 	@Nullable
 	@ThreadSafe
 	public ResultDocument clear() {
-		Util.assertSwtThread();
+		UtilGui.assertSwtThread();
 		disposeLastResources();
 		requestCount++;
 		setError(null, requestCount);
@@ -255,7 +255,7 @@ public final class PreviewPanel extends Composite {
 	@ThreadSafe
 	private void setError(	@Nullable final String message,
 							final long requestCount) {
-		Util.runSwtSafe(errorField, new Runnable() {
+		UtilGui.runSwtSafe(errorField, new Runnable() {
 			public void run() {
 				if (requestCount != PreviewPanel.this.requestCount)
 					return;
@@ -347,7 +347,7 @@ public final class PreviewPanel extends Composite {
 								@NotNull Widget widget,
 								@NotNull final Runnable runnable) {
 		final AtomicBoolean wasValid = new AtomicBoolean(true);
-		boolean wasRun = Util.runSwtSafe(widget, new Runnable() {
+		boolean wasRun = UtilGui.runSwtSafe(widget, new Runnable() {
 			public void run() {
 				if (requestCount != PreviewPanel.this.requestCount) {
 					wasValid.set(false);

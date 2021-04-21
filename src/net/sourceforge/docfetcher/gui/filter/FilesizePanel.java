@@ -11,9 +11,9 @@
 
 package net.sourceforge.docfetcher.gui.filter;
 
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
@@ -43,7 +43,7 @@ public final class FilesizePanel {
 	public static void main(String[] args) {
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(Util.createGridLayout(1, false, 5, 5));
+		shell.setLayout(UtilGui.createGridLayout(1, false, 5, 5));
 
 		final FilesizePanel filesizePanel = new FilesizePanel(shell);
 		filesizePanel.getControl().setLayoutData(
@@ -62,7 +62,7 @@ public final class FilesizePanel {
 			}
 		});
 
-		Util.setCenteredBounds(shell);
+		UtilGui.setCenteredBounds(shell);
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())

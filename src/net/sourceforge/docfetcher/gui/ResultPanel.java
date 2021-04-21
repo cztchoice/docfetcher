@@ -33,6 +33,7 @@ import net.sourceforge.docfetcher.model.search.ResultDocument;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -121,7 +122,7 @@ public final class ResultPanel {
 		
 		table.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (Util.isEnterKey(e.keyCode))
+				if (UtilGui.isEnterKey(e.keyCode))
 					launchSelection();
 				else if (e.stateMask == SWT.MOD1 && e.keyCode == 'c')
 					copyToClipboard();
@@ -337,7 +338,7 @@ public final class ResultPanel {
 		List<File> files = new ArrayList<File>(docs.size());
 		for (ResultDocument doc : docs)
 			files.add(doc.getPath().getCanonicalFile());
-		Util.setClipboard(files);
+		UtilGui.setClipboard(files);
 	}
 	
 	@NotNull

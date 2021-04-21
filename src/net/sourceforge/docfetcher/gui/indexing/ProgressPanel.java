@@ -15,7 +15,7 @@ import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
@@ -38,10 +38,10 @@ final class ProgressPanel {
 		
 		Group topGroup = new Group(sash, SWT.SHADOW_OUT);
 		topGroup.setText(Msg.progress.get());
-		topGroup.setLayout(Util.createFillLayout(1));
+		topGroup.setLayout(UtilGui.createFillLayout(1));
 		final Group bottomGroup = new Group(sash, SWT.SHADOW_OUT);
 		bottomGroup.setText(Msg.errors.get());
-		bottomGroup.setLayout(Util.createFillLayout(1));
+		bottomGroup.setLayout(UtilGui.createFillLayout(1));
 		
 		SettingsConf.SashWeights.ProgressPanel.bind(sash);
 		

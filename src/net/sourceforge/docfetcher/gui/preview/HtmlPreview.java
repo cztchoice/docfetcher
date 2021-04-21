@@ -21,6 +21,7 @@ import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.CustomBorderComposite;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.BrowserPopupBlocker;
 import net.sourceforge.docfetcher.util.gui.Col;
@@ -66,7 +67,7 @@ abstract class HtmlPreview extends ToolBarForm {
 	protected Control createToolBar(@NotNull Composite parent) {
 		CustomBorderComposite comp = new CustomBorderComposite(parent);
 		int margin = Util.IS_WINDOWS ? 2 : 0;
-		comp.setLayout(Util.createGridLayout(3, false, margin, 0));
+		comp.setLayout(UtilGui.createGridLayout(3, false, margin, 0));
 		
 		ToolBar leftToolBar = new ToolBar(comp, SWT.FLAT);
 		leftToolBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
@@ -110,7 +111,7 @@ abstract class HtmlPreview extends ToolBarForm {
 						String url = browser.getUrl();
 						if (url.equals(""))
 							return;
-						Util.launch(url);
+						UtilGui.launch(url);
 						if (SettingsConf.Bool.HideOnOpen.get())
 							evtHideInSystemTray.fire(null);
 					}
@@ -118,11 +119,11 @@ abstract class HtmlPreview extends ToolBarForm {
 		
 		locationBar = new Text(comp, SWT.SINGLE | SWT.BORDER);
 		locationBar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		Util.selectAllOnFocus(locationBar);
+		UtilGui.selectAllOnFocus(locationBar);
 		
 		locationBar.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (Util.isEnterKey(e.keyCode))
+				if (UtilGui.isEnterKey(e.keyCode))
 					browser.setUrl(locationBar.getText());
 			}
 		});

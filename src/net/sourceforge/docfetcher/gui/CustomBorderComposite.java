@@ -12,6 +12,7 @@
 package net.sourceforge.docfetcher.gui;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
 

@@ -19,6 +19,7 @@ import java.util.List;
 
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.Immutable;
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
@@ -74,7 +75,7 @@ public final class SimpleTableViewer<E> {
 	@Nullable private TableEditSupport<E> editSupport;
 	
 	public SimpleTableViewer(@NotNull Composite parent, int style) {
-		Util.checkThat(!Util.contains(style, SWT.VIRTUAL));
+		Util.checkThat(!UtilGui.contains(style, SWT.VIRTUAL));
 		table = new Table(parent, style);
 		table.setHeaderVisible(true);
 	}

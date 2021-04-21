@@ -12,6 +12,7 @@
 package net.sourceforge.docfetcher.gui.preview;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -45,7 +46,7 @@ final class DelayedOverlay {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		Util.setCenteredBounds(shell, 640, 480);
+		UtilGui.setCenteredBounds(shell, 640, 480);
 
 		SashForm sash = new SashForm(shell, SWT.HORIZONTAL);
 		final StyledText st1 = new StyledText(sash, SWT.BORDER);
@@ -78,7 +79,7 @@ final class DelayedOverlay {
 
 		@ThreadSafe
 		public void hide() {
-			Util.runSwtSafe(control, new Runnable() {
+			UtilGui.runSwtSafe(control, new Runnable() {
 				public void run() {
 					if (localVersion == version)
 						doHide();
@@ -110,11 +111,11 @@ final class DelayedOverlay {
 		ControlAdapter listener = new ControlAdapter() {
 			public void controlMoved(ControlEvent e) {
 				if (shell != null)
-					Util.setCenteredBounds(shell, control);
+					UtilGui.setCenteredBounds(shell, control);
 			}
 			public void controlResized(ControlEvent e) {
 				if (shell != null)
-					Util.setCenteredBounds(shell, control);
+					UtilGui.setCenteredBounds(shell, control);
 			}
 		};
 		control.addControlListener(listener);
@@ -135,7 +136,7 @@ final class DelayedOverlay {
 	@ThreadSafe
 	public Hider show() {
 		final long[] localVersion = { -1L };
-		Util.runSwtSafe(control, new Runnable() {
+		UtilGui.runSwtSafe(control, new Runnable() {
 			public void run() {
 				localVersion[0] = version;
 			}
@@ -148,7 +149,7 @@ final class DelayedOverlay {
 				catch (InterruptedException e) {
 					return;
 				}
-				Util.runSyncExec(control, new Runnable() {
+				UtilGui.runSyncExec(control, new Runnable() {
 					public void run() {
 						if (localVersion[0] == version)
 							doShow();
@@ -184,7 +185,7 @@ final class DelayedOverlay {
 			return;
 		
 		shell = new Shell(control.getShell(), SWT.NO_TRIM);
-		shell.setLayout(Util.createFillLayout(5));
+		shell.setLayout(UtilGui.createFillLayout(5));
 		shell.setBackground(bgColor);
 		shell.setForeground(Col.BLACK.get());
 		
@@ -197,7 +198,7 @@ final class DelayedOverlay {
 		st.setForeground(shell.getForeground());
 		st.setEnabled(false);
 		
-		Util.setCenteredBounds(shell, control);
+		UtilGui.setCenteredBounds(shell, control);
 		
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent e) {

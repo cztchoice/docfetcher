@@ -12,6 +12,7 @@
 package net.sourceforge.docfetcher.util.gui;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
 
@@ -34,8 +35,8 @@ public final class ContextMenuManager {
 	public static void main(String[] args) {
 		final Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(Util.createFillLayout(5));
-		Util.setCenteredBounds(shell, 400, 300);
+		shell.setLayout(UtilGui.createFillLayout(5));
+		UtilGui.setCenteredBounds(shell, 400, 300);
 		
 		final int timeout = 2000;
 		
@@ -107,11 +108,11 @@ public final class ContextMenuManager {
 		for (MenuItem item : menu.getItems()) {
 			MenuAction action = (MenuAction) item.getData();
 			if (action == null) {
-				assert Util.contains(item.getStyle(), SWT.SEPARATOR);
+				assert UtilGui.contains(item.getStyle(), SWT.SEPARATOR);
 				continue;
 			}
 			item.setEnabled(action.isEnabled());
-			if (Util.contains(item.getStyle(), SWT.CASCADE))
+			if (UtilGui.contains(item.getStyle(), SWT.CASCADE))
 				updateEnabledStates(item.getMenu());
 		}
 	}

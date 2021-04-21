@@ -14,9 +14,6 @@ package net.sourceforge.docfetcher.util.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
@@ -28,6 +25,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.ToolItem;
+
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 /**
  * Utility class for creating a drop-down menu located at the bottom of a given
@@ -93,7 +94,7 @@ public final class DropDownMenuManager {
 		// Dispose of menu after it is hidden
 		menu.addMenuListener(new MenuAdapter() {
 			public void menuHidden(MenuEvent e) {
-				Util.runAsyncExec(parent, new Runnable() {
+				UtilGui.runAsyncExec(parent, new Runnable() {
 					public void run() {
 						/*
 						 * This must be run in an asyncExec, otherwise we'll

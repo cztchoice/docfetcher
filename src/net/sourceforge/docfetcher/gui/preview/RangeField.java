@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import net.sourceforge.docfetcher.gui.CustomBorderComposite;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.Col;
@@ -54,12 +55,12 @@ final class RangeField {
 	public RangeField(@NotNull Composite parent) {
 		comp = new CustomBorderComposite(parent);
 		int margin = Util.IS_WINDOWS ? 2 : 0;
-		comp.setLayout(Util.createGridLayout(1, false, margin, 0));
+		comp.setLayout(UtilGui.createGridLayout(1, false, margin, 0));
 		st = new StyledText(comp, SWT.SINGLE | SWT.CENTER);
 		st.setForeground(Col.WIDGET_FOREGROUND.get());
 		st.setBackground(Col.WIDGET_BACKGROUND.get());
 		st.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
-		Util.selectAllOnFocus(st);
+		UtilGui.selectAllOnFocus(st);
 		
 		// Only allow entering digits and deleting existing characters
 		st.addVerifyListener(new VerifyListener() {
@@ -80,7 +81,7 @@ final class RangeField {
 		// Fire change event when new value was confirmed by pressing Enter
 		st.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (lastTotal != null && Util.isEnterKey(e.keyCode)) {
+				if (lastTotal != null && UtilGui.isEnterKey(e.keyCode)) {
 					Integer value = getIntValue();
 					if (value != null)
 						evtValueChanged.fire(value);

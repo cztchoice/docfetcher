@@ -36,11 +36,11 @@ import org.eclipse.swt.widgets.Display;
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.search.HighlightedString;
 import net.sourceforge.docfetcher.model.search.Range;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.ContextMenuManager;
@@ -97,7 +97,7 @@ final class HighlightingText {
 				 * Thus, the following asyncExec is needed; otherwise StyledText
 				 * will try to access a disposed color and throw an exception.
 				 */
-				Util.runAsyncExec(textViewer, new Runnable() {
+				UtilGui.runAsyncExec(textViewer, new Runnable() {
 					@Override
 					public void run() {
 						oldColor.dispose();

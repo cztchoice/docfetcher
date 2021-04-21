@@ -23,6 +23,7 @@ import net.sourceforge.docfetcher.util.ConfLoader.Description;
 import net.sourceforge.docfetcher.util.ConfLoader.Storable;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.Immutable;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
@@ -289,7 +290,7 @@ public final class SettingsConf {
 		}
 		public void bind(final Shell shell) {
 			if (value[0] < 0 || value[1] < 0)
-				Util.setCenteredBounds(shell, value[2], value[3]);
+				UtilGui.setCenteredBounds(shell, value[2], value[3]);
 			else
 				shell.setBounds(value[0], value[1], value[2], value[3]);
 			shell.addControlListener(new ControlAdapter() {
@@ -466,7 +467,7 @@ public final class SettingsConf {
 						 * The event must be fired with asyncExec, otherwise
 						 * we'll get some nasty visual artifacts.
 						 */
-						Util.runAsyncExec(sash, new Runnable() {
+						UtilGui.runAsyncExec(sash, new Runnable() {
 							public void run() {
 								evtChanged.fire(sash);
 							}

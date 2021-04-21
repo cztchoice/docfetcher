@@ -407,7 +407,6 @@ public final class Searcher {
 		
 		// Add type filter to filter chain
 		if (webQuery.parsers != null) {
-			TermsQuery typequery = new TermsQuery();
 			ArrayList<Term> terms=new ArrayList<Term>(webQuery.parsers.size()+1);
 			String fieldName = Fields.PARSER.key();
 			terms.add(new Term(fieldName, Fields.EMAIL_PARSER));

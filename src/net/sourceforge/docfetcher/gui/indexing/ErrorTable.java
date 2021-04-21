@@ -14,12 +14,20 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Composite;
+
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.MultiFileLauncher;
 import net.sourceforge.docfetcher.model.index.IndexingError;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
 import net.sourceforge.docfetcher.util.collect.AlphanumComparator;
@@ -27,13 +35,6 @@ import net.sourceforge.docfetcher.util.gui.ContextMenuManager;
 import net.sourceforge.docfetcher.util.gui.MenuAction;
 import net.sourceforge.docfetcher.util.gui.viewer.VirtualTableViewer;
 import net.sourceforge.docfetcher.util.gui.viewer.VirtualTableViewer.Column;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Tran Nam Quang
@@ -126,7 +127,7 @@ final class ErrorTable {
 	@ThreadSafe
 	public void addError(@NotNull final IndexingError error) {
 		Util.checkNotNull(error);
-		Util.runAsyncExec(tv.getControl(), new Runnable() {
+		UtilGui.runAsyncExec(tv.getControl(), new Runnable() {
 			public void run() {
 				errors.add(error);
 				tv.setRoot(errors);
@@ -218,7 +219,7 @@ final class ErrorTable {
 			first = false;
 		}
 		
-		Util.setClipboard(sb.toString());
+		UtilGui.setClipboard(sb.toString());
 	}
 
 	private void launchSelection() {

@@ -14,6 +14,7 @@ package net.sourceforge.docfetcher.util.gui.dialog;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
@@ -46,7 +47,7 @@ public final class ListConfirmDialog {
 		Image img1 = display.getSystemImage(SWT.ICON_WARNING);
 		final Image img = new Image(display, img1.getImageData().scaledTo(16, 16));
 
-		Util.createPushButton(shell, "Open Dialog", new SelectionAdapter() {
+		UtilGui.createPushButton(shell, "Open Dialog", new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				ListConfirmDialog dialog = new ListConfirmDialog(shell, SWT.ICON_INFORMATION);
 				dialog.setTitle("Title");
@@ -66,7 +67,7 @@ public final class ListConfirmDialog {
 			}
 		});
 
-		Util.setCenteredBounds(shell, 200, 100);
+		UtilGui.setCenteredBounds(shell, 200, 100);
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -90,7 +91,7 @@ public final class ListConfirmDialog {
 		shell = new Shell(parent, SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM | SWT.RESIZE);
 
 		Composite infoComp = new Composite(shell, SWT.NONE);
-		infoComp.setLayout(Util.createGridLayout(2, false, 0, 5));
+		infoComp.setLayout(UtilGui.createGridLayout(2, false, 0, 5));
 		
 		Label icon = new Label(infoComp, SWT.NONE);
 		icon.setImage(shell.getDisplay().getSystemImage(iconConstant));
@@ -101,14 +102,14 @@ public final class ListConfirmDialog {
 		
 		table = new Table(shell, SWT.BORDER);
 		
-		okBt = Util.createPushButton(shell, AppUtil.Messages.ok.get(), new SelectionAdapter() {
+		okBt = UtilGui.createPushButton(shell, AppUtil.Messages.ok.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				answerOK = true;
 				shell.close();
 			}
 		});
 		
-		cancelBt = Util.createPushButton(shell, AppUtil.Messages.cancel.get(), new SelectionAdapter() {
+		cancelBt = UtilGui.createPushButton(shell, AppUtil.Messages.cancel.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
 			}
@@ -120,12 +121,12 @@ public final class ListConfirmDialog {
 			}
 		});
 		
-		Button[] okCancelBts = Util.maybeSwapButtons(okBt, cancelBt);
+		Button[] okCancelBts = UtilGui.maybeSwapButtons(okBt, cancelBt);
 		
-		shell.setLayout(Util.createFormLayout(5));
+		shell.setLayout(UtilGui.createFormLayout(5));
 		FormDataFactory fdf = FormDataFactory.getInstance();
 		fdf.top().left().right().applyTo(infoComp);
-		fdf.reset().minWidth(Util.BTW).bottom().right().applyTo(okCancelBts[1]);
+		fdf.reset().minWidth(UtilGui.BTW).bottom().right().applyTo(okCancelBts[1]);
 		fdf.right(okCancelBts[1]).applyTo(okCancelBts[0]);
 		fdf.reset().left().right().top(infoComp, 10).bottom(okCancelBts[1], -10).applyTo(table);
 	}
@@ -157,7 +158,7 @@ public final class ListConfirmDialog {
 	 * Opens the dialog and returns whether the OK button was clicked.
 	 */
 	public boolean open() {
-		Util.setCenteredBounds(shell, 350, 350);
+		UtilGui.setCenteredBounds(shell, 350, 350);
 		shell.open();
 		table.setFocus(); // move focus away from hyperlinks
 		while (! shell.isDisposed()) {

@@ -18,11 +18,6 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
-import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -36,6 +31,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
+import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.annotations.NotThreadSafe;
+import net.sourceforge.docfetcher.util.annotations.ThreadSafe;
+
 /**
  * @author Tran Nam Quang
  */
@@ -45,7 +46,7 @@ final class ProgressTable {
 		Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		Util.setCenteredBounds(shell, 400, 300);
+		UtilGui.setCenteredBounds(shell, 400, 300);
 
 		final ProgressTable progressTable = new ProgressTable(shell, 1000);
 
@@ -216,7 +217,7 @@ final class ProgressTable {
 						final boolean replaceLastInTable) {
 		Util.checkThat(!messages.isEmpty());
 		Util.checkThat(messages.size() <= itemLimit);
-		Util.runSyncExec(table, new Runnable() {
+		UtilGui.runSyncExec(table, new Runnable() {
 			public void run() {
 				table.setRedraw(false);
 				
@@ -256,7 +257,7 @@ final class ProgressTable {
 	
 	@ThreadSafe
 	public void scrollToBottom() {
-		Util.runSwtSafe(table, new Runnable() {
+		UtilGui.runSwtSafe(table, new Runnable() {
 			public void run() {
 				table.setTopIndex(Integer.MAX_VALUE);
 			}

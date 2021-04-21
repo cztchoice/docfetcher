@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
 
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
@@ -88,7 +89,7 @@ public class StatusBar extends Composite {
 						evtClicked.fire(null);
 					}
 				});
-				Util.addMouseHighlighter(textLabel);
+				UtilGui.addMouseHighlighter(textLabel);
 			}
 			else {
 				evtClicked = null;

@@ -12,7 +12,7 @@
 package net.sourceforge.docfetcher.util.gui.dialog;
 
 import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
 
@@ -59,7 +59,7 @@ public class TextInputDialog {
 		
 		Label label = new Label(shell, SWT.NONE);
 		text = new Text(shell, SWT.BORDER | SWT.SINGLE);
-		Util.selectAllOnFocus(text);
+		UtilGui.selectAllOnFocus(text);
 		Label fillerLabel = new Label(shell, SWT.NONE);
 		Label separator = new Label(shell, SWT.SEPARATOR | SWT.HORIZONTAL);
 		Button okBt = new Button(shell, SWT.PUSH);
@@ -70,13 +70,13 @@ public class TextInputDialog {
 		text.setSelection(new Point(0, text.getText().length()));
 		okBt.setText(AppUtil.Messages.ok.get());
 		cancelBt.setText(AppUtil.Messages.cancel.get());
-		Button[] okCancelBts = Util.maybeSwapButtons(okBt, cancelBt);
+		Button[] okCancelBts = UtilGui.maybeSwapButtons(okBt, cancelBt);
 		
-		shell.setLayout(Util.createFormLayout(5));
+		shell.setLayout(UtilGui.createFormLayout(5));
 		FormDataFactory fdf = FormDataFactory.getInstance();
 		fdf.top().left().right().applyTo(label);
 		fdf.top(label).applyTo(text);
-		fdf.reset().minWidth(Util.BTW).bottom().right().applyTo(okCancelBts[1]);
+		fdf.reset().minWidth(UtilGui.BTW).bottom().right().applyTo(okCancelBts[1]);
 		fdf.right(okCancelBts[1]).applyTo(okCancelBts[0]);
 		fdf.reset().left().right().bottom(okCancelBts[1]).applyTo(separator);
 		fdf.top(text).bottom(separator).applyTo(fillerLabel);
@@ -126,7 +126,7 @@ public class TextInputDialog {
 	 */
 	@Nullable
 	public String open() {
-		Util.setCenteredMinBounds(shell, 300, 150);
+		UtilGui.setCenteredMinBounds(shell, 300, 150);
 		shell.open();
 		if (selectFilenameOnly) {
 			String s = text.getText();

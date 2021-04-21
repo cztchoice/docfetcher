@@ -19,6 +19,7 @@ import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
 import net.sourceforge.docfetcher.util.collect.BoundedList;
@@ -69,9 +70,9 @@ public final class MultiFileLauncher {
 		
 		// Open files or directories
 		for (File file : files) {
-			boolean success = Util.launch(file);
+			boolean success = UtilGui.launch(file);
 			if (!success) // This is to be expected for PST files
-				Util.launch(Util.getParentFile(file));
+				UtilGui.launch(Util.getParentFile(file));
 		}
 		
 		return true;

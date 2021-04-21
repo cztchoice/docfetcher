@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 
 import net.sourceforge.docfetcher.util.Event;
+import net.sourceforge.docfetcher.util.UtilGui;
 
 /**
  * @author Tran Nam Quang

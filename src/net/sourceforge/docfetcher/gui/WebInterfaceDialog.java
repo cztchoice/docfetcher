@@ -12,7 +12,7 @@
 package net.sourceforge.docfetcher.gui;
 
 import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
 
@@ -35,7 +35,7 @@ final class WebInterfaceDialog {
 	public static void main(String[] args) {
 		Display display = new Display();
 		final Shell shell = new Shell(display);
-		Util.setCenteredBounds(shell, 200, 100);
+		UtilGui.setCenteredBounds(shell, 200, 100);
 		shell.setLayout(new GridLayout());
 		
 		Button bt = new Button(shell, SWT.PUSH);
@@ -60,7 +60,7 @@ final class WebInterfaceDialog {
 	
 	public WebInterfaceDialog(@NotNull Shell parentShell) {
 		shell = new Shell(parentShell, SWT.PRIMARY_MODAL | SWT.DIALOG_TRIM);
-		shell.setLayout(Util.createFormLayout(5));
+		shell.setLayout(UtilGui.createFormLayout(5));
 		shell.setText(Msg.web_interface.get());
 		
 		Composite comp = new Composite(shell, SWT.NONE);
@@ -88,12 +88,12 @@ final class WebInterfaceDialog {
 		});
 		
 		FormDataFactory fdf = FormDataFactory.getInstance();
-		fdf.bottom().right().minWidth(Util.BTW).applyTo(closeButton);
+		fdf.bottom().right().minWidth(UtilGui.BTW).applyTo(closeButton);
 		fdf.reset().bottom(closeButton).left().top().right().applyTo(comp);
 	}
 	
 	public void open() {
-		Util.setCenteredBounds(shell, 300, 200);
+		UtilGui.setCenteredBounds(shell, 300, 200);
 		shell.open();
 	}
 

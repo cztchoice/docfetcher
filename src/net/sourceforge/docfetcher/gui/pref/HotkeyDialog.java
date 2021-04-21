@@ -14,8 +14,7 @@ package net.sourceforge.docfetcher.gui.pref;
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.Col;
@@ -71,12 +70,12 @@ final class HotkeyDialog {
 		cancelBt.setText(Msg.cancel.get());
 		Button restoreBt = new Button(shell, SWT.PUSH);
 		restoreBt.setText(Msg.restore_default.get());
-		Button[] okCancelBts = Util.maybeSwapButtons(okBt, cancelBt);
+		Button[] okCancelBts = UtilGui.maybeSwapButtons(okBt, cancelBt);
 		
 		FormDataFactory fdf = FormDataFactory.getInstance();
 		fdf.top(0, 10).left(0, 10).right(100, -10).applyTo(keyLabel);
 		fdf.top(keyLabel, 10).applyTo(hotkeyBox);
-		fdf.reset().minWidth(Util.BTW).bottom().right().applyTo(okCancelBts[1]);
+		fdf.reset().minWidth(UtilGui.BTW).bottom().right().applyTo(okCancelBts[1]);
 		fdf.right(okCancelBts[1]).applyTo(okCancelBts[0]);
 		fdf.right(okCancelBts[0]).applyTo(restoreBt);
 		fdf.minWidth(0).right(restoreBt).left().applyTo(hSpacer);
@@ -130,7 +129,7 @@ final class HotkeyDialog {
 		boolean hotkeyEnabled = SettingsConf.Bool.HotkeyEnabled.get();
 		SettingsConf.Bool.HotkeyEnabled.set(false);
 		
-		Util.setCenteredBounds(shell);
+		UtilGui.setCenteredBounds(shell);
 		shell.open();
 		hotkeyBox.setFocus();
 		while (!shell.isDisposed()) {

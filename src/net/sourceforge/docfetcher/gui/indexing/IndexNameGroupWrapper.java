@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Text;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.GroupWrapper;
 
@@ -55,7 +56,7 @@ final class IndexNameGroupWrapper {
 	}
 	
 	private void createLayout(Group parent) {
-		GridLayout gridLayout = Util.createGridLayout(1, false, 7, 0);
+		GridLayout gridLayout = UtilGui.createGridLayout(1, false, 7, 0);
 		gridLayout.verticalSpacing = 5;
 		parent.setLayout(gridLayout);
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -72,7 +73,7 @@ final class IndexNameGroupWrapper {
 	@NotNull
 	private Text createNameField(@NotNull Composite parent,
 								 @NotNull String text) {
-		final Text field = Util.createUnlabeledGridText(parent);
+		final Text field = UtilGui.createUnlabeledGridText(parent);
 		field.setText(text);
 		return field;
 	}

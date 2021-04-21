@@ -11,7 +11,7 @@
 
 package net.sourceforge.docfetcher.gui.filter;
 
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 
@@ -28,7 +28,7 @@ public abstract class ToolBarForm extends Composite {
 
 	public ToolBarForm(Composite parent) {
 		super(parent, SWT.NONE);
-		setLayout(Util.createGridLayout(1, false, 0, 0));
+		setLayout(UtilGui.createGridLayout(1, false, 0, 0));
 		header = new ToolBarFormHeader(this) {
 			@Nullable
 			protected Control createToolBar(Composite parent) {

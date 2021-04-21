@@ -14,6 +14,7 @@ package net.sourceforge.docfetcher.gui.indexing;
 import net.sourceforge.docfetcher.gui.indexing.SingletonDialogFactory.Dialog;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
@@ -42,7 +43,7 @@ public abstract class SingletonDialogFactory<D extends Dialog> {
 		final Shell shell = new Shell(display);
 		shell.setText("Main Shell");
 		shell.setLayout(new GridLayout());
-		Util.setCenteredBounds(shell, 200, 200);
+		UtilGui.setCenteredBounds(shell, 200, 200);
 
 		class MyDialog implements Dialog {
 			private final Shell shell;

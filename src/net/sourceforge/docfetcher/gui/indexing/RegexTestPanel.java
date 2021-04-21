@@ -24,6 +24,7 @@ import net.sourceforge.docfetcher.model.index.IndexingConfig;
 import net.sourceforge.docfetcher.model.index.PatternAction;
 import net.sourceforge.docfetcher.model.index.PatternAction.MatchTarget;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
@@ -56,7 +57,7 @@ final class RegexTestPanel extends Composite {
 		label.setText("");
 		fileBox = new Text(this, SWT.BORDER | SWT.SINGLE);
 		
-		Button fileChooserBt = Util.createPushButton(this, "...", new SelectionAdapter() {
+		Button fileChooserBt = UtilGui.createPushButton(this, "...", new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
 				File rootFile = index.getCanonicalRootFile();
@@ -84,7 +85,7 @@ final class RegexTestPanel extends Composite {
 			}
 		});
 		
-		setLayout(Util.createGridLayout(2, false, 0, 0));
+		setLayout(UtilGui.createGridLayout(2, false, 0, 0));
 		label.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		fileBox.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		GridData gd = new GridData(SWT.FILL, SWT.CENTER, false, false);

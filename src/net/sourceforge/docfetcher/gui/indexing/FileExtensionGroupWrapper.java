@@ -23,6 +23,7 @@ import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.Immutable;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.collect.ListMap;
@@ -73,7 +74,7 @@ final class FileExtensionGroupWrapper {
 	}
 
 	private void createLayout(Group parent) {
-		GridLayout gridLayout = Util.createGridLayout(3, false, 7, 0);
+		GridLayout gridLayout = UtilGui.createGridLayout(3, false, 7, 0);
 		gridLayout.verticalSpacing = 5;
 		parent.setLayout(gridLayout);
 	}
@@ -89,11 +90,11 @@ final class FileExtensionGroupWrapper {
 	private Text createExtField(@NotNull Composite parent,
 								@NotNull String label,
 								@NotNull Collection<String> extensions) {
-		final Text field = Util.createLabeledGridText(parent, label);
+		final Text field = UtilGui.createLabeledGridText(parent, label);
 		((GridData)field.getLayoutData()).horizontalIndent = 5;
 		field.setText(Util.join(" ", extensions));
 		
-		Button chooserBt = Util.createPushButton(parent, "...", new SelectionAdapter() {
+		Button chooserBt = UtilGui.createPushButton(parent, "...", new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				onChooserButtonClicked(field);
 			}

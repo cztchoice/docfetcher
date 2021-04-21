@@ -37,6 +37,7 @@ import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.pref.PrefDialog;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.collect.MemoryList;
 import net.sourceforge.docfetcher.util.gui.ToolItemFactory;
@@ -73,11 +74,11 @@ public final class SearchBar {
 		};
 		searchBox = new Combo(comp, SWT.BORDER);
 		searchBox.setVisibleItemCount(ProgramConf.Int.SearchHistorySize.get());
-		Util.selectAllOnFocus(searchBox);
+		UtilGui.selectAllOnFocus(searchBox);
 
 		searchBox.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (Util.isEnterKey(e.keyCode)) {
+				if (UtilGui.isEnterKey(e.keyCode)) {
 					String query = searchBox.getText().trim();
 					if (!query.isEmpty()) {
 						evtSearch.fire(query);

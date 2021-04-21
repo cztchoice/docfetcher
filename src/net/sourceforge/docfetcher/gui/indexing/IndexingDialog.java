@@ -57,6 +57,7 @@ import net.sourceforge.docfetcher.model.index.file.FileIndex;
 import net.sourceforge.docfetcher.model.index.outlook.OutlookIndex;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
@@ -97,7 +98,7 @@ public final class IndexingDialog implements Dialog {
 		shell = new Shell(parentShell, style);
 		shell.setText(Msg.indexing_queue.get());
 		shell.setImage(Img.INDEXING_DIALOG.get());
-		shell.setLayout(Util.createFillLayout(5));
+		shell.setLayout(UtilGui.createFillLayout(5));
 		shell.setMinimumSize(455, 560);
 		SettingsConf.ShellBounds.IndexingDialog.bind(shell);
 		
@@ -211,7 +212,7 @@ public final class IndexingDialog implements Dialog {
 		addedListener = new Event.Listener<Task>() {
 			public void update(final Task task) {
 				assert !shell.isDisposed();
-				Util.runSwtSafe(tabFolder, new Runnable() {
+				UtilGui.runSwtSafe(tabFolder, new Runnable() {
 					public void run() {
 						boolean isUpdate = task.is(IndexAction.UPDATE);
 						boolean noTabs = tabFolder.getItemCount() == 0;
@@ -236,7 +237,7 @@ public final class IndexingDialog implements Dialog {
 				if (shell.isDisposed())
 					return;
 				
-				Util.runSwtSafe(tabFolder, new Runnable() {
+				UtilGui.runSwtSafe(tabFolder, new Runnable() {
 					public void run() {
 						for (CTabItem item : tabFolder.getItems()) {
 							if (item.getData() == task) {
@@ -465,7 +466,7 @@ public final class IndexingDialog implements Dialog {
 		task.evtFinished.add(new Event.Listener<Boolean>() {
 			public void update(Boolean eventData) {
 				if (eventData) {
-					Util.runAsyncExec(tabItem, new Runnable() {
+					UtilGui.runAsyncExec(tabItem, new Runnable() {
 						public void run() {
 							tabItem.setImage(Img.WARNING_BIG.get());
 						}

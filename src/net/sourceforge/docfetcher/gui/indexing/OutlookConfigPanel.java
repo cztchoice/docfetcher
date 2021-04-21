@@ -14,13 +14,12 @@ package net.sourceforge.docfetcher.gui.indexing;
 import java.util.Collections;
 
 import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.LuceneIndex;
 import net.sourceforge.docfetcher.model.index.IndexingConfig;
 import net.sourceforge.docfetcher.model.index.PatternAction;
 import net.sourceforge.docfetcher.model.index.PatternAction.MatchAction;
 import net.sourceforge.docfetcher.model.index.PatternAction.MatchTarget;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.GroupWrapper;
 
@@ -50,14 +49,14 @@ final class OutlookConfigPanel extends ConfigPanel {
 		
 		Group optionsGroup = new GroupWrapper(comp, Msg.indexing_options.get()) {
 			protected void createLayout(Group parent) {
-				parent.setLayout(Util.createGridLayout(1, false, 3, 3));
+				parent.setLayout(UtilGui.createGridLayout(1, false, 3, 3));
 			}
 			protected void createContents(Group parent) {
 				createGroupContents(parent);
 			}
 		}.getGroup();
 		
-		GridLayout gridLayout = Util.createGridLayout(1, false, 0, 0);
+		GridLayout gridLayout = UtilGui.createGridLayout(1, false, 0, 0);
 		gridLayout.marginTop = 10;
 		gridLayout.marginBottom = 10;
 		comp.setLayout(gridLayout);
@@ -67,9 +66,9 @@ final class OutlookConfigPanel extends ConfigPanel {
 	}
 	
 	private void createGroupContents(@NotNull Group parent) {
-		indexFilenameBt = Util.createCheckButton(parent, Msg.index_filenames.get());
-		storeRelativePathsBt = Util.createCheckButton(parent, Msg.store_relative_paths.get());
-		watchFolderBt = Util.createCheckButton(parent, Msg.watch_folders.get());
+		indexFilenameBt = UtilGui.createCheckButton(parent, Msg.index_filenames.get());
+		storeRelativePathsBt = UtilGui.createCheckButton(parent, Msg.store_relative_paths.get());
+		watchFolderBt = UtilGui.createCheckButton(parent, Msg.watch_folders.get());
 		
 		IndexingConfig config = index.getConfig();
 		

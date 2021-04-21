@@ -11,7 +11,7 @@
 
 package net.sourceforge.docfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
@@ -42,7 +42,7 @@ public abstract class ConfigComposite extends Composite {
 		new ConfigComposite(shell, SWT.H_SCROLL) {
 			protected Control createContents(Composite parent) {
 				Composite comp = new Composite(parent, SWT.NONE);
-				comp.setLayout(Util.createGridLayout(5, true, 5, 5));
+				comp.setLayout(UtilGui.createGridLayout(5, true, 5, 5));
 				for (int i = 0; i < 5; i++) {
 					for (int j = 0; j < 5; j++) {
 						Button bt = new Button(comp, SWT.PUSH);
@@ -57,7 +57,7 @@ public abstract class ConfigComposite extends Composite {
 			}
 		};
 
-		Util.setCenteredBounds(shell, 300, 250);
+		UtilGui.setCenteredBounds(shell, 300, 250);
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -70,8 +70,8 @@ public abstract class ConfigComposite extends Composite {
 	public ConfigComposite(@NotNull Composite parent, final int style) {
 		super(parent, SWT.NONE);
 		
-		final boolean hScroll = Util.contains(style, SWT.H_SCROLL);
-		final boolean vScroll = Util.contains(style, SWT.V_SCROLL);
+		final boolean hScroll = UtilGui.contains(style, SWT.H_SCROLL);
+		final boolean vScroll = UtilGui.contains(style, SWT.V_SCROLL);
 		
 		final ScrolledComposite scrollComp = new ScrolledComposite(this, style);
 		scrollComp.setExpandHorizontal(true);
@@ -95,7 +95,7 @@ public abstract class ConfigComposite extends Composite {
 		Label separator = new Label(this, SWT.SEPARATOR | SWT.HORIZONTAL);
 		Control buttonArea = createButtonArea(this);
 		
-		setLayout(Util.createGridLayout(1, false, 0, 5));
+		setLayout(UtilGui.createGridLayout(1, false, 0, 5));
 		scrollComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		separator.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		buttonArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));

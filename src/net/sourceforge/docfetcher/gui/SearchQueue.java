@@ -39,6 +39,7 @@ import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.CheckedOutOfMemoryError;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.collect.ListMap;
@@ -276,7 +277,7 @@ public final class SearchQueue {
 			}
 			catch (SearchException e) {
 				AppUtil.showError(e.getMessage(), true, true);
-				Util.runSyncExec(searchBar.getControl(), new Runnable() {
+				UtilGui.runSyncExec(searchBar.getControl(), new Runnable() {
 					public void run() {
 						searchBar.setEnabled(true);
 					}
@@ -292,7 +293,7 @@ public final class SearchQueue {
 		
 		// Build parser filter
 		if (checkedParsers == null || queueCopy.contains(GuiEvent.TYPE)) {
-			Util.runSyncExec(fileTypePanel.getControl(), new Runnable() {
+			UtilGui.runSyncExec(fileTypePanel.getControl(), new Runnable() {
 				public void run() {
 					updateParserFilter();
 				}
@@ -347,7 +348,7 @@ public final class SearchQueue {
 		final HeaderMode mode = HeaderMode.getInstance(filesFound, emailsFound);
 		
 		// Set results
-		Util.runSyncExec(searchBar.getControl(), new Runnable() {
+		UtilGui.runSyncExec(searchBar.getControl(), new Runnable() {
 			public void run() {
 				resultPanel.setResults(visibleResults, mode);
 				resultPanel.sortByColumn(ProgramConf.Int.InitialSorting.get());

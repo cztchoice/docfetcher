@@ -12,7 +12,7 @@
 package net.sourceforge.docfetcher.gui;
 
 import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.FixedSashForm;
 
@@ -77,7 +77,7 @@ public abstract class ThreePanelForm extends FixedSashForm {
 	
 	protected final Control createSecondControl(Composite parent) {
 		secondControl = new Composite(parent, SWT.NONE);
-		secondControl.setLayout(Util.createGridLayout(3, false, 0, 0));
+		secondControl.setLayout(UtilGui.createGridLayout(3, false, 0, 0));
 		
 		leftBt = new ThinArrowButton(secondControl, SWT.LEFT);
 		leftBt.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
@@ -89,7 +89,7 @@ public abstract class ThreePanelForm extends FixedSashForm {
 		outerRightBt.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 2));
 		
 		firstSubControlWrapper = new Composite(sash, SWT.NONE);
-		firstSubControlWrapper.setLayout(Util.createGridLayout(2, false, 0, 0));
+		firstSubControlWrapper.setLayout(UtilGui.createGridLayout(2, false, 0, 0));
 
 		firstSubControl = createFirstSubControl(firstSubControlWrapper);
 		firstSubControl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

@@ -19,6 +19,26 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyAdapter;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MenuAdapter;
+import org.eclipse.swt.events.MenuEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
+import com.sun.jna.platform.win32.Shell32Util;
+
 import net.sourceforge.docfetcher.UtilGlobal;
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
@@ -41,6 +61,7 @@ import net.sourceforge.docfetcher.model.index.outlook.OutlookIndex;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -51,26 +72,6 @@ import net.sourceforge.docfetcher.util.gui.MenuAction;
 import net.sourceforge.docfetcher.util.gui.dialog.InputLoop;
 import net.sourceforge.docfetcher.util.gui.dialog.TextInputDialog;
 import net.sourceforge.docfetcher.util.gui.viewer.SimpleTreeViewer;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.MenuAdapter;
-import org.eclipse.swt.events.MenuEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DirectoryDialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.swt.widgets.TreeItem;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.sun.jna.platform.win32.Shell32Util;
 
 public final class IndexPanel {
 	
@@ -177,7 +178,7 @@ public final class IndexPanel {
 		 */
 		Folder.evtFolderAdding.add(new Event.Listener<FolderEvent>() {
 			public void update(final FolderEvent eventData) {
-				Util.runSwtSafe(tree, new Runnable() {
+				UtilGui.runSwtSafe(tree, new Runnable() {
 					public void run() {
 						nodesToBeAdded.add(eventData.folder);
 					}
@@ -186,7 +187,7 @@ public final class IndexPanel {
 		});
 		Folder.evtFolderAdded.add(new Event.Listener<FolderEvent>() {
 			public void update(final FolderEvent eventData) {
-				Util.runSwtSafe(tree, new Runnable() {
+				UtilGui.runSwtSafe(tree, new Runnable() {
 					public void run() {
 						if (eventData.parent.getParent() == null) {
 							/*
@@ -211,7 +212,7 @@ public final class IndexPanel {
 		});
 		Folder.evtFolderRemoved.add(new Event.Listener<FolderEvent>() {
 			public void update(final FolderEvent eventData) {
-				Util.runSwtSafe(tree, new Runnable() {
+				UtilGui.runSwtSafe(tree, new Runnable() {
 					public void run() {
 						viewer.remove(eventData.folder);
 					}
@@ -239,7 +240,7 @@ public final class IndexPanel {
 			}
 		}, new Event.Listener<LuceneIndex>() {
 			public void update(final LuceneIndex eventData) {
-				Util.runAsyncExec(tree, new Runnable() {
+				UtilGui.runAsyncExec(tree, new Runnable() {
 					public void run() {
 						viewer.addRoot(eventData);
 						
@@ -255,7 +256,7 @@ public final class IndexPanel {
 			}
 		}, new Event.Listener<List<LuceneIndex>>() {
 			public void update(final List<LuceneIndex> eventData) {
-				Util.runAsyncExec(tree, new Runnable() {
+				UtilGui.runAsyncExec(tree, new Runnable() {
 					public void run() {
 						viewer.remove(UtilGlobal.<ViewNode> convert(eventData));
 					}
@@ -534,7 +535,7 @@ public final class IndexPanel {
 					return;
 				if (eventData.folder != clickedNode[0])
 					return;
-				Util.runSwtSafe(tree, new Runnable() {
+				UtilGui.runSwtSafe(tree, new Runnable() {
 					public void run() {
 						menu.setVisible(false);
 					}
@@ -780,7 +781,7 @@ public final class IndexPanel {
 	public static void createTaskFromClipboard(	@NotNull final Shell shell,
 												@NotNull final IndexRegistry indexRegistry,
 												@Nullable final DialogFactory dialogFactory) {
-		List<File> files = Util.getFilesFromClipboard();
+		List<File> files = UtilGui.getFilesFromClipboard();
 		if (files == null) {
 			AppUtil.showError(Msg.no_files_in_cb.get(), true, true);
 			return;

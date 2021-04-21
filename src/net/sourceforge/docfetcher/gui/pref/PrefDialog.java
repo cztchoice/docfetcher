@@ -33,11 +33,11 @@ import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.ManualLocator;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.IndexRegistry;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.VisibleForPackageGroup;
 import net.sourceforge.docfetcher.util.gui.ConfigComposite;
@@ -65,7 +65,7 @@ public final class PrefDialog {
 		this.programConfFile = programConfFile;
 		
 		shell = new Shell(parent, SWT.PRIMARY_MODAL | SWT.SHELL_TRIM);
-		shell.setLayout(Util.createFillLayout(10));
+		shell.setLayout(UtilGui.createFillLayout(10));
 		shell.setText(Msg.preferences.get());
 		shell.setImage(Img.PREFERENCES.get());
 		SettingsConf.ShellBounds.PreferencesDialog.bind(shell);
@@ -168,7 +168,7 @@ public final class PrefDialog {
 	@NotNull
 	private Control createContents(@NotNull Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(Util.createGridLayout(2, false, 0, 5));
+		comp.setLayout(UtilGui.createGridLayout(2, false, 0, 5));
 
 		for (PrefOption checkOption : checkOptions)
 			checkOption.createControls(comp);
@@ -190,7 +190,7 @@ public final class PrefDialog {
 		link.setVisible(ProgramConf.Bool.ShowAdvancedSettingsLink.get());
 		link.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Util.launch(programConfFile);
+				UtilGui.launch(programConfFile);
 			}
 		});
 		
@@ -206,19 +206,19 @@ public final class PrefDialog {
 	private Control createButtonArea(@NotNull Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
 
-		Button helpBt = Util.createPushButton(comp, Msg.help.get(), new SelectionAdapter() {
+		Button helpBt = UtilGui.createPushButton(comp, Msg.help.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				File file = ManualLocator.getManualSubpageFile("Preferences.html");
 				if (file == null) {
 					AppUtil.showError(Msg.file_not_found.get() + "\n" +
 							"Preferences.html", true, false);
 				} else {
-					Util.launch(file);
+					UtilGui.launch(file);
 				}
 			}
 		});
 
-		Button resetBt = Util.createPushButton(comp, Msg.restore_defaults.get(), new SelectionAdapter() {
+		Button resetBt = UtilGui.createPushButton(comp, Msg.restore_defaults.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				for (PrefOption checkOption : checkOptions)
 					checkOption.restoreDefault();
@@ -227,7 +227,7 @@ public final class PrefDialog {
 			}
 		});
 
-		okBt = Util.createPushButton(comp, Msg.ok.get(), new SelectionAdapter() {
+		okBt = UtilGui.createPushButton(comp, Msg.ok.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				for (PrefOption checkOption : checkOptions)
 					checkOption.save();
@@ -247,17 +247,17 @@ public final class PrefDialog {
 			}
 		});
 
-		Button cancelBt = Util.createPushButton(comp, Msg.cancel.get(), new SelectionAdapter() {
+		Button cancelBt = UtilGui.createPushButton(comp, Msg.cancel.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				shell.close();
 			}
 		});
 
-		Button[] okCancelBts = Util.maybeSwapButtons(okBt, cancelBt);
+		Button[] okCancelBts = UtilGui.maybeSwapButtons(okBt, cancelBt);
 
 		comp.setLayout(new FormLayout());
 		FormDataFactory fdf = FormDataFactory.getInstance();
-		fdf.margin(0).top().bottom().left().minWidth(Util.BTW).applyTo(helpBt);
+		fdf.margin(0).top().bottom().left().minWidth(UtilGui.BTW).applyTo(helpBt);
 		fdf.left(helpBt, 5).applyTo(resetBt);
 		fdf.unleft().right().applyTo(okCancelBts[1]);
 		fdf.right(okCancelBts[1], -5).applyTo(okCancelBts[0]);

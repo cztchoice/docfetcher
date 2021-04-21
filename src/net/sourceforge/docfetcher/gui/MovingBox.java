@@ -11,16 +11,16 @@
 
 package net.sourceforge.docfetcher.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.annotations.NotNull;
-import net.sourceforge.docfetcher.util.gui.Col;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.widgets.Shell;
+
+import net.sourceforge.docfetcher.util.UtilGui;
+import net.sourceforge.docfetcher.util.annotations.NotNull;
+import net.sourceforge.docfetcher.util.gui.Col;
 
 /**
  * @author Tran Nam Quang
@@ -80,14 +80,14 @@ public final class MovingBox {
 						Bm.x - Am.x, Bm.y - Am.y
 					);
 					
-					Util.runSyncExec(shell, new Runnable() {
+					UtilGui.runSyncExec(shell, new Runnable() {
 						public void run() {
 							updateRegion(bounds);
 						}
 					});
 				}
 				
-				Util.runSyncExec(shell, new Runnable() {
+				UtilGui.runSyncExec(shell, new Runnable() {
 					public void run() {
 						movingBox.dispose();
 					}

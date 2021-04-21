@@ -19,6 +19,7 @@ import java.util.Map;
 
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.Immutable;
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
@@ -87,7 +88,7 @@ public abstract class PagedTableViewer<E> {
 	private List<List<E>> pages = emptyPages;
 	
 	public PagedTableViewer(@NotNull Composite parent, int style) {
-		if (Util.contains(style, SWT.VIRTUAL))
+		if (UtilGui.contains(style, SWT.VIRTUAL))
 			throw new IllegalArgumentException("This class does not support virtual tables.");
 		
 		table = new Table(parent, style);

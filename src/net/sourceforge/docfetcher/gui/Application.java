@@ -95,6 +95,7 @@ import net.sourceforge.docfetcher.util.ConfLoader;
 import net.sourceforge.docfetcher.util.ConfLoader.Loadable;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.collect.AlphanumComparator;
@@ -508,7 +509,7 @@ public final class Application {
 	}
 
 	private static void loadIndexRegistry(@NotNull final Shell mainShell, @NotNull File indexParentDir) {
-		Util.assertSwtThread();
+		UtilGui.assertSwtThread();
 		final Display display = mainShell.getDisplay();
 
 		int cacheCapacity = ProgramConf.Int.UnpackCacheCapacity.get();
@@ -541,7 +542,7 @@ public final class Application {
 				 */
 				if (indexingStatus == null)
 					return;
-				Util.runAsyncExec(indexingStatus.getControl(), new Runnable() {
+				UtilGui.runAsyncExec(indexingStatus.getControl(), new Runnable() {
 					public void run() {
 						indexingStatus.setVisible(false);
 					}
@@ -577,7 +578,7 @@ public final class Application {
 					// Show error message when watch limit is reached
 					folderWatcher.evtWatchLimitError.add(new Event.Listener<String>() {
 						public void update(final String eventData) {
-							Util.runAsyncExec(mainShell, new Runnable() {
+							UtilGui.runAsyncExec(mainShell, new Runnable() {
 								public void run() {
 									InfoDialog dialog = new InfoDialog(mainShell);
 									dialog.setTitle(Msg.system_error.get());
@@ -596,7 +597,7 @@ public final class Application {
 					// folder
 					if (ProgramConf.Bool.ReportObsoleteIndexFiles.get()
 							&& !loadingProblems.getObsoleteFiles().isEmpty()) {
-						Util.runSyncExec(mainShell, new Runnable() {
+						UtilGui.runSyncExec(mainShell, new Runnable() {
 							public void run() {
 								reportObsoleteIndexFiles(
 									mainShell,
@@ -636,7 +637,7 @@ public final class Application {
 						AppUtil.showStackTrace(e);
 				}
 				finally {
-					Util.runAsyncExec(mainShell, new Runnable() {
+					UtilGui.runAsyncExec(mainShell, new Runnable() {
 						public void run() {
 							indexRegistryLoaded = true;
 							if (clearIndexLoadingMsg != null)
@@ -705,7 +706,7 @@ public final class Application {
 		
 		dialog.evtLinkClicked.add(new Event.Listener<String>() {
 			public void update(String eventData) {
-				Util.launch(eventData);
+				UtilGui.launch(eventData);
 			}
 		});
 		
@@ -869,7 +870,7 @@ public final class Application {
 					}
 				});
 				item.setCursor(item.getDisplay().getSystemCursor(SWT.CURSOR_HAND));
-				Util.addMouseHighlighter(item);
+				UtilGui.addMouseHighlighter(item);
 				return item;
 			}
 
@@ -917,7 +918,7 @@ public final class Application {
 			expander.setBottomText(Msg.search_scope.get() + " (" + Msg.loading.get() + ")");
 			clearIndexLoadingMsg = new Runnable() {
 				public void run() {
-					Util.assertSwtThread();
+					UtilGui.assertSwtThread();
 					expander.setBottomText(Msg.search_scope.get());
 				}
 			};
@@ -935,7 +936,7 @@ public final class Application {
 		expander.getFirstControl().addControlListener(new ControlAdapter() {
 			public void controlResized(ControlEvent e) {
 				// Run in asyncExec to make sure both controls have been resized
-				Util.runAsyncExec(expander, new Runnable() {
+				UtilGui.runAsyncExec(expander, new Runnable() {
 					public void run() {
 						MaximizedControl maxControl = expander.getMaximizedControl();
 						if (maxControl != MaximizedControl.NONE)
@@ -1208,7 +1209,7 @@ public final class Application {
 				proLink.evtLinkClicked.add(new Event.Listener<Void> () {
 					@Override
 					public void update(Void eventData) {
-						Util.launch("https://docfetcherpro.com/going-pro/");
+						UtilGui.launch("https://docfetcherpro.com/going-pro/");
 						if (docfetcherProTip != null) {
 							docfetcherProTip.shell.close();
 						}
@@ -1447,7 +1448,7 @@ public final class Application {
 
 		hotkeyHandler.evtHotkeyPressed.add(new Event.Listener<Void> () {
 			public void update(Void eventData) {
-				Util.runSyncExec(shell, new Runnable() {
+				UtilGui.runSyncExec(shell, new Runnable() {
 					public void run() {
 						if (systemTrayHider.isHidden()) {
 							systemTrayHider.restore();
@@ -1506,7 +1507,7 @@ public final class Application {
 			if (previewPanel.setHtmlFile(file))
 				threePanelForm.setSecondSubControlVisible(true);
 			else
-				Util.launch(file);
+				UtilGui.launch(file);
 		}
 		else {
 			String msg = Msg.file_not_found.get() + "\n" + SystemConf.Str.ProgramName.get() + "_Manual.html";

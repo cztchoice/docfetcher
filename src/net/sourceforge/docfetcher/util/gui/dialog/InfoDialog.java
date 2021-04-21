@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 /**
@@ -52,7 +53,7 @@ public class InfoDialog {
 		display.asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				Util.setCenteredBounds(shell, 200, 150);
+				UtilGui.setCenteredBounds(shell, 200, 150);
 			}
 		});
 		shell.open();
@@ -81,7 +82,7 @@ public class InfoDialog {
 		
 		label.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Util.launch(e.text);
+				UtilGui.launch(e.text);
 			}
 		});
 		
@@ -93,7 +94,7 @@ public class InfoDialog {
 			}
 		});
 		
-		shell.setLayout(Util.createGridLayout(2, false, 10, 15));
+		shell.setLayout(UtilGui.createGridLayout(2, false, 10, 15));
 		icon.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false));
 		
 		GridData labelGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -101,7 +102,7 @@ public class InfoDialog {
 		label.setLayoutData(labelGridData);
 		
 		GridData btGridData = new GridData(SWT.CENTER, SWT.FILL, true, false, 2, 1);
-		btGridData.minimumWidth = Util.BTW;
+		btGridData.minimumWidth = UtilGui.BTW;
 		bt.setLayoutData(btGridData);
 	}
 	
@@ -126,7 +127,7 @@ public class InfoDialog {
 	}
 	
 	public void open() {
-		Util.setCenteredBounds(shell);
+		UtilGui.setCenteredBounds(shell);
 		bt.setFocus(); // Avoid focusing hyperlinks if there are any
 		shell.open();
 		while (!shell.isDisposed()) {

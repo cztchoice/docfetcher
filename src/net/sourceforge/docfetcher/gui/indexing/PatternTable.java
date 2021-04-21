@@ -35,7 +35,7 @@ import net.sourceforge.docfetcher.model.index.PatternAction.MatchAction;
 import net.sourceforge.docfetcher.model.index.PatternAction.MatchTarget;
 import net.sourceforge.docfetcher.model.index.file.FileIndex;
 import net.sourceforge.docfetcher.util.AppUtil;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.LazyImageCache;
@@ -63,7 +63,7 @@ final class PatternTable extends Composite {
 		PatternTable patternTable = new PatternTable(shell, index);
 		patternTable.setStoreRelativePaths(index.getConfig().isStoreRelativePaths());
 
-		Util.setCenteredBounds(shell);
+		UtilGui.setCenteredBounds(shell);
 		shell.open();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
@@ -81,7 +81,7 @@ final class PatternTable extends Composite {
 						@NotNull LuceneIndex index) {
 		super(parent, SWT.NONE);
 		this.index = index;
-		setLayout(Util.createGridLayout(2, false, 0, 5));
+		setLayout(UtilGui.createGridLayout(2, false, 0, 5));
 		
 		Table table = createTable();
 		Control buttonPanel = createButtonPanel();
@@ -194,9 +194,9 @@ final class PatternTable extends Composite {
 	@NotNull
 	private Control createButtonPanel() {
 		Composite comp = new Composite(this, SWT.NONE);
-		comp.setLayout(Util.createGridLayout(1, false, 0, 5));
+		comp.setLayout(UtilGui.createGridLayout(1, false, 0, 5));
 		
-		Util.createPushButton(
+		UtilGui.createPushButton(
 			comp, Img.ADD.get(), Msg.add_pattern.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				PatternAction patternAction = new PatternAction();
@@ -207,7 +207,7 @@ final class PatternTable extends Composite {
 			}
 		});
 		
-		Util.createPushButton(
+		UtilGui.createPushButton(
 			comp, Img.REMOVE.get(), Msg.remove_sel_pattern.get(),
 			new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -217,7 +217,7 @@ final class PatternTable extends Composite {
 			}
 		});
 		
-		Util.createPushButton(
+		UtilGui.createPushButton(
 			comp, Img.ARROW_UP.get(), Msg.increase_pattern_priority.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				List<PatternAction> sel = tableViewer.getSelection();
@@ -226,7 +226,7 @@ final class PatternTable extends Composite {
 			}
 		});
 		
-		Util.createPushButton(
+		UtilGui.createPushButton(
 			comp, Img.ARROW_DOWN.get(), Msg.decrease_pattern_priority.get(), new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				List<PatternAction> sel = tableViewer.getSelection();

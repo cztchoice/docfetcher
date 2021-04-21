@@ -11,7 +11,7 @@
 
 package net.sourceforge.docfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
@@ -62,7 +62,7 @@ public final class TabFolderFactory {
 	
 	private static void setTabColors(@NotNull CTabFolder tabFolder) {
 		Color background = Col.TITLE_BACKGROUND.get();
-		Color foreground = Util.getTextForeground(background);
+		Color foreground = UtilGui.getTextForeground(background);
 		tabFolder.setSelectionBackground(background);
 		tabFolder.setSelectionForeground(foreground);
 	}
@@ -78,8 +78,8 @@ public final class TabFolderFactory {
 		}
 		protected void draw(int part, int state, Rectangle bounds, GC gc) {
 			// Tab states
-			boolean isHot = Util.contains(state, SWT.HOT);
-			boolean isSelected = Util.contains(state, SWT.SELECTED);
+			boolean isHot = UtilGui.contains(state, SWT.HOT);
+			boolean isSelected = UtilGui.contains(state, SWT.SELECTED);
 			
 			// Color definitions
 			Color borderCol = coloredTabs
@@ -94,11 +94,11 @@ public final class TabFolderFactory {
 				backCol = Col.WIDGET_BACKGROUND.get();
 			Color shadowCol = Col.WIDGET_DARK_SHADOW.get();
 			Color textCol = coloredTabs && (isSelected || isHot)
-				? Util.getTextForeground(Col.TITLE_BACKGROUND.get())
+				? UtilGui.getTextForeground(Col.TITLE_BACKGROUND.get())
 				: Col.WIDGET_FOREGROUND.get();
 			
 			// Draw separating line between tabs and body
-			if (Util.contains(part, CTabFolderRenderer.PART_HEADER)) {
+			if (UtilGui.contains(part, CTabFolderRenderer.PART_HEADER)) {
 				int tabHeight = tabFolder.getTabHeight();
 				gc.setForeground(borderCol);
 				/*

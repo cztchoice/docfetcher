@@ -11,8 +11,6 @@
 
 package net.sourceforge.docfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.CloseWindowListener;
@@ -23,6 +21,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+
+import net.sourceforge.docfetcher.util.UtilGui;
 
 /**
  * See official SWT Snippet 137.
@@ -54,7 +54,7 @@ public final class BrowserPopupBlocker {
 				/* popup blocker - ignore windows with no style */
 				boolean isOSX = SWT.getPlatform().equals ("cocoa") || SWT.getPlatform().equals ("carbon");
 				if (!event.addressBar && !event.statusBar && !event.toolBar && (!event.menuBar || isOSX)) {
-					Util.runAsyncExec(event.display, new Runnable() {
+					UtilGui.runAsyncExec(event.display, new Runnable() {
 						public void run() {
 							shell.close();
 						}

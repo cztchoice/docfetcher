@@ -12,8 +12,8 @@
 package net.sourceforge.docfetcher.gui.pref;
 
 import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.gui.pref.PrefDialog.PrefOption;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;

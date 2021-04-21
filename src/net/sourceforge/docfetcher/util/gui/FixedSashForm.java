@@ -12,7 +12,7 @@
 package net.sourceforge.docfetcher.util.gui;
 
 import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
@@ -67,9 +67,9 @@ public abstract class FixedSashForm extends Composite {
 	 */
 	public FixedSashForm(Composite parent, int orientation, int startOffset) {
 		super(parent, SWT.NONE);
-		boolean isLeft = Util.contains(orientation, SWT.LEFT);
-		isHorizontal = isLeft || Util.contains(orientation, SWT.RIGHT);
-		isFirstFixed = Util.contains(orientation, SWT.TOP) || isLeft;
+		boolean isLeft = UtilGui.contains(orientation, SWT.LEFT);
+		isHorizontal = isLeft || UtilGui.contains(orientation, SWT.RIGHT);
+		isFirstFixed = UtilGui.contains(orientation, SWT.TOP) || isLeft;
 		
 		setLayout(new FormLayout());
 		firstControl = createFirstControl(this);

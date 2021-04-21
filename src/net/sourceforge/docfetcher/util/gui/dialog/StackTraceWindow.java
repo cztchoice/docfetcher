@@ -11,11 +11,6 @@
 
 package net.sourceforge.docfetcher.util.gui.dialog;
 
-import net.sourceforge.docfetcher.util.Util;
-import net.sourceforge.docfetcher.util.AppUtil.Messages;
-import net.sourceforge.docfetcher.util.gui.Col;
-import net.sourceforge.docfetcher.util.gui.FormDataFactory;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -25,6 +20,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+
+import net.sourceforge.docfetcher.util.AppUtil.Messages;
+import net.sourceforge.docfetcher.util.UtilGui;
+import net.sourceforge.docfetcher.util.gui.Col;
+import net.sourceforge.docfetcher.util.gui.FormDataFactory;
 
 public class StackTraceWindow {
 	
@@ -41,7 +41,7 @@ public class StackTraceWindow {
 		label = new Link(shell, SWT.NONE);
 		label.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Util.launch(e.text);
+				UtilGui.launch(e.text);
 			}
 		});
 		
@@ -76,7 +76,7 @@ public class StackTraceWindow {
 	}
 	
 	public void open() {
-		Util.setCenteredBounds(shell, 400, 400); // Don't store shell size
+		UtilGui.setCenteredBounds(shell, 400, 400); // Don't store shell size
 		shell.open();
 		windowCount++;
 		while (! shell.isDisposed()) {

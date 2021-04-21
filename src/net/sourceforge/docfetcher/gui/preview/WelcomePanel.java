@@ -13,7 +13,7 @@ package net.sourceforge.docfetcher.gui.preview;
 
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Event;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.Col;
 
@@ -45,9 +45,9 @@ public final class WelcomePanel extends Composite {
 		
 		Display display = new Display();
 		Shell shell = new Shell(display);
-		shell.setLayout(Util.createFillLayout(0));
+		shell.setLayout(UtilGui.createFillLayout(0));
 		shell.setText("Welcome");
-		Util.setCenteredBounds(shell, 600, 600);
+		UtilGui.setCenteredBounds(shell, 600, 600);
 
 		String imagePath = AppUtil.getImageDir() + "/squirrel.png";
 		WelcomePanel welcomePanel = new WelcomePanel(shell, imagePath);
@@ -72,13 +72,13 @@ public final class WelcomePanel extends Composite {
 	
 	public WelcomePanel(@NotNull Composite parent, String imagePath) {
 		super(parent, SWT.NONE);
-		setLayout(Util.createGridLayout(1, false, 0, 0));
+		setLayout(UtilGui.createGridLayout(1, false, 0, 0));
 		
 		// A container to center the entire drawing
 		Composite centerComp = new Composite(this, SWT.NONE);
 		centerComp.setBackground(Col.WHITE.get());
 		centerComp.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true));
-		centerComp.setLayout(Util.createGridLayout(2, false, 0, 0));
+		centerComp.setLayout(UtilGui.createGridLayout(2, false, 0, 0));
 		
 		// Load resources
 		image = new Image(getDisplay(), imagePath);
@@ -103,7 +103,7 @@ public final class WelcomePanel extends Composite {
 		final Composite textComp = new Composite(centerComp, SWT.NONE);
 		textComp.setBackground(Col.WHITE.get());
 		textComp.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true));
-		textComp.setLayout(Util.createGridLayout(1, false, 20, 0));
+		textComp.setLayout(UtilGui.createGridLayout(1, false, 20, 0));
 		
 		// TODO i18n
 		

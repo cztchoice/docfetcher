@@ -21,6 +21,7 @@ import net.sourceforge.docfetcher.gui.CustomBorderComposite;
 import net.sourceforge.docfetcher.model.search.HighlightedString;
 import net.sourceforge.docfetcher.util.Event;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.ToolItemFactory;
@@ -67,18 +68,18 @@ class HighlightingToolBarWithTextViewer {
 			}
 		};
 		int margin = Util.IS_WINDOWS ? 2 : 0;
-		barComp.setLayout(Util.createGridLayout(2, false, margin, 0));
+		barComp.setLayout(UtilGui.createGridLayout(2, false, margin, 0));
 		
 		Label indentArea = new Label(barComp, SWT.NONE);
 		indentArea.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		
 		Composite toolBarComp = new Composite(barComp, SWT.NONE);
 		toolBarComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
-		toolBarComp.setLayout(Util.createGridLayout(4, false, margin, 0));
+		toolBarComp.setLayout(UtilGui.createGridLayout(4, false, margin, 0));
 		
 		pageNumField = new RangeField(toolBarComp);
 		GridData pageNumGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		pageNumGridData.minimumWidth = Util.BTW;
+		pageNumGridData.minimumWidth = UtilGui.BTW;
 		pageNumField.getControl().setLayoutData(pageNumGridData);
 		pageNumField.getControl().setToolTipText(Msg.page_num.get());
 		
@@ -110,7 +111,7 @@ class HighlightingToolBarWithTextViewer {
 		
 		occField = new RangeField(toolBarComp);
 		GridData occGridData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		occGridData.minimumWidth = Util.BTW;
+		occGridData.minimumWidth = UtilGui.BTW;
 		occField.getControl().setLayoutData(occGridData);
 		occField.getControl().setToolTipText(Msg.occurrence_count.get());
 		

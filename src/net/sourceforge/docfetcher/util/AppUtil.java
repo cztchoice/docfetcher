@@ -382,7 +382,7 @@ public final class AppUtil {
 			}
 		}
 		MyRunnable myRunnable = new MyRunnable();
-		Util.runSwtSafe(display, myRunnable);
+		UtilGui.runSwtSafe(display, myRunnable);
 		return myRunnable.answer;
 	}
 
@@ -395,7 +395,7 @@ public final class AppUtil {
 		checkConstInitialized();
 		ensureDisplay();
 		
-		Util.runSwtSafe(display, new Runnable() {
+		UtilGui.runSwtSafe(display, new Runnable() {
 			public void run() {
 				MessageBox msgBox = new MessageBox(getActiveShell(),
 						SWT.ICON_INFORMATION | SWT.OK);
@@ -420,7 +420,7 @@ public final class AppUtil {
 		checkConstInitialized();
 		ensureDisplay();
 		
-		Util.runSwtSafe(display, new Runnable() {
+		UtilGui.runSwtSafe(display, new Runnable() {
 			public void run() {
 				int style = SWT.OK;
 				style |= errorNotWarning ? SWT.ICON_ERROR : SWT.ICON_WARNING;
@@ -531,7 +531,7 @@ public final class AppUtil {
 		}
 		
 		// Show stacktrace in error window
-		Util.runSwtSafe(display, new Runnable() {
+		UtilGui.runSwtSafe(display, new Runnable() {
 			public void run() {
 				/*
 				 * We don't want to fill up the user's workspace with hundreds

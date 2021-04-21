@@ -35,8 +35,8 @@ import org.eclipse.swt.widgets.TableItem;
 import net.sourceforge.docfetcher.enums.Msg;
 import net.sourceforge.docfetcher.enums.ProgramConf;
 import net.sourceforge.docfetcher.enums.SettingsConf;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.annotations.RecursiveMethod;
@@ -93,7 +93,7 @@ final class FileExtensionChooser {
 		table = new Table(comp, SWT.CHECK | SWT.HIDE_SELECTION | SWT.BORDER);
 		Composite textContainer = new Composite(comp, SWT.BORDER);
 		textContainer.setBackground(Col.LIST_BACKGROUND.get()); // don't use WHITE, it won't work with dark themes
-		textContainer.setLayout(Util.createFillLayout(5));
+		textContainer.setLayout(UtilGui.createFillLayout(5));
 		
 		StyledText loadingMsg = new StyledText(textContainer, SWT.MULTI | SWT.WRAP | SWT.READ_ONLY);
 		loadingMsg.setBackground(Col.LIST_BACKGROUND.get()); // don't use WHITE, it won't work with dark themes
@@ -109,12 +109,12 @@ final class FileExtensionChooser {
 		okBt.setText(Msg.ok.get());
 		Button cancelBt = new Button(shell, SWT.PUSH);
 		cancelBt.setText(Msg.cancel.get());
-		Button[] okCancelBts = Util.maybeSwapButtons(okBt, cancelBt);
+		Button[] okCancelBts = UtilGui.maybeSwapButtons(okBt, cancelBt);
 		
-		shell.setLayout(Util.createFormLayout(5));
+		shell.setLayout(UtilGui.createFormLayout(5));
 		FormDataFactory fdf = FormDataFactory.getInstance();
 		fdf.top().left().right().applyTo(label);
-		fdf.reset().minWidth(Util.BTW).bottom().right().applyTo(okCancelBts[1]);
+		fdf.reset().minWidth(UtilGui.BTW).bottom().right().applyTo(okCancelBts[1]);
 		fdf.right(okCancelBts[1]).applyTo(okCancelBts[0]);
 		fdf.reset().left().right().top(label).bottom(okCancelBts[0]).applyTo(comp);
 		
@@ -176,7 +176,7 @@ final class FileExtensionChooser {
 	public ListMap<String, Boolean> open(@NotNull final Collection<String> checkedExtensions)
 			throws FileNotFoundException {
 		Util.checkNotNull(checkedExtensions);
-		Util.assertSwtThread();
+		UtilGui.assertSwtThread();
 		
 		if (!factory.rootDir.isDirectory())
 			throw new FileNotFoundException();
@@ -191,7 +191,7 @@ final class FileExtensionChooser {
 					final Set<String> cachedExtensions = listExtensions(factory.rootDir);
 					if (Util.isInterrupted())
 						return;
-					Util.runAsyncExec(table, new Runnable() {
+					UtilGui.runAsyncExec(table, new Runnable() {
 						public void run() {
 							if (factory.cachedExtensions == null)
 								factory.cachedExtensions = cachedExtensions;
@@ -217,7 +217,7 @@ final class FileExtensionChooser {
 	
 	@ThreadSafe
 	private void showExtensions(@NotNull Collection<String> checkedExtensions) {
-		Util.assertSwtThread();
+		UtilGui.assertSwtThread();
 		for (String ext : factory.cachedExtensions) {
 			TableItem item = new TableItem(table, SWT.NONE);
 			item.setText(ext);

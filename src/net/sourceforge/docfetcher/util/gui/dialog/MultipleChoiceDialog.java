@@ -12,6 +12,7 @@
 package net.sourceforge.docfetcher.util.gui.dialog;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 
@@ -38,7 +39,7 @@ public final class MultipleChoiceDialog<A> {
 		Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		Util.setCenteredBounds(shell, 150, 75);
+		UtilGui.setCenteredBounds(shell, 150, 75);
 		
 		Button bt = new Button(shell, SWT.PUSH);
 		bt.setText("Open Dialog");
@@ -88,12 +89,12 @@ public final class MultipleChoiceDialog<A> {
 		label.setBackground(icon.getBackground());
 		label.setForeground(icon.getForeground()); // not necessary
 		
-		gridLayout = Util.createGridLayout(0, true, 10, 10); // number of columns will be increased later
+		gridLayout = UtilGui.createGridLayout(0, true, 10, 10); // number of columns will be increased later
 		shell.setLayout(gridLayout);
 		gridData = new GridData(SWT.FILL, SWT.FILL, true, true, 0, 1); // horizontal span will be increased later
 		labelComp.setLayoutData(gridData);
 		
-		labelComp.setLayout(Util.createGridLayout(2, false, 10, 15));
+		labelComp.setLayout(UtilGui.createGridLayout(2, false, 10, 15));
 		icon.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true));
 		GridData labelData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		labelData.widthHint = 250;
@@ -101,7 +102,7 @@ public final class MultipleChoiceDialog<A> {
 		
 		label.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				Util.launch(e.text);
+				UtilGui.launch(e.text);
 			}
 		});
 	}
@@ -149,7 +150,7 @@ public final class MultipleChoiceDialog<A> {
 	
 	@Nullable
 	public A open() {
-		Util.setCenteredBounds(shell);
+		UtilGui.setCenteredBounds(shell);
 		firstButton.setFocus(); // Avoid focusing hyperlinks if there are any
 		shell.open();
 		while (!shell.isDisposed()) {

@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Label;
 
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 
@@ -52,7 +53,7 @@ public abstract class TwoFormExpander extends Composite {
 	
 	public TwoFormExpander(Composite parent) {
 		super(parent, SWT.NONE);
-		setLayout(Util.createGridLayout(1, false, 0, 5));
+		setLayout(UtilGui.createGridLayout(1, false, 0, 5));
 		
 		formTop0 = new ToolBarFormHeader(this) {
 			protected Control createToolBar(Composite parent) {
@@ -161,14 +162,14 @@ public abstract class TwoFormExpander extends Composite {
 		Cursor cursor = this.getDisplay().getSystemCursor(SWT.CURSOR_HAND);
 		for (Label item : items) {
 			item.setCursor(cursor);
-			Util.addMouseHighlighter(item);
+			UtilGui.addMouseHighlighter(item);
 		}
 	}
 	
 	@NotNull
 	private Control createToolBar(Composite parent, boolean isTop, boolean isHeader) {
 		Composite comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(Util.createGridLayout(2, false, 0, 2));
+		comp.setLayout(UtilGui.createGridLayout(2, false, 0, 2));
 		Label item1 = new Label(comp, SWT.PUSH);
 		Label item2 = new Label(comp, SWT.PUSH);
 		item1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

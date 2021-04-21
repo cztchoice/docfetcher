@@ -11,9 +11,9 @@
 
 package net.sourceforge.docfetcher.util.gui;
 
-import net.sourceforge.docfetcher.util.Util;
-
 import org.eclipse.swt.widgets.Display;
+
+import net.sourceforge.docfetcher.util.UtilGui;
 
 /**
  * @author Tran Nam Quang
@@ -47,7 +47,7 @@ public final class StatusManager {
 			thread.interrupt();
 		
 		// Set status
-		boolean wasRun = Util.runSyncExec(display, new Runnable() {
+		boolean wasRun = UtilGui.runSyncExec(display, new Runnable() {
 			public void run() {
 				statusLine.setStatus(message);
 			}
@@ -61,7 +61,7 @@ public final class StatusManager {
 			public void run() {
 				try {
 					Thread.sleep(milliseconds);
-					Util.runSyncExec(display, new Runnable() {
+					UtilGui.runSyncExec(display, new Runnable() {
 						public void run() {
 							/*
 							 * Clear status line, unless someone else has

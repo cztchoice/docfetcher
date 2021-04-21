@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.MutableCopy;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
@@ -88,11 +89,11 @@ public abstract class SimpleTreeViewer<E> {
 		 * For tree viewers with checkboxes, propagate check state changes from
 		 * widgets to model elements.
 		 */
-		if (Util.contains(tree.getStyle(), SWT.CHECK)) {
+		if (UtilGui.contains(tree.getStyle(), SWT.CHECK)) {
 			tree.addSelectionListener(new SelectionAdapter() {
 				@SuppressWarnings("unchecked")
 				public void widgetSelected(SelectionEvent e) {
-					if (!Util.contains(e.detail, SWT.CHECK))
+					if (!UtilGui.contains(e.detail, SWT.CHECK))
 						return;
 					TreeItem item = (TreeItem) e.item;
 					E element = (E) item.getData();
@@ -197,7 +198,7 @@ public abstract class SimpleTreeViewer<E> {
 		if (item == null) return;
 		item.setImage(getImage(element));
 		item.setText(getLabel(element));
-		if (Util.contains(tree.getStyle(), SWT.CHECK))
+		if (UtilGui.contains(tree.getStyle(), SWT.CHECK))
 			item.setChecked(isChecked(element));
 		item.setForeground(getForeground(element));
 		item.setBackground(getBackground(element));

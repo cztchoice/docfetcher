@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
@@ -50,7 +51,7 @@ final class AppendingStyledTextContent implements StyledTextContent {
 		for (int i = 0; i < n; i++)
 			st.append("line " + i + (i < n - 1 ? "\n" : ""));
 		
-		Util.setCenteredBounds(shell, 400, 300);
+		UtilGui.setCenteredBounds(shell, 400, 300);
 		shell.open();
 		while (!shell.isDisposed())
 			if (!display.readAndDispatch())

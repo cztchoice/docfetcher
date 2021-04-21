@@ -13,7 +13,7 @@ package net.sourceforge.docfetcher.gui.pref;
 
 import net.sourceforge.docfetcher.enums.SettingsConf;
 import net.sourceforge.docfetcher.gui.pref.PrefDialog.PrefOption;
-import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 
 import org.eclipse.swt.SWT;
@@ -36,7 +36,7 @@ final class CheckOption extends PrefOption {
 	}
 
 	public void createControls(@NotNull Composite parent) {
-		bt = Util.createCheckButton(parent, labelText);
+		bt = UtilGui.createCheckButton(parent, labelText);
 		bt.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 2, 1));
 		bt.setSelection(enumOption.get());
 	}

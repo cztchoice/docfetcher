@@ -18,10 +18,10 @@ import java.util.List;
 
 import net.sourceforge.docfetcher.enums.Img;
 import net.sourceforge.docfetcher.enums.Msg;
-import net.sourceforge.docfetcher.gui.UtilGui;
 import net.sourceforge.docfetcher.model.MailResource;
 import net.sourceforge.docfetcher.util.AppUtil;
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.gui.Col;
 import net.sourceforge.docfetcher.util.gui.FormDataFactory;
@@ -51,7 +51,7 @@ final class EmailPreview extends Composite {
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		Util.setCenteredBounds(shell, 400, 300);
+		UtilGui.setCenteredBounds(shell, 400, 300);
 
 		// Load images
 		AppUtil.Const.autoInit();
@@ -104,7 +104,7 @@ final class EmailPreview extends Composite {
 	@NotNull
 	private Control createEmailTab(@NotNull Composite parent) {
 		Composite comp = new Composite(parent, SWT.NONE);
-		comp.setLayout(Util.createGridLayout(1, false, 0, 0));
+		comp.setLayout(UtilGui.createGridLayout(1, false, 0, 0));
 		
 		headerComp = createEmailHeader(comp);
 		headerComp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
@@ -167,7 +167,7 @@ final class EmailPreview extends Composite {
 		final StyledText st = new StyledText(parent, SWT.SINGLE | SWT.READ_ONLY);
 		st.setBackground(Col.WIDGET_BACKGROUND.get());
 		st.setForeground(Col.WIDGET_FOREGROUND.get());
-		Util.registerSelectAllKey(st);
+		UtilGui.registerSelectAllKey(st);
 		UtilGui.clearSelectionOnFocusLost(st);
 		
 		// Without this, the font won't change on SWT.Settings events

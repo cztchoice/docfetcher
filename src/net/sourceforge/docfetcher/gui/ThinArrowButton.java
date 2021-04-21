@@ -12,6 +12,7 @@
 package net.sourceforge.docfetcher.gui;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.gui.Col;
 
 import org.eclipse.swt.SWT;
@@ -47,13 +48,13 @@ final class ThinArrowButton extends Canvas {
 		UtilGui.paintBorder(this);
 		
 		this.style = style;
-		if (Util.contains(style, SWT.UP) || Util.contains(style, SWT.DOWN)) {
+		if (UtilGui.contains(style, SWT.UP) || UtilGui.contains(style, SWT.DOWN)) {
 			int tmp = btWidth;
 			btWidth = btHeight;
 			btHeight = tmp;
 		}
 		
-		Util.addMouseHighlighter(this);
+		UtilGui.addMouseHighlighter(this);
 		
 		// Draw the arrow
 		addPaintListener(new PaintListener() {
@@ -62,13 +63,13 @@ final class ThinArrowButton extends Canvas {
 					int style = ThinArrowButton.this.style;
 					int[] coords = null;
 
-					if (Util.contains(style, SWT.LEFT))
+					if (UtilGui.contains(style, SWT.LEFT))
 						coords = new int[] {-a, 0, a, b, a, -b};
-					else if (Util.contains(style, SWT.RIGHT))
+					else if (UtilGui.contains(style, SWT.RIGHT))
 						coords = new int[] {a, 0, -a, -b, -a, b};
-					else if (Util.contains(style, SWT.UP))
+					else if (UtilGui.contains(style, SWT.UP))
 						coords = new int[] {0, -a, -b, a, b, a};
-					else if (Util.contains(style, SWT.DOWN))
+					else if (UtilGui.contains(style, SWT.DOWN))
 						coords = new int[] {0, a, b, -a, -b, -a};
 
 					for (int i = 0; i < coords.length - 1; i = i + 2)

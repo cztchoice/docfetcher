@@ -12,6 +12,7 @@
 package net.sourceforge.docfetcher.util.gui.viewer;
 
 import net.sourceforge.docfetcher.util.Util;
+import net.sourceforge.docfetcher.util.UtilGui;
 import net.sourceforge.docfetcher.util.annotations.NotNull;
 import net.sourceforge.docfetcher.util.annotations.Nullable;
 import net.sourceforge.docfetcher.util.gui.viewer.ColumnEditSupport.ComboEditSupport;
@@ -103,7 +104,7 @@ abstract class TableEditSupport<E> {
 										@NotNull final TableItem item,
 										final int columnIndex) {
 		final Composite comp = new Composite(table, SWT.NONE);
-		comp.setLayout(Util.createGridLayout(1, false, 0, 0));
+		comp.setLayout(UtilGui.createGridLayout(1, false, 0, 0));
 		
 		String text = item.getText(columnIndex);
 		final StyledText editor = new StyledText(comp, SWT.SINGLE);
@@ -134,7 +135,7 @@ abstract class TableEditSupport<E> {
 		
 		editor.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
-				if (Util.isEnterKey(e.keyCode)) {
+				if (UtilGui.isEnterKey(e.keyCode)) {
 					e.doit = false;
 					saver.run();
 				}
@@ -198,7 +199,7 @@ abstract class TableEditSupport<E> {
 			}
 		});
 		
-		Util.runAsyncExec(combo, new Runnable() {
+		UtilGui.runAsyncExec(combo, new Runnable() {
 			public void run() {
 				combo.setListVisible(true);
 			}
