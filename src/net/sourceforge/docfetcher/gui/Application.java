@@ -1292,10 +1292,18 @@ public final class Application {
 			@Override
 			public void controlResized(ControlEvent e) {
 				/*
-				 * This asyncExec is necessary for reacting to shell
-				 * maximization and un-maximization. For some reason, it also
-				 * makes the reaction to shell resizing immediate instead of
-				 * "wobbly".
+				 * With the asyncExec call below, this direct call is not
+				 * necessary on Linux, but it is necessary on Windows. Without
+				 * it, the overlay won't relocate until the parent shell has
+				 * stopped resizing. Not tested whether thsi call is necessary
+				 * on macOS.
+				 */
+				setLocation.run();
+				/*
+				 * This asyncExec is necessary for reacting to parent shell
+				 * maximization and un-maximization. On Linux, for some reason
+				 * it also makes the reaction to parent shell resizing immediate
+				 * instead of "wobbly".
 				 */
 				shell.getDisplay().asyncExec(setLocation);
 			}
