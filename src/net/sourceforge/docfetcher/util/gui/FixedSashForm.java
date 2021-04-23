@@ -111,14 +111,19 @@ public abstract class FixedSashForm extends Composite {
 	 * Returns the width of the sash.
 	 */
 	public final int getSashWidth() {
-		return ((FormData) sash.getLayoutData()).width;
+		FormData data = (FormData) sash.getLayoutData();
+		return isHorizontal ? data.width : data.height;
 	}
 	
 	/**
 	 * Sets the width of the sash.
 	 */
 	public final void setSashWidth(int width) {
-		((FormData) sash.getLayoutData()).width = width;
+		FormData data = (FormData) sash.getLayoutData();
+		if (isHorizontal)
+			data.width = width;
+		else
+			data.height = width;
 		layout(false);
 	}
 
