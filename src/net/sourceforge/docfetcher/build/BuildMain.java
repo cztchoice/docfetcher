@@ -171,7 +171,7 @@ public final class BuildMain {
 		U.copyDir("dist/img", releaseDir + "/img");
 		U.copyDir("dist/help", releaseDir + "/help");
 //		U.copyDir("dist/templates", releaseDir + "/templates");
-		U.copyDir("dist/lang", releaseDir + "/lang");
+		U.copyDir("dist/lang", releaseDir + "/lang", "**/*.properties", null);
 		updateManualVersionNumber(new File(releaseDir, "help"));
 
 		String excludedLibs = U.readPatterns("lib/excluded_jar_patterns.txt");

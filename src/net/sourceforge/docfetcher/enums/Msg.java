@@ -772,14 +772,14 @@ public enum Msg {
 			/*
 			 * Notes: (1) The translated strings must be trimmed, because
 			 * translators sometimes accidentally add newlines. (2) Replacing
-			 * the character \\u00BB with tabs is necessary because those tabs
-			 * somehow get replaced with \\u00BB after going through
-			 * transifex.com.
+			 * the characters \\u00BB and \\u21E5 with tabs is necessary because
+			 * those tabs somehow get replaced with \\u00BB or \\u21E5 after
+			 * going through transifex.com.
 			 */
 			ResourceBundle bundle = ResourceBundle.getBundle("Resource");
 			for (Msg msg : Msg.values())
 				if (bundle.containsKey(msg.name()))
-					msg.value = bundle.getString(msg.name()).trim().replace('\u00BB', '\t');
+					msg.value = bundle.getString(msg.name()).trim().replace('\u00BB', '\t').replace('\u21E5', '\t');
 		} catch (Exception e) {
 			/*
 			 * The English language strings are hard-coded, so there's no
