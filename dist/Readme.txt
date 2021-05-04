@@ -6,7 +6,7 @@ out what JRE version you have, open a command prompt and type in
 can obtain it in the following places:
 - Windows: http://java.com
 - Linux: In the official software repository of your distribution.
-- OS X: http://java.com
+- macOS: http://java.com
 
 
 How to start DocFetcher
@@ -30,9 +30,14 @@ sure the executable flag has been set on the respective file. If that doesn't
 work either, you might see a helpful error message if you start the script from
 the terminal.
 
-OS X:
-Launch the program by double-clicking on the DocFetcher application bundle. If
-that doesn't work, try double-clicking the script DocFetcher-macOS.
+macOS:
+Launch DocFetcher by double-clicking the DocFetcher application bundle. If you
+get an "unidentified developer" error, control-click the application bundle and
+select "Open". This will launch the program and add a security exception for it.
+If you're using portable DocFetcher and launching via the application bundle
+inside the DocFetcher folder doesn't work, try double-clicking the script
+DocFetcher-macOS. If that still doesn't work, ensure that the executable flag is
+set on the script.
 
 
 More information & trouble-shooting
