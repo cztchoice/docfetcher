@@ -231,7 +231,7 @@ public final class BuildMain {
 			macOsXLauncherAlt);
 
 		String exeLauncher = U.format("%s/%s.exe", releaseDir, appName);
-		U.copyBinaryFile("dist/launchers/DocFetcher-512.exe", exeLauncher);
+		U.copyBinaryFile("dist/launchers/DocFetcher-1024.exe", exeLauncher);
 		
 		// Copy alternative Windows exe launchers
 		for (File file : new File("dist/launchers").listFiles()) {

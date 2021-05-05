@@ -48,4 +48,4 @@ set libclasspath=%libclasspath%;%1
 goto :eof
 
 :proceed
-java -enableassertions -Xmx512m -Xss2m -cp %libclasspath% -Djava.library.path=lib ${main_class} %1 %2 %3 %4 %5 %6 %7 %8 %9
+java -enableassertions -Xmx1g -Xss2m -cp %libclasspath% -Djava.library.path=lib ${main_class} %1 %2 %3 %4 %5 %6 %7 %8 %9

@@ -17,4 +17,4 @@ fi
 
 # Note: The java call must not end with '&', otherwise the -Xdock:name property will have no effect.
 
-"$java_exec" -XstartOnFirstThread -Xdock:name="${app_name}" -enableassertions -Xmx512m -Xss2m -cp ".:${CLASSPATH}" -Djava.library.path="../Resources/lib" ${main_class} "$@"
+"$java_exec" -XstartOnFirstThread -Xdock:name="${app_name}" -enableassertions -Xmx1g -Xss2m -cp ".:${CLASSPATH}" -Djava.library.path="../Resources/lib" ${main_class} "$@"
