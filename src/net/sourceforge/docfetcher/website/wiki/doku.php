@@ -42,6 +42,8 @@ if (array_key_exists("id", $_GET)) {
 		case "user_contributions":
 			header("Location: " . $base_url);
 			break;
+		default:
+			header("Location: " . $base_url);
 	}
 } else {
 	header("Location: " . $base_url);
