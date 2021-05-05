@@ -70,10 +70,17 @@ public final class Manual {
 	
 	public static void main(String[] args) throws Exception {
 		Util.checkThat(args.length > 0);
-		String langId = args[0];
+		String[] ids = args[0].split("_", 2); // language code and country code
+		Locale locale;
+		if (ids.length == 2) {
+			locale = new Locale(ids[0], ids[1]);
+		}
+		else {
+			locale = new Locale(ids[0]);
+		}
 		
-		File srcDir = new File(manDir + "/" + langId);
-		String dstDirName = new Locale(langId).getDisplayName(Locale.ENGLISH);
+		File srcDir = new File(manDir + "/" + args[0]);
+		String dstDirName = locale.getDisplayName(Locale.ENGLISH);
 		File dstDir = new File("dist/help/" + dstDirName);
 		dstDir.mkdirs();
 		Util.deleteContents(dstDir);

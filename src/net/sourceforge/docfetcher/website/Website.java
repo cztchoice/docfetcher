@@ -47,10 +47,13 @@ public final class Website {
 		for (File srcDir : Util.listFiles(websiteDir)) {
 			if (!srcDir.isDirectory())
 				continue;
-			if (srcDir.getName().equals("all"))
+			String srcName = srcDir.getName();
+			if (srcName.equals("all"))
+				continue;
+			if (srcName.equals("wiki"))
 				continue;
 			
-			File dstDir = new File("dist/website/" + srcDir.getName());
+			File dstDir = new File("dist/website/" + srcName);
 			dstDir.mkdirs();
 			Util.deleteContents(dstDir);
 			

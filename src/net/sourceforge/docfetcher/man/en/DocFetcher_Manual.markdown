@@ -63,7 +63,7 @@ Caveats and Common Gotchas
 
 **Raising the memory limit**: DocFetcher, like all Java programs, has a fixed limit on how much memory it's allowed to use, known as the *Java heap size*. This memory limit must be set on startup, and DocFetcher currently chooses a default value of 256&nbsp;MB. If you try to index a very, very large number of files, and/or if some of the indexed files are really huge (which is not uncommon with PDF files), then chances are DocFetcher will hit that memory limit. If this ever happens, you might want to [raise the memory limit](DocFetcher_Manual_files/Memory_Limit.html).
 
-**Don't index system folders**: In contrast to other desktop search applications, DocFetcher was not designed for indexing system folders such as `C:`or `C:\Windows`. Doing so is discouraged for the following reasons:
+**Don't index system folders**: In contrast to other desktop search applications, DocFetcher was not designed for indexing system folders such as `C:` or `C:\Windows`. Doing so is discouraged for the following reasons:
 
 1. ***Slowdown***: The files in system folders tend to be modified very frequently. If the folder watching is turned on, this will cause DocFetcher to update its indexes all the time, slowing down your computer.
 2. ***Memory issues***: DocFetcher needs to keep tiny representations of your files in memory. Because of this, and because system folders usually contain a very large number of files, DocFetcher will be more likely to run out of memory if you index system folders.
