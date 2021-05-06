@@ -190,6 +190,10 @@ UnpackCacheCapacity = 20
 
 # Whether the text-only preview is enabled. Setting this to false is useful when
 # the GUI is slowed down by large files being displayed in the preview pane.
+# Note: This setting does not affect the embedded web browser that is used to
+# display HTML files in the preview pane. Note also that when an HTML file is
+# being displayed, you can switch between the embedded web browser and the
+# text-only preview via a button in the preview pane toolbar.
 TextPreviewEnabled = true
 
 
