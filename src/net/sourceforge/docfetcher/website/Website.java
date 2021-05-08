@@ -63,6 +63,11 @@ public final class Website {
 			convertDir(processor, props, srcDir, dstDir);
 		}
 		
+		// Deploy wiki redirection script
+		Files.copy(
+			new File(websiteDir, "wiki/doku.php"),
+			new File("dist/website/wiki/doku.php"));
+		
 		// Deploy files in the website/all directory
 		for (File file : Util.listFiles(new File(websiteDir + "/all"))) {
 			File dstFile = new File("dist/website/all", file.getName());
