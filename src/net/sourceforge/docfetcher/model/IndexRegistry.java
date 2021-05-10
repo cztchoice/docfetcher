@@ -23,6 +23,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.channels.FileLock;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -561,8 +563,9 @@ public final class IndexRegistry {
 				FileLock lock = fout.getChannel().lock();
 				try {
 					/*
-					 * Without this BufferedOutputStream, there can be noticeable
-					 * performance problems if the index resides on a network drive.
+					 * Without this BufferedOutputStream, there can be
+					 * noticeable performance problems if the index resides on a
+					 * network drive.
 					 */
 					out = new ObjectOutputStream(new BufferedOutputStream(fout));
 					out.writeObject(index);
@@ -570,19 +573,30 @@ public final class IndexRegistry {
 				finally {
 					lock.release();
 				}
-				
-				serFile.delete();
-				tempFile.renameTo(serFile);
 			}
 			catch (StackOverflowError e) {
 				AppUtil.showError("Couldn't save index '" + index.getDisplayName() + "': Folder hierarchy "
 						+ "is too deep! Please reduce the folder depth and rebuild the index.", true, false);
 			}
 			catch (IOException e) {
-				Util.printErr(e); // The average user doesn't need to know
+				e.printStackTrace(); // The average user doesn't need to know
 			}
 			finally {
 				Closeables.closeQuietly(out);
+			}
+			
+			/*
+			 * Don't use the old File.renameTo method here, it's not reliable.
+			 * Also, note that this file moving must be done *after* the object
+			 * output stream is closed.
+			 */
+			try {
+				Files.move(
+					tempFile.toPath(), serFile.toPath(),
+					StandardCopyOption.REPLACE_EXISTING);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
 			}
 			
 			if (ProgramConf.Bool.AllowIndexRenaming.get()) {
