@@ -556,6 +556,7 @@ public final class IndexRegistry {
 			 */
 			File tempFile = new File(indexDir, SER_FILENAME + ".temp");
 			
+			boolean success = false;
 			ObjectOutputStream out = null;
 			try {
 				tempFile.createNewFile();
@@ -569,6 +570,7 @@ public final class IndexRegistry {
 					 */
 					out = new ObjectOutputStream(new BufferedOutputStream(fout));
 					out.writeObject(index);
+					success = true;
 				}
 				finally {
 					lock.release();
@@ -585,29 +587,34 @@ public final class IndexRegistry {
 				Closeables.closeQuietly(out);
 			}
 			
-			/*
-			 * Don't use the old File.renameTo method here, it's not reliable.
-			 * Also, note that this file moving must be done *after* the object
-			 * output stream is closed.
-			 */
-			try {
-				Files.move(
-					tempFile.toPath(), serFile.toPath(),
-					StandardCopyOption.REPLACE_EXISTING);
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			if (ProgramConf.Bool.AllowIndexRenaming.get()) {
-				// If saving the index succeeded, save the indexName in a separate file
-				if (!saveIndexName(new File(indexDir, NAME_FILENAME), index.getRootFolder().getDisplayName())) {
-					AppUtil.showError(Msg.rename_index_failed.get(), true, false);
+			if (success) {
+				try {
+					/*
+					 * Don't use the old File.renameTo method here, it's not
+					 * reliable. Also, note that this file moving must be done
+					 * *after* the object output stream is closed.
+					 */
+					Files.move(
+						tempFile.toPath(), serFile.toPath(),
+						StandardCopyOption.REPLACE_EXISTING);
 				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				if (ProgramConf.Bool.AllowIndexRenaming.get()) {
+					/*
+					 * If saving the index succeeded, save the indexName in a
+					 * separate file.
+					 */
+					if (!saveIndexName(new File(indexDir, NAME_FILENAME), index.getRootFolder().getDisplayName())) {
+						AppUtil.showError(Msg.rename_index_failed.get(), true, false);
+					}
+				}
+				
+				// Update cached last-modified value of index
+				indexes.put(index, serFile.lastModified());
 			}
-			
-			// Update cached last-modified value of index
-			indexes.put(index, serFile.lastModified());
 		}
 		finally {
 			writeLock.unlock();
