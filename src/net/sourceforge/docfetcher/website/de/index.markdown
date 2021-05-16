@@ -1,4 +1,4 @@
-**Ankündigung**: DocFetcher Pro 1.0, der kommerzielle große Bruder von DocFetcher, wurde im Januar 2021 veröffentlicht. Siehe die [DocFetcher-Pro-Website](https://docfetcherpro.com/).
+**Hinweis**: Sie könnten Interesse haben an [DocFetcher Pro](https://docfetcherpro.com/), dem kommerziellen großen Bruder von DocFetcher mit mehr Features und weniger Bugs.
 
 Beschreibung
 ============
