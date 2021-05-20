@@ -345,6 +345,7 @@ public final class Util {
 					int[] newSpans = new int[oldSpans.length + span.length];
 					System.arraycopy(oldSpans, 0, newSpans, 0, oldSpans.length);
 					System.arraycopy(span, 0, newSpans, oldSpans.length, span.length);
+					lineMap.put(lineIndex, newSpans);
 				}
 			}
 		};
