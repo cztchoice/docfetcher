@@ -202,7 +202,9 @@ public final class Application {
 		}
 		catch (IOException e1) {
 			// Ignore
-			e1.printStackTrace();
+			if (!SystemConf.Bool.IsDevelopmentVersion.get()) {
+				e1.printStackTrace();
+			}
 		}
 		
 		/*
